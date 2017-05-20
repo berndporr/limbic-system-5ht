@@ -753,7 +753,7 @@ void Robot::react(int step,int collision) {
 			// calculate the difference between left
 			// and right distance
 			// and sum it up.
-			if (xf>(MAXX/2)) 
+			if (yf>(MAXY/2))
 				{
 					//	fprintf(stderr,"xf GREATER than maxx/2 \n");
 					if ((dl>1)&&(dr>1)) 

@@ -219,10 +219,10 @@
 
 #define PLACEFIELD_DIAMETER 50
 
-#define PLACE_X1 150
+#define PLACE_X1 450
 #define PLACE_X2 450
-#define PLACE_Y1 150
-#define PLACE_Y2 250
+#define PLACE_Y1 100
+#define PLACE_Y2 300
 
 ///////////////////////////////////////////////////////////////////////
 // Statistics
