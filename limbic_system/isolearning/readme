@@ -1,0 +1,62 @@
+What is it?
+-----------
+It's ICO learning
+
+ICO learning is a learning algorithm which is inspired by spike timing
+dependent plasticity. It does "reflex avoidance": It replaces
+a slow feedback loop by a faster proactive action.
+
+
+What do I need?
+---------------
+- gcc/g++
+- gnuplot
+- gv
+
+Demo
+----
+To get a feeling what ICO learning does simply start
+the demo application. Type:
+
+"make"
+"./demo -d 0"
+"gnuplot onef_low_weights.plt"
+"gv onef_low_weights.eps"
+
+What you see are the weights of ICO learning. Until step 100000
+there's a typical STDP timing situation: First the predictive
+neuron gets an input and then the reflex neuron gets an input.
+The weights grow. Then it is assumed that the output of the
+neuron has successfully eliminated the reflex input and therefore
+the reflex input is switched off. You see that the weights
+stabilise.
+
+Instead of _low_ you can get _high_ and _highest_ if you write
+"./demo -d 1"
+"./demo -d 2"
+
+and many more. Look at "demo.cpp".
+
+The option "-t" swtiches from the resonators to memory traces.
+
+Own application
+---------------
+Since this is a library you can use isolearning within your own
+application. If you have isolearning in a subdir you can link into
+your program in the following way (makefile):
+
+LDLIBS= -L./isolearning -lisolearning
+INCLUDES=-I./isolearning
+
+all: main
+
+main.o: main.cpp
+        g++ $(INCLUDES) -c main.cpp
+
+main: main.o
+        make -C isolearning
+        g++ -lncurses main.o -lisolearning $(LDLIBS) -o main
+        chmod a+x main
+
+------------------
+Have fun
