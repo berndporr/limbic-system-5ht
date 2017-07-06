@@ -32,6 +32,17 @@ void Limbic_system::doStep(float reward,
 		on_contact_direction_DG,
 		visual_direction_LG,
 		visual_direction_DG);
+
+
+	// the activity in the LH is literally that of the reward
+	float LH = reward;
+
+	// we have two core units
+	// if the LG is high then the rat approaches the LG marker
+	CoreLGOut= 0;
+	// of the DG is high then the rat approaches the DG marker
+	CoreDGOut= 0;
+
 	/**
 	// projection from the NAcc to the VTA which proj back to the shell
 	double vp_sh=(1+CB_DISINH)/(1+nacc*NACC_VP);
@@ -65,8 +76,6 @@ void Limbic_system::doStep(float reward,
 **/
 
 
-		CoreLGOut= 0;
-		CoreDGOut= 0;
 	step++;  
 			
 }	

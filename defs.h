@@ -67,14 +67,14 @@
 /**
  * generate a QT film?
  **/
-// #define DOC_QUICKTIME 1
+// #define DOC_QUICKTIME
 
 /**
  * Frame-rate for the quicktime-film
  **/
 #define FRAME_RATE 15
 
-#define QT_CODEC QUICKTIME_YUV420
+#define QT_CODEC QUICKTIME_PNG
 
 
 /**
