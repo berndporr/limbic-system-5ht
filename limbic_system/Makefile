@@ -4,11 +4,11 @@ all: liblimbic_system.a
 limbic_system.o: limbic_system.cpp limbic_system.h
 	g++ $(OPT) -c limbic_system.cpp
 
-bandp.o: bandp.cpp bandp.h 
-	g++ $(OPT) -c bandp.cpp
+filter.o: filter.cpp filter.h
+	g++ $(OPT) -c filter.cpp
 
-liblimbic_system.a: limbic_system.o direction.o bandp.o
-	ar rcs liblimbic_system.a limbic_system.o 
+liblimbic_system.a: limbic_system.o filter.o
+	ar rcs liblimbic_system.a limbic_system.o filter.o
 
 demo.o: demo.cpp limbic_system.o
 	g++ $(OPT) -c demo.cpp

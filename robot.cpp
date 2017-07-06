@@ -207,10 +207,6 @@ Robot::Robot(World* ww,
 				    BUMP_Q_LEARN);
 
 
-	/*********************************************************
-	 * food
-	 *********************************************************/
-
 	// this deals with all the learning
 	limbic_system=new Limbic_system();
 	LGdirection=new Direction();
@@ -836,20 +832,16 @@ void Robot::react(int step,int collision) {
 	int writeDir=1;
 	if (writeDir) 
 	  {
-	    fprintf(fdir,"%d %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	    fprintf(fdir,"%d %f %f %f %f %f %f %f %f\n",
 		    stp,                           //01
 		    LGdirection->getOutput(),      //02
 		    leftLG,                        //03
 		    rightLG,                       //04
-		    LGdirection->getLeftOutput(),  //05
-		    LGdirection->getRightOutput(), //06	
-		    DGdirection->getOutput(),      //07
-		    leftDG,                        //08
-		    rightDG,                       //09 
-		    DGdirection->getLeftOutput(),  //10
-		    DGdirection->getRightOutput(), //11
-		    LGsw,                          //12
-		    DGsw                           //13
+		    DGdirection->getOutput(),      //05
+		    leftDG,                        //06
+		    rightDG,                       //07
+		    LGsw,                          //08
+		    DGsw                           //09
 		    );	
 	    stp++;
 	  }	    
