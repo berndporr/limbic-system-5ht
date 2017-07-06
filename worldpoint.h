@@ -1,7 +1,7 @@
 #ifndef _point
 #define _point
 #include<stdio.h>
-#include "sozio_defs.h"
+#include "defs.h"
 
 class Point;
 typedef Point* PPpoint;

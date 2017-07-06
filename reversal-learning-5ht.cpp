@@ -10,7 +10,7 @@
 #include "world.h"
 #include "robot.h"
 #include "worldpoint.h"
-#include "sozio_defs.h"
+#include "defs.h"
 #include "reversal-learning-5ht.h"
 
 

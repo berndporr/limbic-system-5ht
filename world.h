@@ -8,7 +8,7 @@
 
 
 #include <stdio.h>
-#include "sozio_defs.h"
+#include "defs.h"
 #include "bandp.h"
 #include "worldpoint.h"
 #include <qpainter.h>

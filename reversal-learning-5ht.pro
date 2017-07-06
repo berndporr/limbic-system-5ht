@@ -1,7 +1,7 @@
 TEMPLATE	= app
 CONFIG		+= qt warn_on debug
 HEADERS		= bandp.h merge2quicktime.h robot.h \
-                  sozio_defs.h worldpoint.h world.h \
+                  defs.h worldpoint.h world.h \
                   reversal-learning-5ht.h direction.h
 SOURCES		= bandp.cpp robot.cpp world.cpp merge2quicktime.cpp \
                   reversal-learning-5ht.cpp worldpoint.cpp direction.cpp
@@ -18,3 +18,4 @@ QMAKE_CLEAN	+= ./limbic_system/direction.o
 QMAKE_CLEAN	+= ./limbic_system/bandp.o
 QMAKE_CLEAN	+= ./limbic_system/isolearning/demo.o
 QT              += widgets
+QMAKE_CXXFLAGS += -std=c++0x -march=native
