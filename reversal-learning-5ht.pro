@@ -9,13 +9,11 @@ TARGET		= reversal-learning-5ht
 LIBS            += -lquicktime -L/usr/local/lib -L./limbic_system -llimbic_system
 INCLUDEPATH     += limbic_system
 INCLUDEPATH     += /usr/include/lqt/
+SUBDIRS		= limbic_system
 QMAKE_PRE_LINK  = make -C limbic_system
 QMAKE_CLEAN	+= limbic_system/liblimbic_system.a
 QMAKE_CLEAN	+= limbic_system/limbic_system.o
-QMAKE_CLEAN	+= limbic_system/isolearning/isolearning.o
-QMAKE_CLEAN	+= limbic_system/isolearning/trace.o
 QMAKE_CLEAN	+= ./limbic_system/direction.o
 QMAKE_CLEAN	+= ./limbic_system/bandp.o
-QMAKE_CLEAN	+= ./limbic_system/isolearning/demo.o
 QT              += widgets
 QMAKE_CXXFLAGS += -std=c++0x -march=native

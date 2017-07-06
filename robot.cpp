@@ -216,25 +216,11 @@ Robot::Robot(World* ww,
 	LGdirection=new Direction();
 	DGdirection=new Direction();
 
-	// just calculating the time to settle for the resonators
-	int reactTimeFoodReflex=(int)(10.0/F_FOOD_FIXED);
-	setTime2settle(F_FOOD_FIXED);
-	for(int i=0;i<N_FILTERS_FOOD;i++) {
-		float f=F_FOOD_LEARN/((float)((F_FOOD_FACTOR)*i+1));
-		setTime2settle(f);
-	}
-	int reactTimeFoodPredictor=(int)(10.0/(F_FOOD_LEARN/N_FILTERS_FOOD));
-
 	ioEventDuration=reactTimeBumpReflex;
 	if (reactTimeVision>ioEventDuration) {
 		ioEventDuration=reactTimeVision;
 	}
-	if (reactTimeFoodReflex>ioEventDuration) {
-		ioEventDuration=reactTimeFoodReflex;
-	}
-	if (reactTimeFoodPredictor>ioEventDuration) {
-		ioEventDuration=reactTimeFoodPredictor;
-	}
+	setTime2settle(10);
 	fprintf(stderr,"Learning starts after %d learning steps\n",time2settle);
 	fprintf(stderr,"finished init Robot\n");
 }
