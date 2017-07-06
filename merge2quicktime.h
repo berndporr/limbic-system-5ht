@@ -25,10 +25,11 @@ class Merge2quicktime {
 /**
  * Opens the output-file
  **/
-    int openQuicktime(char* movFilename,
-		      int w,int h,
-		      int rate=10,
-		      char *codec=QUICKTIME_RAW);
+    int openQuicktime(const char* movFilename,
+		      const int w,
+		      const int h,
+		      const int rate=10,
+		      const char *codec=QUICKTIME_RAW);
 
 
 /**
@@ -53,11 +54,9 @@ void drawFcircle(int xm,int ym,
 
 
 /**
- * Writes the video/audio data out in the quicktime file. index
- * is the sound event which should be played. A negative number
- * means no sound event.
+ * Writes the video data out in the quicktime file.
  **/    
-    int step(int index=-1);
+    int step();
 
 /**
  * Closes the quicktime-file

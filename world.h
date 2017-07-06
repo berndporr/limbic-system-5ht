@@ -151,7 +151,7 @@ class World {
 	/**
 	 * points to the object which writes the quicktime files
 	 **/
-	Merge2quicktime* merge2quicktime;
+	Merge2quicktime* merge2quicktime = NULL;
 
  public:
 	/**
@@ -217,7 +217,7 @@ class World {
 	/**
 	 * Number of robots in the playground
 	 **/
-	int nRobots;
+	int nRobots = 0;
 
  public:
 	/**
@@ -232,22 +232,22 @@ class World {
 	void removePlacefield(int placefieldIndex);
 
  private:
-	int foodContacts;
+	int foodContacts = 0;
 
  public:
 	int getNumberOfFoodContacts() {return foodContacts;};
 
-	int lastXfood;
-	int lastYfood;
+	int lastXfood = 0;
+	int lastYfood = 0;
 
  private:
-	int placefieldContacts;
+	int placefieldContacts = 0;
 
  public:
 	int getNumberOfPlacefieldContacts() {return placefieldContacts;};
 
-	int lastXplacefield;
-	int lastYplacefield;
+	int lastXplacefield = 0;
+	int lastYplacefield = 0;
 
 	//"reward" index no...
  private:
@@ -293,7 +293,7 @@ class World {
 	}
 
  private:
-	FILE* fContacts;
+	FILE* fContacts = NULL;
 
  public:
 	void setContactsFilename(const char *fn);

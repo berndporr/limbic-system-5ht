@@ -252,32 +252,30 @@ void SozioBots::doSimStep() {
 #endif
 
 #ifdef DOC_QUICKTIME
-	if (actualStep>50000) {
 	int relPos=actualStep%DOC_EVERY_N_FRAMES;
 	if (relPos<DOC_FOR_N_FRAMES) {
 		if (relPos==0) {
-			char tmp[]="temp/mov.tmp";
+			char tmp[]="/tmp/mov.tmp";
 			fprintf(stderr,
 				"Start writing: %s\n",
 				tmp);
-			world->openQuicktime(tmp,"soundList.txt");
+			world->openQuicktime(tmp);
 		}
 		world->docQuicktime(actualStep,robot[0]->getSensors());
 		if (relPos==(DOC_FOR_N_FRAMES-1)) {
 			world->closeQuicktime();
 			char movName[256];
 			sprintf(movName,
-				"temp/all%03d.mov",
+				"/tmp/all%03d.mov",
 				(int)(actualStep/DOC_EVERY_N_FRAMES));
 			fprintf(stderr,"Writing finished...");
 			fprintf(stderr,"Rename mov.tmp to %s\n",
 				movName);
-			if (rename("temp/mov.tmp",movName)<0) {
+			if (rename("/tmp/mov.tmp",movName)<0) {
 				fprintf(stderr,"Rename failed!\n");
 			}
 		}
 	}
-}
 #endif
         actualStep++;
 	if (actualStep==MAXSTEP) {

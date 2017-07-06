@@ -14,27 +14,24 @@ Merge2quicktime::~Merge2quicktime() {
 
 
 
-int Merge2quicktime::openQuicktime(char* movFilename,
-				   int w,int h,
-				   int rate,
-				   char *codec) {
+int Merge2quicktime::openQuicktime(const char* movFilename,
+				   const int w,
+				   const int h,
+				   const int rate,
+				   const char *codec) {
     file = quicktime_open(movFilename, 0, 1);
     frame_rate=rate;
     width=w;
     height=h;
-    quicktime_set_video(file,1,w,h,rate,codec);
+    char tmp[256];
+    strcpy(tmp,codec);
+    quicktime_set_video(file,1,w,h,rate,tmp);
     quicktime_set_cmodel(file,BC_RGB888);
     quicktime_set_depth(file,24,0);
     
     int supported=quicktime_supported_video(file,0); 
     if (!supported) {
 	fprintf(stderr,"The video-codec is not supported\n");
-	return 1;
-    }
-
-    int supported2=quicktime_supported_audio(file,0); 
-    if (!supported2) {
-	fprintf(stderr,"The audio-codec is not supported\n");
 	return 1;
     }
 
@@ -108,10 +105,10 @@ void Merge2quicktime::drawFcircle(int x,int y,
 
 
 
-int Merge2quicktime::step(int) {
+int Merge2quicktime::step() {
     // write the video
     quicktime_encode_video(file,row_pointers,0);
-    // decide if there is an audio event to process
+    fill(0,0,0);
     return 0;
 }
 

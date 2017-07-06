@@ -3,6 +3,8 @@
 #include "stdio.h"
 #include "worldpoint.h"
 #include <qpen.h>
+#include <stdio.h>
+
 
 
 
@@ -490,16 +492,13 @@ void World::docPgm(long int step,int index,char* name) {
 
 void World::openQuicktime(char* qtName) {
 	merge2quicktime=new Merge2quicktime();
-	int result;
-	if (result) {
-		exit(result);
-	}
-	result=merge2quicktime->openQuicktime(qtName,
+	int result=merge2quicktime->openQuicktime(qtName,
 					      maxx,
 					      maxy,
 					      FRAME_RATE,
 					      QT_CODEC);
 	if (result) {
+		fprintf(stderr,"Cannot open quicktime. Error code %d\n",result);
 		exit(result);
 	}
 }
@@ -567,7 +566,7 @@ void World::docQuicktime(int step,int indexSound) {
 			}
 		}
 	}
-	merge2quicktime->step(indexSound);
+	merge2quicktime->step();
 }
 
 

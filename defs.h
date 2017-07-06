@@ -74,17 +74,14 @@
  **/
 #define FRAME_RATE 15
 
-#define QT_CODEC QUICKTIME_RAW
-//#define QT_CODEC QUICKTIME_DIVX
-
-
+#define QT_CODEC QUICKTIME_YUV420
 
 
 /**
  * Doc only in chunks
  **/
-#define DOC_EVERY_N_FRAMES  55000
-#define DOC_FOR_N_FRAMES    10000
+#define DOC_EVERY_N_FRAMES  1000
+#define DOC_FOR_N_FRAMES    1000
 
 
 
