@@ -2,7 +2,7 @@
 
 #include "filter.h"
 
-const float &SecondOrderFilter::setInput(const float &input)
+const float &SecondOrderFilter::filter(const float &input)
 {
 	float hold = input - b1*hold1 - b2*hold2;
 
@@ -56,9 +56,9 @@ SecondOrderLowpassFilterNormalisedImpulse::SecondOrderLowpassFilterNormalisedImp
 	b1 = 2 * (Omega2 - 4) / c1;
 	b2 = (4 - c0 + Omega2) / c1;
 
-	float max = setInput(1);
+	float max = filter(1);
 
-	while(setInput(0) >= max)
+	while(filter(0) >= max)
 		max = output_;
 
 	a0 /= max;
@@ -105,7 +105,7 @@ FIRFilter::~FIRFilter()
 
 }
 
-const float &FIRFilter::setInput(const float &input)
+const float &FIRFilter::filter(const float &input)
 {
 	const float *coeff     = coefficients;
 	const float *coeff_end = coefficients + taps;

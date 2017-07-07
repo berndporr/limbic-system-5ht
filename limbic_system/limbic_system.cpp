@@ -2,12 +2,19 @@
 
 #include <stdio.h>
 
+#include <filter.h>
 
 Limbic_system::Limbic_system()
 {
 	//The direction triggers
 	CoreLGOut=0.0;
 	CoreDGOut=0.0;
+
+	// learning rates
+	learning_rate_core = 0.01;
+
+	on_contact_direction_LG_filter = new SecondOrderLowpassFilter(0.1);
+	on_contact_direction_DG_filter = new SecondOrderLowpassFilter(0.1);
 
 	step = 0;
 };
@@ -25,25 +32,22 @@ void Limbic_system::doStep(float reward,
 		float visual_direction_DG) {
 
 
-	printf("rewards=%f, placefield1=%f, placefield2=%f, con_reflex_LG=%f, con_reflex_DG=%f, vis_LG=%f, vis_DG=%f\n",reward,
-		placefield1,
-		placefield2,
-		on_contact_direction_LG,
-		on_contact_direction_DG,
-		visual_direction_LG,
-		visual_direction_DG);
-
-
 	// the activity in the LH is literally that of the reward
 	float LH = reward;
 
-
+	// let's keep it simple for now: the LH drives the VTA to spike
+	float VTA = LH;
 
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= 0;
+	CoreLGOut= visual_direction_LG * weight_lg2lg + visual_direction_DG * weight_dg2lg + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= 0;
+	CoreDGOut= visual_direction_LG * weight_lg2dg + visual_direction_DG * weight_dg2dg + on_contact_direction_LG_filter->filter(on_contact_direction_DG);
+
+	weightChange(weight_lg2lg, learning_rate_core * VTA * visual_direction_LG * CoreLGOut);
+	weightChange(weight_lg2dg, learning_rate_core * VTA * visual_direction_LG * CoreDGOut);
+	weightChange(weight_dg2lg, learning_rate_core * VTA * visual_direction_DG * CoreLGOut);
+	weightChange(weight_dg2dg, learning_rate_core * VTA * visual_direction_DG * CoreDGOut);
 
 	/**
 	// projection from the NAcc to the VTA which proj back to the shell
@@ -76,6 +80,21 @@ void Limbic_system::doStep(float reward,
 	}
 
 **/
+
+	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",reward,
+		placefield1,
+		placefield2,
+		on_contact_direction_LG,
+		on_contact_direction_DG,
+		visual_direction_LG,
+		visual_direction_DG,
+		CoreLGOut,
+		CoreDGOut,
+		weight_lg2lg,
+		weight_lg2dg,
+		weight_dg2lg,
+		weight_dg2dg
+		);
 
 
 	step++;  

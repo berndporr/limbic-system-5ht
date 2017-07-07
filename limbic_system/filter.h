@@ -9,11 +9,11 @@
 class Filter
 {
 public:
-	virtual const float &setInput(const float &input)=0;
+	virtual const float &filter(const float &input)=0;
 	virtual void reset()=0;
 	virtual const float &output() const { return output_; }
 
-	const float &operator()(const float &input) { return setInput(input); }
+	const float &operator()(const float &input) { return filter(input); }
 	operator float() const { return output_; }
 	const float *operator&() { return &output_; }
 
@@ -35,7 +35,7 @@ class SimpleDecayLowpassFilter : public Filter
 {
 public:
 	SimpleDecayLowpassFilter(unsigned d) : hold(0), a1(exp(-1.0 / d)) {}
-	const float &setInput(const float &input) { return hold = input + hold*a1; }
+	const float &filter(const float &input) { return hold = input + hold*a1; }
 	void reset() { hold = 0; }
 
 private:
@@ -49,7 +49,7 @@ class SecondOrderFilter : public Filter
 public:
 	SecondOrderFilter(float a0, float a1, float a2, float b1, float b2) : a0(a0), a1(a1), a2(a2), b1(b1), b2(b2), hold1(0), hold2(0) {}
 	SecondOrderFilter(float gain, std::complex<float> zero, std::complex<float> pole);
-	const float &setInput(const float &input);
+	const float &filter(const float &input);
 	void reset() { hold1 = 0; hold2 = 0; }
 
 protected:
@@ -83,7 +83,7 @@ public:
 	FIRFilter(const char *matFileName, const float &baseline=0, const char *variableName="impulse");
 	~FIRFilter();
 
-	const float &setInput(const float &input);
+	const float &filter(const float &input);
 	void reset() { fill_float_array(buffer, taps, baseline_); offset = 0; }
 
 private:
@@ -100,7 +100,7 @@ class DelayFilter : public Filter
 public:
 	DelayFilter(const float baseline=0) : Filter(baseline), offset(0) { fill_float_array(buffer, N, baseline_); }
 
-	const float &setInput(const float &input)
+	const float &filter(const float &input)
 	{
 		buffer[offset] = input;
 

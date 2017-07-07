@@ -57,7 +57,7 @@
 #define ROBOT_SPEED 0.750
 
 // threshold to switch on a behaviour
-#define MOTOR_THRES 9
+#define MOTOR_THRES 0.1
 
 /**
  * create PGMs

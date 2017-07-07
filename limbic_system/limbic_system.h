@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 
+#include <filter.h>
 
 
 class Limbic_system {
@@ -26,6 +27,26 @@ public:
 	float CoreLGOut;
 	float CoreDGOut;
 	long int step;
+
+
+	float weight_lg2lg = 0;
+	float weight_lg2dg = 0;
+	float weight_dg2dg = 0;
+	float weight_dg2lg = 0;
+
+	float learning_rate_core = 0;
+
+private:
+	inline void weightChange(float &w, float delta) {
+		w += delta;
+		if (w>1) w = 1;
+		if (w<0) w = 0;
+	}
+
+	SecondOrderLowpassFilter* on_contact_direction_LG_filter;
+	SecondOrderLowpassFilter* on_contact_direction_DG_filter;
+
+
 };
 
 #endif
