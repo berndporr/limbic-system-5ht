@@ -1,14 +1,8 @@
 OPT= -O2 -Wall -g -march=native
-all: liblimbic_system.a
-
-limbic_system.o: limbic_system.cpp limbic_system.h
-	g++ $(OPT) -c limbic_system.cpp
+all: demo
 
 filter.o: filter.cpp filter.h
 	g++ $(OPT) -c filter.cpp
-
-liblimbic_system.a: limbic_system.o filter.o
-	ar rcs liblimbic_system.a limbic_system.o filter.o
 
 demo.o: demo.cpp limbic_system.o
 	g++ $(OPT) -c demo.cpp

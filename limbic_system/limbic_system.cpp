@@ -12,7 +12,7 @@ Limbic_system::Limbic_system()
 	step = 0;
 };
 
-void Limbic_system::setLearningRate(float mu)
+void Limbic_system::setLearningRate(float)
 {
 }
 
