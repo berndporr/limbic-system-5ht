@@ -23,7 +23,7 @@ class Direction
  public:
   //filters the left and right input for the motor direction
 
-  void doDirection(float left1,float right1,int sw); 
+  void doDirection(float left1,float right1,float sw); 
 
  public:
   //document direction circuit.

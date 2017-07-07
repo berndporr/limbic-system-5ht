@@ -49,7 +49,7 @@
 /**
  * Starting angle
  **/
-#define START_ANGLE +0.110
+#define START_ANGLE +0.2
 
 /**
  * ROBOT_SPEED of the robot
@@ -57,7 +57,7 @@
 #define ROBOT_SPEED 0.750
 
 // threshold to switch on a behaviour
-#define MOTOR_THRES 0.1
+#define MOTOR_THRES 0
 
 /**
  * create PGMs
@@ -192,7 +192,7 @@
 /**
  * The gain for the food
  **/
-#define FOOD_GAIN 0.0005
+#define FOOD_GAIN 0.001
 
 /**
  * Lifetime of the food

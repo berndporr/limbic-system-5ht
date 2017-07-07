@@ -828,6 +828,8 @@ void Robot::react(int step,int collision) {
 	LGdirection->doDirection(leftLG,rightLG,LGsw);
 	DGdirection->doDirection(leftDG,rightDG,DGsw);
 
+//	fprintf(stderr,"%f %f\n",LGsw,DGsw);
+
 	/** document the direction**/
 	int writeDir=1;
 	if (writeDir) 

@@ -82,20 +82,19 @@ void Limbic_system::doStep(float reward,
 **/
 
 	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",reward,
-		placefield1,
-		placefield2,
-		on_contact_direction_LG,
-		on_contact_direction_DG,
-		visual_direction_LG,
-		visual_direction_DG,
-		CoreLGOut,
-		CoreDGOut,
-		weight_lg2lg,
-		weight_lg2dg,
-		weight_dg2lg,
-		weight_dg2dg
+	       placefield1,
+	       placefield2,
+	       on_contact_direction_LG,
+	       on_contact_direction_DG,
+	       visual_direction_LG,
+	       visual_direction_DG,
+	       weight_lg2lg,
+	       weight_lg2dg,
+	       weight_dg2lg,
+	       weight_dg2dg,
+	       CoreLGOut,
+	       CoreDGOut
 		);
-
 
 	step++;  
 			
