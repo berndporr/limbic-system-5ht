@@ -37,6 +37,8 @@ void Limbic_system::doStep(float reward,
 	// the activity in the LH is literally that of the reward
 	float LH = reward;
 
+
+
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
 	CoreLGOut= 0;
