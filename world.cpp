@@ -504,7 +504,7 @@ void World::openQuicktime(char* qtName) {
 }
 
 
-void World::docQuicktime(int step,int indexSound) {
+void World::docQuicktime(int step) {
 	if (step%10) {
 		return;
 	}

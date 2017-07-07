@@ -135,10 +135,10 @@ Robot::Robot(World* ww,
 	sprintf(tmpD,"Direction.dat");
 	fdir=fopen(tmpD,"wt");
 	if (!fdir) 
-	  {
-	    fprintf(stderr,"Could not open %s\n",tmpD);
-	    exit(1);
-	  }
+	{
+		fprintf(stderr,"Could not open %s\n",tmpD);
+		exit(1);
+	}
 
 
 	bandpFront=new bandp();
@@ -557,15 +557,6 @@ void Robot::react(int step,int collision) {
 	float l=bandpLeft->filter(cl);
 	float r=bandpRight->filter(cr);
 
-	float randPhi=0;
-#ifdef RANDWALK
-	// random, not yet used
-	if ((!(step%100))&&(seeLeft==0)&&(seeRight==0)) {
-		fprintf(stderr,"%d rand \n",step);
-		randPhi=(((float)random())/((float)RAND_MAX)-0.5)*randEff;
-	}
-#endif
-
 	float multds=bandp_da_ds->filter(f-b)/DAMPING;
 	multds=fabs(multds);
 	
@@ -732,49 +723,47 @@ void Robot::react(int step,int collision) {
 			// calculate the distance from the left ear
 			// to the food-bit
 			float dl=sqrt(pow(xf-xl,2)+pow(yf-yl,2));
-			// calculate the difference between left
-			// and right distance
-			// and sum it up.
+			// calc the field of view
+			float nphi = fmodf(phi,M_PI*2);
+			if (nphi>M_PI) {
+				nphi -= M_PI*2;
+			}
+			if (nphi<-M_PI) {
+				nphi += M_PI*2;
+			}
+			float viewing_angle = atan2f(xf-xCoord,yf-yCoord) - nphi;
+			//printf("%d=%f,%f,(%d,%d),(%f,%f)\n",i,viewing_angle,nphi,xf,yf,xCoord,yCoord);
 			if (yf>(MAXY/2))
+			{
+				if ((dl>1)&&(dr>1)&&(fabs(viewing_angle)<(EYES_VIEWING_ANGLE))) 
 				{
-					//	fprintf(stderr,"xf GREATER than maxx/2 \n");
-					if ((dl>1)&&(dr>1)) 
-						{
-						  diffSound2=diffSound2+(dl-dr)/sqrt(sqrt(dl*dr));
-						  //leftDG=leftDG+(dl)/sqrt(sqrt(dl*dl));
-						  //rightDG=rightDG+(dr)/sqrt(sqrt(dr*dr));
-						  leftDG=leftDG+(dr)/sqrt(sqrt(dr*dr));
-						  rightDG=rightDG+(dl)/sqrt(sqrt(dl*dl));
-
-						}
-					//if the sum of the half distance btw left and right ear <100
-					if (((dl+dr)/2)<100)
-						{
-							sumSound2+=1;	
-
-						}
+					diffSound2=diffSound2+(dl-dr)/sqrt(sqrt(dl*dr));
+					leftDG=leftDG+(dr)/sqrt(sqrt(dr*dr));
+					rightDG=rightDG+(dl)/sqrt(sqrt(dl*dl));
 
 				}
+				//if the sum of the half distance btw left and right ear <100
+				if (((dl+dr)/2)<100)
+				{
+					sumSound2+=1;	
+				}
+
+			}
 			else
-				{	
-					//	fprintf(stderr,"xf LESS than maxx/2 \n");
-					if ((dl>1)&&(dr>1))
-						{
-						  diffSound1=diffSound1+(dl-dr)/sqrt(sqrt(dl*dr));
-						
-						  //diffSound1=abs(pow(diffSound1+(dl-dr)/(sqrt(dl*dr)),2));
-						  //leftLG=leftLG+(dl)/sqrt(sqrt(dl*dl));
-						  //rightLG=rightLG+(dr)/sqrt(sqrt(dr*dr));	
-						  leftLG=leftLG+(dr)/sqrt(sqrt(dr*dr));
-						  rightLG=rightLG+(dl)/sqrt(sqrt(dl*dl));
-						}
-					if (((dl+dr)/2)<100) 
-						{
-							sumSound1+=1;
-
-						}
-				
+			{	
+				if ((dl>1)&&(dr>1)&&(fabs(viewing_angle)<(EYES_VIEWING_ANGLE)))
+				{
+					diffSound1=diffSound1+(dl-dr)/sqrt(sqrt(dl*dr));
+					leftLG=leftLG+(dr)/sqrt(sqrt(dr*dr));
+					rightLG=rightLG+(dl)/sqrt(sqrt(dl*dl));
 				}
+				if (((dl+dr)/2)<100) 
+				{
+					sumSound1+=1;
+
+				}
+				
+			}
 		}
 	}
 	
@@ -806,12 +795,12 @@ void Robot::react(int step,int collision) {
 	float visual_direction_LG=sqrt(x1*x1);
 
 	limbic_system->doStep(reward,
-			placefield1,
-			placefield2,
-			on_contact_direction_LG,
-			on_contact_direction_DG,
-			visual_direction_LG,
-			visual_direction_DG);
+			      placefield1,
+			      placefield2,
+			      on_contact_direction_LG,
+			      on_contact_direction_DG,
+			      visual_direction_LG,
+			      visual_direction_DG);
 	int stp=0;	
 
 	// The switches for the direction controller to the dark or light green place fields.
@@ -833,39 +822,44 @@ void Robot::react(int step,int collision) {
 	/** document the direction**/
 	int writeDir=1;
 	if (writeDir) 
-	  {
-	    fprintf(fdir,"%d %f %f %f %f %f %f %f %f\n",
-		    stp,                           //01
-		    LGdirection->getOutput(),      //02
-		    leftLG,                        //03
-		    rightLG,                       //04
-		    DGdirection->getOutput(),      //05
-		    leftDG,                        //06
-		    rightDG,                       //07
-		    LGsw,                          //08
-		    DGsw                           //09
-		    );	
-	    stp++;
-	  }	    
+	{
+		fprintf(fdir,"%d %f %f %f %f %f %f %f %f\n",
+			stp,                           //01
+			LGdirection->getOutput(),      //02
+			leftLG,                        //03
+			rightLG,                       //04
+			DGdirection->getOutput(),      //05
+			leftDG,                        //06
+			rightDG,                       //07
+			LGsw,                          //08
+			DGsw                           //09
+			);	
+		stp++;
+	}	    
 	/*******************************************************
    END FOOD
 	********************************************************/
 
-
-
 	// summation of the front collision
 	dStep=ROBOT_SPEED-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
 
+	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput();
+
+	float randPhi=0;
+#ifdef RANDWALK
+	// random, not yet used
+	if ((!(step%100))&&(fabs(sumPhi)<0.001)&&(foodPhi<0.001)) {
+		fprintf(stderr,"%d rand \n",step);
+		randPhi=(((float)random())/((float)RAND_MAX)-0.5)*randEff;
+	}
+#endif
 
 	// summation left/right
 	dPhi=BUMP_STEER_GAIN*(l-r)+
 		sumPhi+
 		randPhi+
-		FOOD_GAIN*(LGdirection->getOutput()+DGdirection->getOutput());
+		FOOD_GAIN*foodPhi;
 	
-
-
-
 	/***************************
 	 * Docu
 	 ***************************/
@@ -875,7 +869,7 @@ void Robot::react(int step,int collision) {
 	fwrite(left2dPhi,sizeof(left2dPhi[0]),BUMP_N_FILTERS,fWeights);
 	fwrite(right2dPhi,sizeof(right2dPhi[0]),BUMP_N_FILTERS,fWeights);
 
-	#ifdef DISPLAY_PROGRESS
+#ifdef DISPLAY_PROGRESS
 	if ((seeLeft||seeRight)&&((step%10)==0)) {
 		fprintf(stderr,"%d ",step);
 		if (seeLeft) {
@@ -924,18 +918,18 @@ void Robot::react(int step,int collision) {
 };
 
 int Robot::getSensors() {
-  int temp=sensorOut;
+	int temp=sensorOut;
 	sensorOut=-1;
 	return temp;
 }
 
 int Robot::isPlacefield(int index) {
-  return world->isPlacefield(index,xCoord,yCoord);
+	return world->isPlacefield(index,xCoord,yCoord);
 }
 
 
 void Robot::setMuFood(float mu) {
-  limbic_system->setLearningRate(mu);
+	limbic_system->setLearningRate(mu);
 };
 
 

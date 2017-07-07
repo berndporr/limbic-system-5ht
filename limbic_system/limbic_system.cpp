@@ -11,7 +11,7 @@ Limbic_system::Limbic_system()
 	CoreDGOut=0.0;
 
 	// learning rates
-	learning_rate_core = 0.01;
+	learning_rate_core = 0.05;
 
 	on_contact_direction_LG_filter = new SecondOrderLowpassFilter(0.1);
 	on_contact_direction_DG_filter = new SecondOrderLowpassFilter(0.1);
@@ -42,7 +42,7 @@ void Limbic_system::doStep(float reward,
 	// if the LG is high then the rat approaches the LG marker
 	CoreLGOut= visual_direction_LG * weight_lg2lg + visual_direction_DG * weight_dg2lg + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= visual_direction_LG * weight_lg2dg + visual_direction_DG * weight_dg2dg + on_contact_direction_LG_filter->filter(on_contact_direction_DG);
+	CoreDGOut= visual_direction_LG * weight_lg2dg + visual_direction_DG * weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
 	weightChange(weight_lg2lg, learning_rate_core * VTA * visual_direction_LG * CoreLGOut);
 	weightChange(weight_lg2dg, learning_rate_core * VTA * visual_direction_LG * CoreDGOut);

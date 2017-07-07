@@ -163,7 +163,7 @@ class World {
 	/**
 	 * Writes one frame
 	 **/
-	void docQuicktime(int step,int indexSound);
+	void docQuicktime(int step);
 
  public:
 	/**

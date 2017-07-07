@@ -42,7 +42,7 @@ SozioBots::SozioBots( QWidget *parent,
 	robot=new Robot*[MAXROBOT];
 	for(int i=0; i<MAXROBOT;i++) {
 		robot[i]=new Robot(world,i,0,maxx/2,maxy/2-i*30,10,20);
-		robot[i]->setPhi(1);
+		robot[i]->setPhi(START_ANGLE);
 	}
 
 	//Borders, food!
@@ -75,7 +75,7 @@ SozioBots::SozioBots( QWidget *parent,
 	index++;
 
    
-	startTimer( 0 );
+	startTimer( TIMER_INTERVAL );
 }
 
 
@@ -348,24 +348,18 @@ void statistics_food_run(int argc, char **argv,float mu) {
 
 
 int main( int argc, char **argv ) {
-	float mu=FOOD_DEFAULT_LEARNING_RATE;
-
         int c;
 
         while (-1 != (c = getopt(argc, argv, "abr:"))) {
                 switch (c) {
-                case 'r':
-                        mu = atof(optarg);
-                        break;
                 case 'a':
-			single_food_run(argc,argv,mu);
+			single_food_run(argc,argv,0);
                         return 0;
                 case 'b':
-			statistics_food_run(argc,argv,mu);
+			statistics_food_run(argc,argv,0);
                         return 0;
 		case 'h':
 			fprintf(stderr,"%s: Please choose one of the runs -a,-b,-c, ...\n",argv[0]);
-			fprintf(stderr," -r <learning rate>\n");
 			fprintf(stderr," -a: single food run\n");
 			fprintf(stderr," -b: statistics\n");
                 default:
@@ -373,7 +367,7 @@ int main( int argc, char **argv ) {
                 }
         }
 	// default behaviour without any valid arguments
-	single_food_run(argc,argv,mu);
+	single_food_run(argc,argv,0);
 	return 0;	
 }
 

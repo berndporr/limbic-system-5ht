@@ -4,8 +4,6 @@
 
 #define DAMPING 50
 
-#define FOOD_DEFAULT_LEARNING_RATE 2e-04
-
 /**
  * Experiment
  **/
@@ -49,7 +47,7 @@
 /**
  * Starting angle
  **/
-#define START_ANGLE +0.2
+#define START_ANGLE 2.2
 
 /**
  * ROBOT_SPEED of the robot
@@ -57,7 +55,10 @@
 #define ROBOT_SPEED 0.750
 
 // threshold to switch on a behaviour
-#define MOTOR_THRES 0
+#define MOTOR_THRES 0.1
+
+// interval bewtween two steps
+#define TIMER_INTERVAL 20
 
 /**
  * create PGMs
@@ -75,6 +76,8 @@
 #define FRAME_RATE 15
 
 #define QT_CODEC QUICKTIME_PNG
+
+#define RANDWALK
 
 
 /**
@@ -174,6 +177,9 @@
 
 #define FOOD_DIAMETER 20
 
+// what the robot can see
+#define EYES_VIEWING_ANGLE M_PI/3
+
 /**
  * Number of FOOD bits
  **/
@@ -192,7 +198,7 @@
 /**
  * The gain for the food
  **/
-#define FOOD_GAIN 0.001
+#define FOOD_GAIN 0.002
 
 /**
  * Lifetime of the food
