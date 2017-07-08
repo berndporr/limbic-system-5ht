@@ -39,6 +39,10 @@ public:
   {
     return Motorout;
   };
+
+  float getSpeed() {
+	  return speed;
+  }
 	
 private:
   /**
@@ -51,25 +55,29 @@ private:
    * The actual motor output direction circuit
    **/
   float Motorout;
- 
- private:
-  // the step time.
-  long int step;
+
+  float thres = 0.05;
 
  private:
-	float dirleft1; 
+  // the step time.
+  long int step = 0;
+
  private:
-	float dirright1;
+	float dirleft1 = 0; 
+ private:
+	float dirright1 = 0;
+
+	float speed = 0;
 	
  /**
   * LP for the left direction
   **/
-	bandp* bandpLeft1;
+	bandp* bandpLeft1 = NULL;
 
  /**
   * LP for the right direction
   **/
-	bandp* bandpRight1;
+	bandp* bandpRight1 = NULL;
 
  private:
   int doDocu;

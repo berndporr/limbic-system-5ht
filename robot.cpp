@@ -446,7 +446,7 @@ void Robot::react(int step,int collision) {
 	/**
 	 * Strength of the random effect
 	 **/
-	float randEff=0.8;
+	float randEff=0.19;
 #endif
 
 	/********************************************************************
@@ -840,8 +840,11 @@ void Robot::react(int step,int collision) {
    END FOOD
 	********************************************************/
 
+	float LGspeed = LGdirection->getSpeed()*5;
+	float DGspeed = DGdirection->getSpeed()*5;
+
 	// summation of the front collision
-	dStep=ROBOT_SPEED-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
+	dStep=ROBOT_SPEED*(LGspeed+DGspeed)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
 
 	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput();
 

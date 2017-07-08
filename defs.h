@@ -52,7 +52,7 @@
 /**
  * ROBOT_SPEED of the robot
  **/
-#define ROBOT_SPEED 0.750
+#define ROBOT_SPEED 0.75
 
 // threshold to switch on a behaviour
 #define MOTOR_THRES 0.1
