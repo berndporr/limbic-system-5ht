@@ -23,6 +23,14 @@ void Limbic_system::setLearningRate(float)
 {
 }
 
+
+void Limbic_system::weightChange(float &w, float delta) {
+	w += delta;
+	if (w>1) w = 1;
+	if (w<0) w = 0;
+}
+
+
 void Limbic_system::doStep(float reward,
 		float placefield1,
 		float placefield2,
@@ -48,38 +56,6 @@ void Limbic_system::doStep(float reward,
 	weightChange(weight_lg2dg, learning_rate_core * VTA * visual_direction_LG * CoreDGOut);
 	weightChange(weight_dg2lg, learning_rate_core * VTA * visual_direction_DG * CoreLGOut);
 	weightChange(weight_dg2dg, learning_rate_core * VTA * visual_direction_DG * CoreDGOut);
-
-	/**
-	// projection from the NAcc to the VTA which proj back to the shell
-	double vp_sh=(1+CB_DISINH)/(1+nacc*NACC_VP);
-	double netInhib_sh=(d2_auto_sh*DFACT)+(vp_sh*VP_VTA+nacc*NACC_VTA);
-
-	
-	if (netInhib_sh<0) netInhib_sh=0;
-	double vta_sh=(lh+BASELINE_VTA)/(1+netInhib_sh);
-        double derivVTA_sh=vta_sh-lastVTA_sh;
-        lastVTA_sh=vta_sh;
-        double thirdFactor_sh=0;
-	if (derivVTA_sh>0.2){
-		thirdFactor_sh=derivVTA_sh*LTP_GAIN;
-		d2_auto_sh=0;
-		d2_receptor_sh=0;
-	} else {
-		da_reup_sh=(double)vta_sh-0.5;
-	}
-	if (da_reup_sh<0) {
-		da_reup_sh=0;
-	}
-	// ignore the level of the vta during bursting
-	d2_auto_sh=d2_auto_sh+(da_reup_sh-d2_auto_sh)*((double)TAU_D2);
-	d2_receptor_sh=d2_receptor_sh+(da_reup_sh-d2_receptor_sh)*((double)TAU_D2);
-	//default baseline
-	float ltd_sh=d2_receptor_sh;
-	if (ltd_sh>0) {
-	  ltd_sh=ltd_sh*LTD_GAIN;
-	}
-
-**/
 
 	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",reward,
 	       placefield1,
