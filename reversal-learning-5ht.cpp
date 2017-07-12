@@ -285,20 +285,15 @@ void SozioBots::doSimStep() {
 
 
 
-void single_food_run(int argc, char **argv,float mu) {
+void single_food_run(int argc, char **argv) {
 	QApplication a( argc, argv );
 	SozioBots* soziobots=new SozioBots();	// create widget
-	soziobots->robot[0]->setMuFood(mu);
-     	//soziobots->robot[0]->setPhi(0.1);
 	char tmp[128];
-	sprintf(tmp,"temp/X0_%09d.dat",(int)ceil(mu*1000000000.0));
-	// soziobots->setX0filename(tmp,mu);
+	sprintf(tmp,"temp/X0.dat");
 	soziobots->resize( MAXX, MAXY );	// start up with size 400x250
-       	//soziobots->setCaption(tmp);
 #ifdef SHOW_SIM
 	soziobots->show();				// show widget
 #endif
-	fprintf(stderr,"mu=%e\n",mu);
 	a.exec();				// run event loop
 }
 
@@ -307,7 +302,7 @@ void single_food_run(int argc, char **argv,float mu) {
 
 
 
-void statistics_food_run(int argc, char **argv,float mu) {
+void statistics_food_run(int argc, char **argv) {
 	FILE* f=fopen("perf.dat","wt");
 	QApplication* a=NULL;
 	SozioBots* soziobots=NULL;
@@ -322,10 +317,9 @@ void statistics_food_run(int argc, char **argv,float mu) {
 			exit(1);
 		}
 		soziobots->robot[0]->setPhi(phi);
-		soziobots->robot[0]->setMuFood(mu);
 		char tmp[128];
 		sprintf(tmp,"temp/X0_%09d.dat",(int)ceil(phi*1000000000.0));
-		soziobots->setX0filename(tmp,phi);
+		soziobots->setX0filename(tmp);
 		soziobots->resize( MAXX, MAXY );	// start up with size 400x250
 		sprintf(tmp,"reversal learning benchmark: phi=%e",phi);
 		// soziobots->setCaption(tmp);
@@ -353,10 +347,10 @@ int main( int argc, char **argv ) {
         while (-1 != (c = getopt(argc, argv, "abr:"))) {
                 switch (c) {
                 case 'a':
-			single_food_run(argc,argv,0);
+			single_food_run(argc,argv);
                         return 0;
                 case 'b':
-			statistics_food_run(argc,argv,0);
+			statistics_food_run(argc,argv);
                         return 0;
 		case 'h':
 			fprintf(stderr,"%s: Please choose one of the runs -a,-b,-c, ...\n",argv[0]);
@@ -367,14 +361,14 @@ int main( int argc, char **argv ) {
                 }
         }
 	// default behaviour without any valid arguments
-	single_food_run(argc,argv,0);
+	single_food_run(argc,argv);
 	return 0;	
 }
 
 
 
 
-void SozioBots::setX0filename(char* tmp,float mu) {
+void SozioBots::setX0filename(char* tmp) {
 	fX0=fopen(tmp,"rt");
 #ifdef CHECK_FOR_X0_FILE
 	if (fX0) {
@@ -388,7 +382,6 @@ void SozioBots::setX0filename(char* tmp,float mu) {
 		fprintf(stderr,"Could not open x0.dat\n");
 		exit(1);
 	}
-	fprintf(fX0,"# mu=%e\n",mu);
 }
 
 

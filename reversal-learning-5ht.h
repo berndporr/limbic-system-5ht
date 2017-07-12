@@ -62,7 +62,7 @@ class SozioBots : public QWidget
 
     int stepsBelow;
 
-    void setX0filename(char* tmp,float mu);
+    void setX0filename(char* tmp);
 };
 
 

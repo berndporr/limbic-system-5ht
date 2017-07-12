@@ -19,11 +19,6 @@ Limbic_system::Limbic_system()
 	step = 0;
 };
 
-void Limbic_system::setLearningRate(float)
-{
-}
-
-
 void Limbic_system::weightChange(float &w, float delta) {
 	w += delta;
 	if (w>1) w = 1;

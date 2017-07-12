@@ -366,9 +366,6 @@ class Robot {
  public:
 	int isPlacefield(int index);
 
- public:
-	void setMuFood(float mu);
-
  private:
 	// time before learning starts. Basically to settle the resonators
 	int time2settle;

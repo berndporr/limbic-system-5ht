@@ -8,37 +8,67 @@
 
 class Limbic_system {
 public:
+	// constructor
 	Limbic_system();
+	
+	// destructor
 	~Limbic_system();
-
+	
+	// this feeds into the limbic system:
+	// we have a place field around the light green (LG) and
+	// dark green (DG) objects. There is a reflex input on contact
+	// and a distance signal from the "eyes" of the agent seeing the
+	// light or dark green object.
 	void doStep(float reward,
-			float placefield1,
-			float placefield2,
-			float on_contact_direction_LG,
-			float on_contact_direction_DG,
-			float visual_direction_LG,
-			float visual_direction_DG
-		    );
-
+		    float placefield_LG,
+		    float placefield_DG,
+		    float on_contact_direction_LG,
+		    float on_contact_direction_DG,
+		    float visual_direction_LG,
+		    float visual_direction_DG
+		);
+	
+	// output to the motor system
+	// codes approach behaviour towards the light green object
+	// 0 is no and 1 is max speed
 	float getLGOutput() {return CoreLGOut;};
+	
+	// codes approach behaviour towards the dark green object
 	float getDGOutput() {return CoreDGOut;};
-	void setLearningRate(float mu);
 
+private:
+	// motor activities
 	float CoreLGOut;
 	float CoreDGOut;
+
+	// simulation step counter
 	long int step;
 
-
+	// weights for the motor system
+	
+	// I see the light green object and I appoach the light
+	// green one
 	float weight_lg2lg = 0;
+
+	// I see the light green object but I approach the dark green one!
 	float weight_lg2dg = 0;
+
+	// I see the dark green object and I approach the dark green one
 	float weight_dg2dg = 0;
+
+	// I see the dark green object and I approach the light green one
 	float weight_dg2lg = 0;
 
+	// learning rate
 	float learning_rate_core = 0;
 
 private:
+	// changes the weight w by the amount delta
+	// hard limits at -1 and +1
 	void weightChange(float &w, float delta);
 
+	// smoothes the signal when touching the object and
+	// creates a curiosity reaction
 	SecondOrderLowpassFilter* on_contact_direction_LG_filter;
 	SecondOrderLowpassFilter* on_contact_direction_DG_filter;
 

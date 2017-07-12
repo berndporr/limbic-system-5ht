@@ -930,10 +930,3 @@ int Robot::isPlacefield(int index) {
 	return world->isPlacefield(index,xCoord,yCoord);
 }
 
-
-void Robot::setMuFood(float mu) {
-	limbic_system->setLearningRate(mu);
-};
-
-
-
