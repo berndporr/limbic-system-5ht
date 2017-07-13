@@ -2,8 +2,6 @@
 #define _sozio_defs_h
 #include <quicktime.h>
 
-#define DAMPING 50
-
 /**
  * Experiment
  **/
@@ -54,8 +52,13 @@
  **/
 #define ROBOT_SPEED 0.75
 
+#define DAMPING 50
+
 // threshold to switch on a behaviour
 #define MOTOR_THRES 0.1
+
+// slight random behaviour of the robot
+#define RANDWALK
 
 // interval bewtween two steps
 #define TIMER_INTERVAL 20
@@ -68,7 +71,7 @@
 /**
  * generate a QT film?
  **/
-// #define DOC_QUICKTIME
+//#define DOC_QUICKTIME
 
 /**
  * Frame-rate for the quicktime-film
@@ -77,16 +80,8 @@
 
 #define QT_CODEC QUICKTIME_PNG
 
-#define RANDWALK
-
-
-/**
- * Doc only in chunks
- **/
-#define DOC_EVERY_N_FRAMES  1000
-#define DOC_FOR_N_FRAMES    1000
-
-
+#define DOC_EVERY_N_FRAMES  1000000000
+#define DOC_FOR_N_FRAMES    10000
 
 /**
  * shows the sim in a window

@@ -490,7 +490,7 @@ void World::docPgm(long int step,int index,char* name) {
 
 
 
-void World::openQuicktime(char* qtName) {
+void World::openQuicktime(const char* qtName) {
 	merge2quicktime=new Merge2quicktime();
 	int result=merge2quicktime->openQuicktime(qtName,
 					      maxx,
@@ -499,6 +499,7 @@ void World::openQuicktime(char* qtName) {
 					      QT_CODEC);
 	if (result) {
 		fprintf(stderr,"Cannot open quicktime. Error code %d\n",result);
+		merge2quicktime = NULL;
 		exit(result);
 	}
 }
@@ -508,6 +509,7 @@ void World::docQuicktime(int step) {
 	if (step%10) {
 		return;
 	}
+	if (!merge2quicktime) return;
 	merge2quicktime->fill(0,0,0);
 	int r[]={255,255,000,000,255,000,255};
 	int g[]={255,000,255,000,255,255,000};

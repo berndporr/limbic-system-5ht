@@ -2,21 +2,23 @@
 #define SOZIOBOTS_H
 
 #include <qwidget.h>
+#include <QMainWindow>
 #include "world.h"
 #include "robot.h"
 #include <stdio.h>
 
 
-class SozioBots : public QWidget
+class LimbicMainWindow : public QMainWindow
 {
     Q_OBJECT
 
  public:
-    SozioBots( QWidget *parent=0, 
-	       const char *name=0);
+    LimbicMainWindow( QWidget *parent = 0, 
+		      const char *name = 0
+	    );
 
  public:
-    ~SozioBots();
+    ~LimbicMainWindow();
 
 
  protected:
@@ -63,6 +65,14 @@ class SozioBots : public QWidget
     int stepsBelow;
 
     void setX0filename(char* tmp);
+
+    private:
+    void closeEvent(QCloseEvent *);
+
+    int saveAsQuicktime = 0;
+
+public:
+    void writeQuicktime();
 };
 
 
