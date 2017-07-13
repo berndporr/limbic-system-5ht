@@ -11,7 +11,7 @@
 #include "robot.h"
 #include "worldpoint.h"
 #include "defs.h"
-#include "reversal-learning-5ht.h"
+#include "limbic-system-simulator.h"
 
 
 #define BORDERS 1
