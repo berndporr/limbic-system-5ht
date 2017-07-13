@@ -510,62 +510,15 @@ void World::docQuicktime(int step) {
 		return;
 	}
 	if (!merge2quicktime) return;
-	merge2quicktime->fill(0,0,0);
-	int r[]={255,255,000,000,255,000,255};
-	int g[]={255,000,255,000,255,255,000};
-	int b[]={255,000,000,255,000,255,255};
+
+	QImage image = QPixmap(maxx, maxy).toImage();
+	QPainter pixPaint(&image);
+	fillPainter(pixPaint);
+	
 	for(int y=0;y<maxy;y++) {
 		for(int x=0;x<maxx;x++) {
-			WorldPoint* p=getPoint(x,y);
-			if ((p->isPlacefield(0))) {
-				merge2quicktime->setPoint(x,y,0,255,0);
-			}
-			if ((p->isPlacefield(1))) {
-				merge2quicktime->setPoint(x,y,0,200,0);
-			}
-			if (p->isObstacle()) {
-				merge2quicktime->setPoint(x,y,255,0,0);
-			}
-			if ((p->indexFood())==0) {
-				merge2quicktime->setPoint(x,y,255,255,0);
-			}
-			if ((p->indexFood())==1) {
-				merge2quicktime->setPoint(x,y,200,200,0);
-			}
-		}
-	}
-	for(int i=0;i<MAXFOOD;i++) {
-		if (getFoodValid(i)) {
-			int x=getFoodX(i);
-			int y=getFoodY(i);
-			for(int r=100;r>20;r--) {
-				int b=255-(int)((r*3)*
-						(1.0+0.2*sin((float)r/
-							     2.0-step/10)));
-				if (b<0) {
-					b=0;
-				}
-				if (b>255) {
-					b=255;
-				}
-				merge2quicktime->drawFcircle(x,y,
-							     r,
-							     0,0,b);
-			}
-		}
-	}
-	for(int y=0;y<maxy;y++) {
-		for(int x=0;x<maxx;x++) {
-			WorldPoint* p=getPoint(x,y);
-			int ri=p->isRobot();
-			if (ri) {
-				ri--;
-				merge2quicktime->setPoint(x,
-							  y,
-							  r[ri%7],
-							  g[ri%7],
-							  b[ri%7]);
-			}
+			QRgb pixel = image.pixel(x,y);
+			merge2quicktime->setPoint(x,y,qRed(pixel),qGreen(pixel),qBlue(pixel));
 		}
 	}
 	merge2quicktime->step();
