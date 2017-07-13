@@ -14,6 +14,13 @@
 #include "limbic-system-simulator.h"
 
 
+/***********************************************
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
+ ***********************************************/
+
+
 #define BORDERS 1
 
 
