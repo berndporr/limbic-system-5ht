@@ -11,15 +11,22 @@
 #include "robot.h"
 #include "worldpoint.h"
 #include "defs.h"
-#include "reversal-learning-5ht.h"
+#include "limbic-system-simulator.h"
+
+
+/***********************************************
+ * GNU GENERAL PUBLIC LICENSE
+ * Version 3, 29 June 2007
+ * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
+ ***********************************************/
 
 
 #define BORDERS 1
 
 
 
-SozioBots::SozioBots( QWidget *parent, 
-		      const char *) : QWidget( parent ) {
+LimbicMainWindow::LimbicMainWindow( QWidget *parent, 
+				    const char *) : QMainWindow( parent ) {
 	actualStep=0;
 	maxx=MAXX;
 	maxy=MAXY;
@@ -30,11 +37,9 @@ SozioBots::SozioBots( QWidget *parent,
 	numOfFoodContactsFromReversal=0;
 	isReversal=0;
 
-	
 	// Creates the world
 	world=new World(maxx,maxy);
 	world->setContactsFilename("contacts.dat");
-
 
 	// array of robots
 	robot=NULL;
@@ -79,10 +84,7 @@ SozioBots::SozioBots( QWidget *parent,
 }
 
 
-SozioBots::~SozioBots() {
-	if (fX0) {
-		fclose(fX0);
-	}
+LimbicMainWindow::~LimbicMainWindow() {
 	for(int i=0;i<MAXROBOT;i++) {
 		delete robot[i];
 	}
@@ -91,12 +93,18 @@ SozioBots::~SozioBots() {
 }
 
 
+void LimbicMainWindow::writeQuicktime() {
+	saveAsQuicktime = 1;
+	world->openQuicktime("/tmp/limbic.mov");
+}
+
+
 
 //
-// Handles paint events for the SozioBots widget.
+// Handles paint events for the LimbicMainWindow widget.
 //
 
-void SozioBots::paintEvent( QPaintEvent * ) {
+void LimbicMainWindow::paintEvent( QPaintEvent * ) {
 	// will paint in this object
 	int w = width();
 	int h = height();
@@ -117,10 +125,10 @@ void SozioBots::paintEvent( QPaintEvent * ) {
 }
 
 //
-// Handles timer events for the SozioBots widget.
+// Handles timer events for the LimbicMainWindow widget.
 //
 
-void SozioBots::timerEvent( QTimerEvent * )
+void LimbicMainWindow::timerEvent( QTimerEvent * )
 {
 	for ( int i=0; i<ITERATIONS_BEFORE_DISPLAY; i++ ) {
 		doSimStep();
@@ -129,7 +137,7 @@ void SozioBots::timerEvent( QTimerEvent * )
 }
 
 
-void SozioBots::doSimStep() {
+void LimbicMainWindow::doSimStep() {
 
 	if (actualStep>PARTIAL_MOVE_BELOW_STEP) { // 
 		for(int j=0;j<ROBOTS_WHICH_MOVE;j++) {
@@ -244,39 +252,11 @@ void SozioBots::doSimStep() {
 		foodDelay=FOOD_DELAY+(rand()%FOOD_DELAY);
 	}
 #endif	
-	
-#ifdef DOC_PGM
-	char pgmName[256];
-	sprintf(pgmName,"temp/img%09ld.pgm",actualStep);
-	world->docPgm(actualStep,pgmName);
-#endif
 
-#ifdef DOC_QUICKTIME
-	int relPos=actualStep%DOC_EVERY_N_FRAMES;
-	if (relPos<DOC_FOR_N_FRAMES) {
-		if (relPos==0) {
-			char tmp[]="/tmp/mov.tmp";
-			fprintf(stderr,
-				"Start writing: %s\n",
-				tmp);
-			world->openQuicktime(tmp);
-		}
-		world->docQuicktime(actualStep,robot[0]->getSensors());
-		if (relPos==(DOC_FOR_N_FRAMES-1)) {
-			world->closeQuicktime();
-			char movName[256];
-			sprintf(movName,
-				"/tmp/all%03d.mov",
-				(int)(actualStep/DOC_EVERY_N_FRAMES));
-			fprintf(stderr,"Writing finished...");
-			fprintf(stderr,"Rename mov.tmp to %s\n",
-				movName);
-			if (rename("/tmp/mov.tmp",movName)<0) {
-				fprintf(stderr,"Rename failed!\n");
-			}
-		}
+	if (saveAsQuicktime) {
+		world->docQuicktime(actualStep);
 	}
-#endif
+	
         actualStep++;
 	if (actualStep==MAXSTEP) {
 		close();
@@ -284,15 +264,21 @@ void SozioBots::doSimStep() {
 }
 
 
+void LimbicMainWindow::closeEvent(QCloseEvent *) {
+        if (saveAsQuicktime) {
+	        world->closeQuicktime();
+        }
+}
 
-void single_food_run(int argc, char **argv) {
+
+
+void single_food_run(int argc, char **argv,int quicktime) {
 	QApplication a( argc, argv );
-	SozioBots* soziobots=new SozioBots();	// create widget
-	char tmp[128];
-	sprintf(tmp,"temp/X0.dat");
-	soziobots->resize( MAXX, MAXY );	// start up with size 400x250
+	LimbicMainWindow* limbicbots=new LimbicMainWindow();	// create widget
+	if (quicktime) limbicbots->writeQuicktime();
+	limbicbots->resize( MAXX, MAXY );	// start up with size 400x250
 #ifdef SHOW_SIM
-	soziobots->show();				// show widget
+	limbicbots->show();				// show widget
 #endif
 	a.exec();				// run event loop
 }
@@ -305,32 +291,30 @@ void single_food_run(int argc, char **argv) {
 void statistics_food_run(int argc, char **argv) {
 	FILE* f=fopen("perf.dat","wt");
 	QApplication* a=NULL;
-	SozioBots* soziobots=NULL;
+	LimbicMainWindow* limbicbots=NULL;
 	a=new QApplication( argc, argv ); // create application object
 
 	// loop through different learning rates. This hasn't been tested.
        	for(float phi=0.0001;phi<2*M_PI;phi=phi+M_PI/50) {
 		fprintf(stderr,"phi=%e\n",phi);
-		soziobots=new SozioBots();	// create widget
-		if (!soziobots) {
-			fprintf(stderr,"Cound not create soziobots class\n");
+		limbicbots=new LimbicMainWindow();	// create widget
+		if (!limbicbots) {
+			fprintf(stderr,"Cound not create limbicbots class\n");
 			exit(1);
 		}
-		soziobots->robot[0]->setPhi(phi);
+		limbicbots->robot[0]->setPhi(phi);
 		char tmp[128];
-		sprintf(tmp,"temp/X0_%09d.dat",(int)ceil(phi*1000000000.0));
-		soziobots->setX0filename(tmp);
-		soziobots->resize( MAXX, MAXY );	// start up with size 400x250
+		limbicbots->resize( MAXX, MAXY );	// start up with size 400x250
 		sprintf(tmp,"reversal learning benchmark: phi=%e",phi);
-		// soziobots->setCaption(tmp);
+		// limbicbots->setCaption(tmp);
 #ifdef SHOW_SIM
-		soziobots->show();				// show widget
+		limbicbots->show();				// show widget
 #endif
 		a->exec();				// run event loop
-		fprintf(f,"%e %d\n",phi,soziobots->numOfFoodContactsFromReversal);
+		fprintf(f,"%e %d\n",phi,limbicbots->numOfFoodContactsFromReversal);
 		fflush(f);
-		srandom((unsigned int)(soziobots->actualStep%65536));
-		delete soziobots;
+		srandom((unsigned int)(limbicbots->actualStep%65536));
+		delete limbicbots;
 	}
 	delete a;
 	fclose(f);
@@ -343,45 +327,29 @@ void statistics_food_run(int argc, char **argv) {
 
 int main( int argc, char **argv ) {
         int c;
-
-        while (-1 != (c = getopt(argc, argv, "abr:"))) {
-                switch (c) {
-                case 'a':
-			single_food_run(argc,argv);
-                        return 0;
+	int qt = 0;
+	int stats = 0;
+	
+	while (-1 != (c = getopt(argc, argv, "abq"))) {
+		switch (c) {
+		case 'a':
+			stats = 0;
                 case 'b':
-			statistics_food_run(argc,argv);
-                        return 0;
+			stats = 1;
+                case 'q':
+			qt = 1;
 		case 'h':
-			fprintf(stderr,"%s: Please choose one of the runs -a,-b,-c, ...\n",argv[0]);
+			fprintf(stderr,"%s: help\n",argv[0]);
 			fprintf(stderr," -a: single food run\n");
 			fprintf(stderr," -b: statistics\n");
-                default:
-                        exit(1);
+			fprintf(stderr," -q: quicktime export\n");
                 }
         }
 	// default behaviour without any valid arguments
-	single_food_run(argc,argv);
+	if (!stats) {
+		single_food_run(argc,argv,qt);
+	} else {
+		statistics_food_run(argc,argv);
+	}
 	return 0;	
 }
-
-
-
-
-void SozioBots::setX0filename(char* tmp) {
-	fX0=fopen(tmp,"rt");
-#ifdef CHECK_FOR_X0_FILE
-	if (fX0) {
-		fclose(fX0);
-		fprintf(stderr,"filename %s exists!\n",tmp);
-		exit(1);
-	}
-#endif
-	fX0=fopen(tmp,"wt");
-	if (!fX0) {
-		fprintf(stderr,"Could not open x0.dat\n");
-		exit(1);
-	}
-}
-
-

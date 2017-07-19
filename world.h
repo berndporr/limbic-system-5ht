@@ -157,7 +157,7 @@ class World {
 	/**
 	 * documents the entire time course as quicktime-raw
 	 **/
-	void openQuicktime(char* qtName);
+	void openQuicktime(const char* qtName);
 
  public:
 	/**
