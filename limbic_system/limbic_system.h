@@ -44,23 +44,42 @@ private:
 	// simulation step counter
 	long int step;
 
+	//////////////////////////////////////////////////////////////
 	// weights for the motor system
 	
 	// I see the light green object and I appoach the light
 	// green one
-	float weight_lg2lg = 0;
+	float core_weight_lg2lg = 0;
 
 	// I see the light green object but I approach the dark green one!
-	float weight_lg2dg = 0;
+	float core_weight_lg2dg = 0;
 
 	// I see the dark green object and I approach the dark green one
-	float weight_dg2dg = 0;
+	float core_weight_dg2dg = 0;
 
 	// I see the dark green object and I approach the light green one
-	float weight_dg2lg = 0;
+	float core_weight_dg2lg = 0;
 
-	// learning rate
-	float learning_rate_core = 0;
+	// learning rate of the core
+	const float learning_rate_core = 0.05;
+
+	////////////////////////////////////////////////////////////////
+	// l-shell
+
+	// weights for the shell system
+	float lShell_weight_pflg = 0;
+	float lShell_weight_pfdg = 0;
+
+	const float learning_rate_lshell = 0.05;
+
+
+	////////////////////////////////////////////////////////////////
+	// VTA parameters
+	float VTA_baseline_activity = 1;
+
+	////////////////////////////////////////////////////////////////
+	// RMTg
+	float RMTg = 0;
 
 private:
 	// changes the weight w by the amount delta
