@@ -224,9 +224,6 @@ void LimbicMainWindow::doSimStep() {
 							0);
 				}
 			} else {
-				// no rewarding food bit out there
-				// we have to generate real rewarding food
-				// if ((actualStep%(REVERSAL_STEP*2))<REVERSAL_STEP) {
 				if (!(world->getSwapFlag())) {
 					dx=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
 					dy=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);

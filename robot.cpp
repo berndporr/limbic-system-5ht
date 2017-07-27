@@ -852,7 +852,7 @@ void Robot::react(int step,int collision) {
 #ifdef RANDWALK
 	// random, not yet used
 	if ((!(step%100))&&(fabs(sumPhi)<0.001)&&(foodPhi<0.001)) {
-		fprintf(stderr,"%d rand \n",step);
+		//fprintf(stderr,"%d rand \n",step);
 		randPhi=(((float)random())/((float)RAND_MAX)-0.5)*randEff;
 	}
 #endif

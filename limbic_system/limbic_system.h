@@ -44,6 +44,10 @@ private:
 	// simulation step counter
 	long int step;
 
+	// shunting inhibition is implemented as:
+	// neuronal_activity / ( 1 + inhibition * shunting_inhibition_factor )
+	float shunting_inhibition_factor = 100;
+
 	//////////////////////////////////////////////////////////////
 	// weights for the motor system
 	
@@ -61,7 +65,7 @@ private:
 	float core_weight_dg2lg = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.05;
+	const float learning_rate_core = 0.1;
 
 	////////////////////////////////////////////////////////////////
 	// l-shell
@@ -70,7 +74,7 @@ private:
 	float lShell_weight_pflg = 0;
 	float lShell_weight_pfdg = 0;
 
-	const float learning_rate_lshell = 0.05;
+	const float learning_rate_lshell = 0.0001;
 
 
 	////////////////////////////////////////////////////////////////

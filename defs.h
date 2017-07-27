@@ -230,7 +230,6 @@
 
 ///////////////////////////////////////////////////////////////////////
 // Reversal learning
-#define REVERSAL_STEP 100000
 
 #define THRES_FOOD_CONTACTS 10
 

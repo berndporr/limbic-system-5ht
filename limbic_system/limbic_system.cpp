@@ -35,7 +35,7 @@ void Limbic_system::doStep(float reward,
 	// the activity in the LH is literally that of the reward
 	float LH = reward;
 
-	float VTA = (LH + VTA_baseline_activity) / (1+RMTg) ;
+	float VTA = (LH + VTA_baseline_activity) / (1+RMTg * 10) ;
 
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
@@ -69,19 +69,24 @@ void Limbic_system::doStep(float reward,
 
 
 	// the place field feeds into the Nacc shell for the time being. TODO: Cortex
-	float lShell = placefieldLG * lShell_weight_pflg * VTA + placefieldDG * lShell_weight_pfdg * VTA;
+	float lShell = placefieldLG * lShell_weight_pflg + placefieldDG * lShell_weight_pfdg;
 
 	// Let's do heterosynaptic plasticity
-	weightChange(lShell_weight_pflg, learning_rate_lshell * VTA * placefieldLG);
-	weightChange(lShell_weight_pfdg, learning_rate_lshell * VTA * placefieldDG);
+	float shell_DA = VTA;
+	float shell_plasticity = shell_DA - VTA_baseline_activity;
+	if (shell_plasticity < 0) shell_plasticity = 0;
+	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
+	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
 
 	// the shell inhibits the
-	float dlVP = 1/(1+lShell);
+	float dlVP = 1/(1+lShell * shunting_inhibition_factor);
 
 	// another inhibition
-	float EP = 1/(1+dlVP);
+	float EP = 1/(1+dlVP * shunting_inhibition_factor);
 
 	float LHb = EP;
+
+	printf("%f %f %f\n",VTA,core_weight_lg2lg,lShell_weight_pflg);
 
 	RMTg = LHb;
 
