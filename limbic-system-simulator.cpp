@@ -167,7 +167,7 @@ void LimbicMainWindow::doSimStep() {
 			int cx2 = PLACE_X2;
 			int cy2 = PLACE_Y2;
 			int dx,dy;
-			int sub = PLACEFIELD_DIAMETER/2;
+			int sub = PLACEFIELD_DIAMETER/6;
 			
 			// let's find out if there's still real food out there
 			// this is the index number of the food bit which is actually rewarding
@@ -204,8 +204,9 @@ void LimbicMainWindow::doSimStep() {
 				// we have to place fake food
 				if (world->getSwapFlag()) {
 					// we place the fake food on the left
-					dx=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
-					dy=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
+					dx=rand()%(PLACEFIELD_DIAMETER/3);
+					fprintf(stderr,"%d\n",dx);
+					dy=rand()%(PLACEFIELD_DIAMETER/3);
 					world->drawFood(actualStep, 
 							cx1+dx-sub, 
 							cy1+dy-sub, 
@@ -214,8 +215,9 @@ void LimbicMainWindow::doSimStep() {
 							0);
 				} else {
 					// we plae the fake food on the right
-					dx=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
-					dy=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
+					dx=rand()%(PLACEFIELD_DIAMETER/3);
+					fprintf(stderr,"%d\n",dx);
+					dy=rand()%(PLACEFIELD_DIAMETER/3);
 					world->drawFood(actualStep, 
 							cx2+dx-sub, 
 							cy2+dy-sub, 
@@ -225,8 +227,9 @@ void LimbicMainWindow::doSimStep() {
 				}
 			} else {
 				if (!(world->getSwapFlag())) {
-					dx=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
-					dy=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
+					dx=rand()%(PLACEFIELD_DIAMETER/3);
+					dy=rand()%(PLACEFIELD_DIAMETER/3);
+					fprintf(stderr,"%d\n",dx);
 					world->drawFood(actualStep, 
 							cx1+dx-sub, 
 							cy1+dy-sub, 
@@ -234,8 +237,9 @@ void LimbicMainWindow::doSimStep() {
 							newIndex,
 							1);
 				} else {
-					dx=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
-					dy=(int)(float)rand()% (PLACEFIELD_DIAMETER/2);
+					dx=rand()%(PLACEFIELD_DIAMETER/3);
+					dy=rand()%(PLACEFIELD_DIAMETER/3);
+					fprintf(stderr,"%d\n",dx);
 					world->drawFood(actualStep, 
 							cx2+dx-sub, 
 							cy2+dy-sub, 
