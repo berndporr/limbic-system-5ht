@@ -231,7 +231,7 @@
 ///////////////////////////////////////////////////////////////////////
 // Reversal learning
 
-#define THRES_FOOD_CONTACTS 10
+#define THRES_FOOD_CONTACTS 5
 
 
 

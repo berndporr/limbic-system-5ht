@@ -1,5 +1,5 @@
 TEMPLATE	= app
-CONFIG		+= qt warn_on debug
+CONFIG		+= qt warn_on release
 HEADERS		= bandp.h merge2quicktime.h robot.h \
                   defs.h worldpoint.h world.h \
                   limbic-system-simulator.h direction.h \

@@ -13,6 +13,9 @@ Limbic_system::Limbic_system()
 	on_contact_direction_LG_filter = new SecondOrderLowpassFilter(0.1);
 	on_contact_direction_DG_filter = new SecondOrderLowpassFilter(0.1);
 
+	visual_direction_LG_mPFC_filter = new SecondOrderLowpassFilter(0.01);
+	visual_direction_DG_mPFC_filter = new SecondOrderLowpassFilter(0.01);
+
 	step = 0;
 };
 
@@ -31,6 +34,8 @@ void Limbic_system::doStep(float reward,
 		float visual_direction_LG,
 		float visual_direction_DG) {
 
+	float mPFC_LG = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
+	float mPFC_DG = visual_direction_LG_mPFC_filter->filter(visual_direction_DG);
 
 	// the activity in the LH is literally that of the reward
 	float LH = reward;
@@ -39,9 +44,9 @@ void Limbic_system::doStep(float reward,
 
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= visual_direction_LG * core_weight_lg2lg + visual_direction_DG * core_weight_dg2lg + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+	CoreLGOut= mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= visual_direction_LG * core_weight_lg2dg + visual_direction_DG * core_weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+	CoreDGOut= mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
 	float core_DA = VTA;
 	float core_plasticity = core_DA - VTA_baseline_activity/2;
@@ -52,7 +57,8 @@ void Limbic_system::doStep(float reward,
 
 //#define CORE_OUTPUT
 #ifdef CORE_OUTPUT
-	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",reward,
+	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	       reward,
 	       placefieldLG,
 	       placefieldDG,
 	       on_contact_direction_LG,

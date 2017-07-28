@@ -65,7 +65,7 @@ private:
 	float core_weight_dg2lg = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.15;
+	const float learning_rate_core = 0.05;
 
 	////////////////////////////////////////////////////////////////
 	// l-shell
@@ -85,6 +85,11 @@ private:
 	// RMTg
 	float RMTg = 0;
 
+	///////////////////////////////////////////////////////////////
+	// mPFC
+	SecondOrderLowpassFilter* visual_direction_LG_mPFC_filter;
+	SecondOrderLowpassFilter* visual_direction_DG_mPFC_filter;
+
 private:
 	// changes the weight w by the amount delta
 	// hard limits at -1 and +1
@@ -94,7 +99,6 @@ private:
 	// creates a curiosity reaction
 	SecondOrderLowpassFilter* on_contact_direction_LG_filter;
 	SecondOrderLowpassFilter* on_contact_direction_DG_filter;
-
 
 };
 
