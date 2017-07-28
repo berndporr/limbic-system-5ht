@@ -65,7 +65,7 @@ private:
 	float core_weight_dg2lg = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.1;
+	const float learning_rate_core = 0.15;
 
 	////////////////////////////////////////////////////////////////
 	// l-shell
@@ -74,12 +74,12 @@ private:
 	float lShell_weight_pflg = 0;
 	float lShell_weight_pfdg = 0;
 
-	const float learning_rate_lshell = 0.0001;
+	const float learning_rate_lshell = 0.001;
 
 
 	////////////////////////////////////////////////////////////////
 	// VTA parameters
-	float VTA_baseline_activity = 1;
+	float VTA_baseline_activity = 0.2;
 
 	////////////////////////////////////////////////////////////////
 	// RMTg

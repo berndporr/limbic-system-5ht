@@ -35,7 +35,7 @@ void Limbic_system::doStep(float reward,
 	// the activity in the LH is literally that of the reward
 	float LH = reward;
 
-	float VTA = (LH + VTA_baseline_activity) / (1+RMTg * 10) ;
+	float VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
@@ -44,12 +44,13 @@ void Limbic_system::doStep(float reward,
 	CoreDGOut= visual_direction_LG * core_weight_lg2dg + visual_direction_DG * core_weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
 	float core_DA = VTA;
-	float core_plasticity = core_DA - VTA_baseline_activity;
+	float core_plasticity = core_DA - VTA_baseline_activity/2;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
 	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
 	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
 
+//#define CORE_OUTPUT
 #ifdef CORE_OUTPUT
 	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",reward,
 	       placefieldLG,
@@ -73,7 +74,7 @@ void Limbic_system::doStep(float reward,
 
 	// Let's do heterosynaptic plasticity
 	float shell_DA = VTA;
-	float shell_plasticity = shell_DA - VTA_baseline_activity;
+	float shell_plasticity = shell_DA - VTA_baseline_activity/2;
 	if (shell_plasticity < 0) shell_plasticity = 0;
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
 	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
@@ -86,7 +87,7 @@ void Limbic_system::doStep(float reward,
 
 	float LHb = EP;
 
-	printf("%f %f %f\n",VTA,core_weight_lg2lg,lShell_weight_pflg);
+	printf("%f %f %f %f\n",core_plasticity,core_weight_lg2lg,core_weight_dg2dg,lShell_weight_pflg);
 
 	RMTg = LHb;
 

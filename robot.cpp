@@ -674,12 +674,14 @@ void Robot::react(int step,int collision) {
 		sensorOut=0;
 	}
 
+	/**
 	float lf=0;
 	if (foodFl) lf=1;
 	float rf=0;
 	if (foodFr) rf=1;
 
 	float prox_explore=(lf-rf);
+	**/
 
 	// LEARNED
 	// now: the robot "hears" the food
