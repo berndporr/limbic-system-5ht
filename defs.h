@@ -64,16 +64,6 @@
 #define TIMER_INTERVAL 20
 
 /**
- * create PGMs
- **/
-// #define DOC_PGM
-
-/**
- * generate a QT film?
- **/
-//#define DOC_QUICKTIME
-
-/**
  * Frame-rate for the quicktime-film
  **/
 #define FRAME_RATE 15
@@ -81,7 +71,7 @@
 #define QT_CODEC QUICKTIME_PNG
 
 #define DOC_EVERY_N_FRAMES  1000000000
-#define DOC_FOR_N_FRAMES    10000
+#define DOC_FOR_N_FRAMES    1000000000
 
 /**
  * shows the sim in a window

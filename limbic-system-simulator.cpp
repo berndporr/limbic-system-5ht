@@ -85,6 +85,10 @@ LimbicMainWindow::LimbicMainWindow( QWidget *parent,
 
 
 LimbicMainWindow::~LimbicMainWindow() {
+	if (saveAsQuicktime) {
+		saveAsQuicktime = 0;
+	        world->closeQuicktime();
+        }
 	for(int i=0;i<MAXROBOT;i++) {
 		delete robot[i];
 	}
@@ -331,19 +335,23 @@ int main( int argc, char **argv ) {
 	int qt = 0;
 	int stats = 0;
 	
-	while (-1 != (c = getopt(argc, argv, "abq"))) {
+	while (-1 != (c = getopt(argc, argv, "abqh"))) {
 		switch (c) {
 		case 'a':
 			stats = 0;
+			break;
                 case 'b':
 			stats = 1;
+			break;
                 case 'q':
 			qt = 1;
+			break;
 		case 'h':
-			fprintf(stderr,"%s: help\n",argv[0]);
+			fprintf(stderr,"%s: command line options\n",argv[0]);
 			fprintf(stderr," -a: single food run\n");
 			fprintf(stderr," -b: statistics\n");
 			fprintf(stderr," -q: quicktime export\n");
+			exit(0);
                 }
         }
 	// default behaviour without any valid arguments
