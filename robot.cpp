@@ -703,12 +703,11 @@ void Robot::react(int step,int collision) {
 
 
 		
-	// the x0 signal for the left and right side.
 	float on_contact_direction_LG=0;
 	float on_contact_direction_DG=0;
 
 	// loop through all food sources
-	for(int i=0;i<MAXFOOD;i++) {
+	for(int i=0;i<2;i++) {
 		if (world->getFoodValid(i)) {
 			// get the coordinates of a food-bit
 			int xf=world->getFoodX(i);
@@ -788,8 +787,6 @@ void Robot::react(int step,int collision) {
 		if ((placefield1>placefield2)) {
 			on_contact_direction_DG = 0.0;
 			on_contact_direction_LG = 1.0;		
-			//fprintf(stderr,"xodg = %f  x0lg = %f\n", x0DG, x0LG);
-			//fprintf(stderr," cs2 = %f   cs1 = %f\n", cs2,cs1);
 		}
 	}  
 	
