@@ -93,7 +93,7 @@ void Limbic_system::doStep(float reward,
 
 	float LHb = EP;
 
-	printf("%f %f %f %f\n",core_plasticity,core_weight_lg2lg,core_weight_dg2dg,lShell_weight_pflg);
+	printf("%f %f %f %f %f\n",VTA,core_plasticity,core_weight_lg2lg,core_weight_dg2dg,lShell_weight_pflg);
 
 	RMTg = LHb;
 
