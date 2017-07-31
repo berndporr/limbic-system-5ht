@@ -271,6 +271,7 @@ void LimbicMainWindow::doSimStep() {
 
 void LimbicMainWindow::closeEvent(QCloseEvent *) {
         if (saveAsQuicktime) {
+		saveAsQuicktime = 0;
 	        world->closeQuicktime();
         }
 }

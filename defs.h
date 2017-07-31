@@ -66,7 +66,7 @@
 /**
  * Frame-rate for the quicktime-film
  **/
-#define FRAME_RATE 15
+#define FRAME_RATE 25
 
 #define QT_CODEC QUICKTIME_PNG
 

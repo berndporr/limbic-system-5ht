@@ -107,6 +107,7 @@ void Merge2quicktime::drawFcircle(int x,int y,
 
 int Merge2quicktime::step() {
 	// write the video
+	if (!file) return 0;
 	quicktime_encode_video(file,row_pointers,0);
 	fill(0,0,0);
 	return 0;
@@ -120,7 +121,9 @@ int Merge2quicktime::close() {
 	if (verbose) {
 		fprintf(stderr,"All input files processed. Closing QuickTime file.\n");
 	}
+	if (!file) return 0;
 	quicktime_close(file);
+	file = NULL;
 	return 0;
 }
 
