@@ -15,7 +15,7 @@
 /**
  * Number of iterations of the simulation before its displayed
  **/
-#define ITERATIONS_BEFORE_DISPLAY 20
+#define ITERATIONS_BEFORE_DISPLAY 21
 
 /**
  * Move only some robots below the given step number

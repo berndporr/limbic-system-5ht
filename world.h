@@ -141,12 +141,6 @@ class World {
 	 **/
 	WorldPoint* getPoint(float x,float y);
 
- public:
-	/**
-	 * documents one time step as a binary pgm.
-	 **/
-	void docPgm(long int step,int index, char* name);
-
  private:
 	/**
 	 * points to the object which writes the quicktime files
@@ -281,6 +275,11 @@ class World {
 
 	// number of contacts with food in total (fake or real)
 	int nContacts;
+
+	long int step = 0;
+
+ public:
+	inline void setStep(long int _step) {step=_step;}
 
  public:
 	int getConsequFoodContacts() {

@@ -449,47 +449,6 @@ int World::getPlacefieldY(int i) {
 }
 
 
-void World::docPgm(long int step,int index,char* name) {
-	if (step%10) {
-		return;
-	}
-	FILE* f=fopen(name,"wb");
-	if (!f) {
-		fprintf(stderr,"Could not write to %s\n",name);
-		exit(1);
-	}
-	// binary greymap
-	fprintf(f,"P5\n");
-	// width x height
-	fprintf(f,"%d %d\n",maxx,maxy);
-	// number of grey levels
-	fprintf(f,"255\n");
-	// binary data'll follow
-	for(int y=0;y<maxy;y++) {
-		for(int x=0;x<maxx;x++) {
-			WorldPoint* p=getPoint(x,y);
-			int c=50;
-			if (p->isObstacle()) {
-				c=128;
-			}
-			if ((p->indexFood())>=0) {
-				c=255;
-			}
-			if ((p->isPlacefield(index))>=0) {
-				//	c=120;
-			}
-			if (p->isRobot()) {
-				c=200;
-			}
-			fprintf(f,"%c",(char)c);
-		}
-	}
-	fclose(f);
-}
-
-
-
-
 void World::openQuicktime(const char* qtName) {
 	merge2quicktime=new Merge2quicktime();
 	int result=merge2quicktime->openQuicktime(qtName,
@@ -536,6 +495,11 @@ void World::fillPainter(QPainter &painter) {
 	int r[]={0,255,000,000,255,000,255};
 	int g[]={0,000,255,000,255,255,000};
 	int b[]={0,000,000,255,000,255,255};
+	QString t;
+	QFont timeFont("helvetica",12);
+	painter.setFont(timeFont);
+	painter.setPen(QColor(0,0,0));
+	painter.drawText(10,20,t.asprintf("%ld",step));
 	QPen penObstacle(QColor(255,255,255));
 	for(int y=0;y<maxy;y++) {
 		for(int x=0;x<maxx;x++) {

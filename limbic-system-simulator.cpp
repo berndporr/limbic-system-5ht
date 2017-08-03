@@ -143,6 +143,8 @@ void LimbicMainWindow::timerEvent( QTimerEvent * )
 
 void LimbicMainWindow::doSimStep() {
 
+	world->setStep(actualStep);
+
 	if (actualStep>PARTIAL_MOVE_BELOW_STEP) { // 
 		for(int j=0;j<ROBOTS_WHICH_MOVE;j++) {
 			robot[j]->move(actualStep);

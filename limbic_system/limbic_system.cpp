@@ -4,43 +4,76 @@
 
 #include <filter.h>
 
+// constructor
 Limbic_system::Limbic_system()
 {
-	//The direction triggers
-	CoreLGOut=0.0;
-	CoreDGOut=0.0;
+	flog = fopen("log.dat","wt");
 
+	// filter which creates a default behaviour when touching the landmarks
 	on_contact_direction_LG_filter = new SecondOrderLowpassFilter(0.1);
 	on_contact_direction_DG_filter = new SecondOrderLowpassFilter(0.1);
 
+	// filter which smears out the visual input in time as a 1st attempt
+	// to create persistent activity in the cortex
 	visual_direction_LG_mPFC_filter = new SecondOrderLowpassFilter(0.01);
 	visual_direction_DG_mPFC_filter = new SecondOrderLowpassFilter(0.01);
 
+	// input step number
 	step = 0;
 };
 
+
+// destructor
+Limbic_system::~Limbic_system()
+{
+	fclose(flog);
+}
+
+
+// changes a synaptic weight by the amount "delta"
+// and makes sure it never goes below 0 and above 1
 void Limbic_system::weightChange(float &w, float delta) {
 	w += delta;
 	if (w>1) w = 1;
 	if (w<0) w = 0;
 }
 
+// that's what our limbic system does!
+// remember there are two landmarks/place fields: light green and dark green
+// only one of them contains the reward (controlled by the main program)
+//
+// It gets as inputs:
+// - the reward
+// - two place field signals (placefieldLG/DG) which go from 0 to 1 when in the place field
+// - two signals when the agent touches the landmark: on_contact_direction_LG/DG
+// - visual inputs when the agent sees a landmark which goes from 0 to 1 the closer the agent gets
+//
+// It needs to set the outputs:
+// - CoreLGOut and CoreDGOut which when set to non-zero generates a navigation behaviour towards
+//   the landmarks
+void Limbic_system::doStep(float _reward,
+		float _placefieldLG,
+		float _placefieldDG,
+		float _on_contact_direction_LG,
+		float _on_contact_direction_DG,
+		float _visual_direction_LG,
+		float _visual_direction_DG) {
 
-void Limbic_system::doStep(float reward,
-		float placefieldLG,
-		float placefieldDG,
-		float on_contact_direction_LG,
-		float on_contact_direction_DG,
-		float visual_direction_LG,
-		float visual_direction_DG) {
+	reward = _reward;
+	placefieldLG = _placefieldLG;
+	placefieldDG = _placefieldDG;
+	on_contact_direction_LG = _on_contact_direction_LG;
+	on_contact_direction_DG = _on_contact_direction_DG;
+	visual_direction_LG = _visual_direction_LG;
+	visual_direction_DG = _visual_direction_DG;
 
-	float mPFC_LG = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
-	float mPFC_DG = visual_direction_LG_mPFC_filter->filter(visual_direction_DG);
+	mPFC_LG = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
+	mPFC_DG = visual_direction_LG_mPFC_filter->filter(visual_direction_DG);
 
 	// the activity in the LH is literally that of the reward
-	float LH = reward;
+	LH = reward;
 
-	float VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
+	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
@@ -48,65 +81,69 @@ void Limbic_system::doStep(float reward,
 	// of the DG is high then the rat approaches the DG marker
 	CoreDGOut= mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
-	float core_DA = VTA;
-	float core_plasticity = core_DA - VTA_baseline_activity/2;
+	core_DA = VTA;
+	core_plasticity = core_DA - VTA_baseline_activity/2;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
 	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
 	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
 
-//#define CORE_OUTPUT
-#ifdef CORE_OUTPUT
-	printf("%f %f %f %f %f %f %f %f %f %f %f %f %f\n",
-	       reward,
-	       placefieldLG,
-	       placefieldDG,
-	       on_contact_direction_LG,
-	       on_contact_direction_DG,
-	       visual_direction_LG,
-	       visual_direction_DG,
-	       core_weight_lg2lg,
-	       core_weight_lg2dg,
-	       core_weight_dg2lg,
-	       core_weight_dg2dg,
-	       CoreLGOut,
-	       CoreDGOut
-		);
-#endif
 
-
-	// the place field feeds into the Nacc shell for the time being. TODO: Cortex
-	float lShell = placefieldLG * lShell_weight_pflg + placefieldDG * lShell_weight_pfdg;
+	// the place field feeds into the Nacc shell for the time being.
+	lShell = placefieldLG * lShell_weight_pflg + placefieldDG * lShell_weight_pfdg;
 
 	// Let's do heterosynaptic plasticity
-	float shell_DA = VTA;
-	float shell_plasticity = shell_DA - VTA_baseline_activity/2;
+	shell_DA = VTA;
+	shell_plasticity = shell_DA - VTA_baseline_activity/2;
 	if (shell_plasticity < 0) shell_plasticity = 0;
+
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
 	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
 
 	// the shell inhibits the
-	float dlVP = 1/(1+lShell * shunting_inhibition_factor);
+	dlVP = 1/(1+lShell * shunting_inhibition_factor);
 
 	// another inhibition
-	float EP = 1/(1+dlVP * shunting_inhibition_factor);
+	EP = 1/(1+dlVP * shunting_inhibition_factor);
 
-	float LHb = EP;
-
-	printf("%f %f %f %f %f\n",VTA,core_plasticity,core_weight_lg2lg,core_weight_dg2dg,lShell_weight_pflg);
+	LHb = EP;
 
 	RMTg = LHb;
 
-	//
+	logging();
 
 	step++;  
-			
+
 }	
-                                      
-		                                            
 
 
 
-Limbic_system::~Limbic_system() 
-{
+
+void Limbic_system::logging() {
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+			step, //0
+			reward, //1
+			placefieldLG, //2
+			placefieldDG, //3
+			on_contact_direction_LG, //4
+			on_contact_direction_DG, //5
+			visual_direction_LG, //6
+			visual_direction_DG, //7
+			core_weight_lg2lg, //8
+			core_weight_lg2dg, //9
+			core_weight_dg2lg, //10
+			core_weight_dg2dg, //11
+			CoreLGOut, //12
+			CoreDGOut, //13
+			VTA,//14
+			core_plasticity,//15
+			shell_plasticity,//16
+			lShell_weight_pflg,//17
+			lShell_weight_pfdg,//18
+			dlVP,//19
+			EP,//20
+			LHb,//21
+			RMTg//22
+	);
 }
+
