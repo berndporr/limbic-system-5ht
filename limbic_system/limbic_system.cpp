@@ -80,11 +80,18 @@ void Limbic_system::doStep(float _reward,
 
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
+	BLA = placefieldLG + placefieldDG;
+
+	DRN = BLA * 10;
+
+	//printf("%f\n",DRN);
+
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG)/(1+DRN) + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG)/(1+DRN) + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+	CoreExploreOut = 1 / (CoreLGOut+CoreDGOut+DRN+1);
 
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_baseline_activity/2;

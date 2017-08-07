@@ -26,8 +26,8 @@ public:
 		    float _on_contact_direction_DG,
 		    float _visual_direction_LG,
 		    float _visual_direction_DG,
-			float _visual_reward_LG,
-			float _visual_reward_DG
+		    float _visual_reward_LG,
+		    float _visual_reward_DG
 		);
 	
 	// output to the motor system
@@ -37,6 +37,8 @@ public:
 	
 	// codes approach behaviour towards the dark green object
 	float getDGOutput() {return CoreDGOut;};
+
+	float getExploreOutput() {return CoreExploreOut;};
 
 private:
 	// simulation step counter
@@ -65,6 +67,7 @@ private:
 	// motor activities
 	float CoreLGOut = 0;
 	float CoreDGOut = 0;
+	float CoreExploreOut = 0.5;
 
 	// learning rate of the core
 	const float learning_rate_core = 0.05;
@@ -124,6 +127,14 @@ private:
 	////////////////////////////////////////////////////////////////
 	// Lateral habenula
 	float LHb = 0;
+
+	////////////////////////////////////////////////////////////////
+	// BLA
+	float BLA = 0;
+
+	///////////////////////////////////////////////////////////////
+	// DRN
+	float DRN = 0;
 
 
 private:

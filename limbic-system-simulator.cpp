@@ -210,7 +210,7 @@ void LimbicMainWindow::doSimStep() {
 				// we have to place fake food
 				if (world->getSwapFlag()) {
 					dx=rand()%(PLACEFIELD_DIAMETER/3);
-					fprintf(stderr,"%d\n",dx);
+					//fprintf(stderr,"%d\n",dx);
 					dy=rand()%(PLACEFIELD_DIAMETER/3);
 					world->drawFood(actualStep, 
 							cx1+dx-sub, 
@@ -221,7 +221,7 @@ void LimbicMainWindow::doSimStep() {
 				} else {
 					// we plae the fake food on the right
 					dx=rand()%(PLACEFIELD_DIAMETER/3);
-					fprintf(stderr,"%d\n",dx);
+					//fprintf(stderr,"%d\n",dx);
 					dy=rand()%(PLACEFIELD_DIAMETER/3);
 					world->drawFood(actualStep, 
 							cx2+dx-sub, 
@@ -234,7 +234,7 @@ void LimbicMainWindow::doSimStep() {
 				if (!(world->getSwapFlag())) {
 					dx=rand()%(PLACEFIELD_DIAMETER/3);
 					dy=rand()%(PLACEFIELD_DIAMETER/3);
-					fprintf(stderr,"%d\n",dx);
+					//fprintf(stderr,"%d\n",dx);
 					world->drawFood(actualStep, 
 							cx1+dx-sub, 
 							cy1+dy-sub, 
@@ -244,7 +244,7 @@ void LimbicMainWindow::doSimStep() {
 				} else {
 					dx=rand()%(PLACEFIELD_DIAMETER/3);
 					dy=rand()%(PLACEFIELD_DIAMETER/3);
-					fprintf(stderr,"%d\n",dx);
+					//fprintf(stderr,"%d\n",dx);
 					world->drawFood(actualStep, 
 							cx2+dx-sub, 
 							cy2+dy-sub, 

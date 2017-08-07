@@ -25,12 +25,12 @@ Direction::Direction()
 
 void Direction::doDirection(float l1,float r1,float sw) 
 {	
-	if (sw>thres) {
-		sw = 1;
+//	if (sw>thres) {
+//		sw = 1;
 		speed = sw;
-	} else {
-		speed = thres;
-	}
+//	} else {
+//		speed = thres;
+//	}
 	dirleft1=bandpLeft1->filter(l1);
 	dirright1=bandpRight1->filter(r1);
 	Motorout=(dirleft1-dirright1)*sw;   

@@ -842,6 +842,7 @@ void Robot::react(int step,int collision) {
 	//the ditection triggers by the corelg and coredg
 	LGsw=limbic_system->getLGOutput();
 	DGsw=limbic_system->getDGOutput();
+	float explore=limbic_system->getExploreOutput();
 	if (LGsw < MOTOR_THRES) {
 		LGsw=0;
 	}
@@ -875,11 +876,11 @@ void Robot::react(int step,int collision) {
    END FOOD
 	********************************************************/
 
-	float LGspeed = LGdirection->getSpeed()*5;
-	float DGspeed = DGdirection->getSpeed()*5;
+	float LGspeed = LGdirection->getSpeed();
+	float DGspeed = DGdirection->getSpeed();
 
 	// summation of the front collision
-	dStep=ROBOT_SPEED*(LGspeed+DGspeed)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
+	dStep=ROBOT_SPEED*(LGspeed+DGspeed+explore)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
 
 	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput();
 
