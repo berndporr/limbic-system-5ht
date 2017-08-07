@@ -124,9 +124,3 @@ class WorldPoint {
 };
 
 #endif
-
-
-
-
-
-

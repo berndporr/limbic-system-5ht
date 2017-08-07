@@ -25,7 +25,9 @@ public:
 		    float _on_contact_direction_LG,
 		    float _on_contact_direction_DG,
 		    float _visual_direction_LG,
-		    float _visual_direction_DG
+		    float _visual_direction_DG,
+			float _visual_reward_LG,
+			float _visual_reward_DG
 		);
 	
 	// output to the motor system
@@ -142,6 +144,8 @@ private:
 	float on_contact_direction_DG = 0;
 	float visual_direction_LG = 0;
 	float visual_direction_DG = 0;
+	float visual_reward_LG = 0;
+	float visual_reward_DG = 0;
 
 	FILE* flog = NULL;
 	void logging();

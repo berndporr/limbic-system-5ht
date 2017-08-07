@@ -224,6 +224,13 @@
 #define THRES_FOOD_CONTACTS 5
 
 
+///////////////////////////////////////////////////////////////////////
+// delayed reward
+
+// delay in timesteps (200 is a good starting point for a short delay)
+#define REWARD_DELAY 100
+
+
 
 #endif
 

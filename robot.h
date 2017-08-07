@@ -383,6 +383,11 @@ class Robot {
 	float LGsw;
 	float DGsw;
 
+
+ private:
+	int rewardDelayLG = REWARD_DELAY;
+	int rewardDelayDG = REWARD_DELAY;
+
 };
 
 

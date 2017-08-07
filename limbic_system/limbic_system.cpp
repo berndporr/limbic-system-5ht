@@ -57,7 +57,9 @@ void Limbic_system::doStep(float _reward,
 		float _on_contact_direction_LG,
 		float _on_contact_direction_DG,
 		float _visual_direction_LG,
-		float _visual_direction_DG) {
+		float _visual_direction_DG,
+		float _visual_reward_LG,
+		float _visual_reward_DG ) {
 
 	reward = _reward;
 	placefieldLG = _placefieldLG;
@@ -66,6 +68,9 @@ void Limbic_system::doStep(float _reward,
 	on_contact_direction_DG = _on_contact_direction_DG;
 	visual_direction_LG = _visual_direction_LG;
 	visual_direction_DG = _visual_direction_DG;
+	visual_reward_LG = _visual_reward_LG;
+	visual_reward_DG = _visual_reward_DG;
+	//fprintf(stderr,"%f,%f\n",_visual_reward_LG,_visual_reward_DG);
 
 	mPFC_LG = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
 	mPFC_DG = visual_direction_LG_mPFC_filter->filter(visual_direction_DG);

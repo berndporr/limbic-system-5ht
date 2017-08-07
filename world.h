@@ -257,6 +257,12 @@ class World {
 		r_index=r;
 	}
 
+ private:
+	int reward_visible = 1;
+
+ public:
+	void setRewardVisible(int _reward_visible) {reward_visible = _reward_visible;}
+
  public:
 	int getNewFood(){
 		return (foodCounter<MAXFOOD);

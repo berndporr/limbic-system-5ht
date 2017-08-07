@@ -16,7 +16,7 @@
 
 /***********************************************
  * GNU GENERAL PUBLIC LICENSE
- * Version 3, 29 June 2007
+ * Version 3, 29 June 2007-2017
  * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
  ***********************************************/
 
@@ -209,7 +209,6 @@ void LimbicMainWindow::doSimStep() {
 				// reward is still out there
 				// we have to place fake food
 				if (world->getSwapFlag()) {
-					// we place the fake food on the left
 					dx=rand()%(PLACEFIELD_DIAMETER/3);
 					fprintf(stderr,"%d\n",dx);
 					dy=rand()%(PLACEFIELD_DIAMETER/3);

@@ -18,11 +18,12 @@ World::World(int x,int y) {
 	for(int index=0;index<MAXPLACEFIELD;index++) {
 		penPlacefield[index]=new QPen(QColor(0,255-index*128/MAXPLACEFIELD,0));
 	}
-	penFood=new QPen*[MAXFOOD];
+	penFood=new QPen*[MAXFOOD+1];
 	for(int index=0;index<MAXFOOD;index++) {
-		penFood[index]=new QPen(QColor(255-index*128/MAXFOOD,
-					       255-index*128/MAXFOOD,0));
+		penFood[index]=new QPen(QColor(255-index*128/(MAXFOOD+1),
+					       255-index*128/(MAXFOOD+1),0));
 	}
+	penFood[MAXFOOD] = new QPen(QColor(255,0,0));
 	r_index=0;
 	maxx=x;
 	maxy=y;
@@ -514,8 +515,30 @@ void World::fillPainter(QPainter &painter) {
 				painter.setPen(penObstacle);
 				painter.drawPoint(x,y);
 			}
-			if ((p->indexFood())>=0) {
-				painter.setPen(*penFood[p->indexFood()]);
+			int idx = p->indexFood();
+			if (idx>=0) {
+				if (idx == r_index) {
+					switch (reward_visible) {
+					case 1:
+						if (y<(maxy/2)) {
+							painter.setPen(*penFood[MAXFOOD]);
+						} else {
+							painter.setPen(*penFood[(p->indexFood())]);
+						}
+						break;
+					case 2:
+						if (y>(maxy/2)) {
+							painter.setPen(*penFood[MAXFOOD]);
+						} else {
+							painter.setPen(*penFood[(p->indexFood())]);
+						}
+						break;
+					default:
+						painter.setPen(*penFood[(p->indexFood())]);
+					}
+				} else {
+					painter.setPen(*penFood[(p->indexFood())]);
+				}
 				painter.drawPoint(x,y);
 			}
 			int ri=p->isRobot();

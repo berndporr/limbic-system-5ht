@@ -2,7 +2,6 @@
 #include "robot.h"
 #include "world.h"
 
-
 Robot::Robot(World* ww,
 	     int index,
 	     float angle,
@@ -790,16 +789,53 @@ void Robot::react(int step,int collision) {
 		}
 	}  
 	
-	float visual_direction_DG=sqrt(x2*x2);
-	float visual_direction_LG=sqrt(x1*x1);
+	float visual_landmark_DG=sqrt(x2*x2);
+	float visual_landmark_LG=sqrt(x1*x1);
+
+
+	// when the reward is visible
+	float visual_reward_LG = 0;
+	float visual_reward_DG = 0;
+
+	world->setRewardVisible(0);
+
+	if ((fabs(placefield1)>0)&&(!(world->getSwapFlag()))) {
+		if (rewardDelayLG>0) {
+			visual_reward_LG = 0;
+			rewardDelayLG--;
+			reward = 0;
+		}
+	} else {
+		rewardDelayLG = REWARD_DELAY;
+	}
+	if (rewardDelayLG==0) {
+			world->setRewardVisible(1);
+			visual_reward_LG = 1;
+	}
+
+	if ((fabs(placefield2)>0)&&(world->getSwapFlag())) {
+		if (rewardDelayDG>0) {
+			visual_reward_DG = 0;
+			rewardDelayDG--;
+			reward = 0;
+		}
+	} else {
+		rewardDelayDG = REWARD_DELAY;
+	}
+	if (rewardDelayDG==0) {
+			world->setRewardVisible(2);
+			visual_reward_DG = 1;
+	}
 
 	limbic_system->doStep(reward,
 			      placefield1,
 			      placefield2,
 			      on_contact_direction_LG,
 			      on_contact_direction_DG,
-			      visual_direction_LG,
-			      visual_direction_DG);
+			      visual_landmark_LG,
+			      visual_landmark_DG,
+			      visual_reward_LG,
+			      visual_reward_DG);
 	int stp=0;	
 
 	// The switches for the direction controller to the dark or light green place fields.
