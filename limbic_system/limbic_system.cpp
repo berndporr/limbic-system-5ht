@@ -80,9 +80,9 @@ void Limbic_system::doStep(float _reward,
 
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
-	BLA = placefieldLG + placefieldDG;
+	BLA = BLA_pflg + BLA_pfdg;
 
-	DRN = BLA * 10;
+	DRN = BLA * 50;
 
 	//printf("%f\n",DRN);
 
@@ -99,7 +99,6 @@ void Limbic_system::doStep(float _reward,
 	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
 	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
-
 
 	// the place field feeds into the Nacc shell for the time being.
 	lShell = placefieldLG * lShell_weight_pflg + placefieldDG * lShell_weight_pfdg;
@@ -121,6 +120,15 @@ void Limbic_system::doStep(float _reward,
 	LHb = EP;
 
 	RMTg = LHb;
+
+	float HC_DA = VTA;
+	float HCplasticity = HC_DA - VTA_baseline_activity/2;
+	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
+	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
+	printf("%f\n",HCBLA_weight_pflg);
+
+	BLA_pflg = placefieldLG * HCBLA_weight_pflg;
+	BLA_pfdg = placefieldDG * HCBLA_weight_pfdg;
 
 	logging();
 

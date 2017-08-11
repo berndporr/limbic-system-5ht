@@ -166,6 +166,9 @@ void LimbicMainWindow::doSimStep() {
 		} else {
 			// fprintf(stderr,"step #%d: drawing new food\n",actualStep);
 			int newIndex = world->getFreeFoodIndex();
+
+			robot[0]->xCoord = 50;
+			robot[0]->yCoord = world->maxy/2 + rand()%(maxy/3)-maxy/6;
 			
 			int cx1 = PLACE_X1;
 			int cy1 = PLACE_Y1;

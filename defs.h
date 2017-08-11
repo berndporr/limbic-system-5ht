@@ -196,7 +196,7 @@
 #define N_FILTERS_FOOD 5
 
 // number of steps before a new food blob is placed
-#define FOOD_DELAY 250
+#define FOOD_DELAY 50
 
 ///////////////////////////////////////////////////////////////////////
 // PLACE FIELDS
@@ -228,7 +228,7 @@
 // delayed reward
 
 // delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 100
+#define REWARD_DELAY 5 //100
 
 
 

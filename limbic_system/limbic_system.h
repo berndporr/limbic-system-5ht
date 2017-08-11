@@ -136,6 +136,15 @@ private:
 	// DRN
 	float DRN = 0;
 
+	/////////////////////////////////////////////////////////////
+	// HC / AMY network
+	float HCBLA_weight_pflg = 0;
+	float HCBLA_weight_pfdg = 0;
+
+	float BLA_pflg = 0;
+	float BLA_pfdg = 0;
+
+	const float learning_rate_HCBLA = 0.1;
 
 private:
 	// changes the weight w by the amount delta
