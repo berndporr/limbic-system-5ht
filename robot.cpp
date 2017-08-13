@@ -699,11 +699,13 @@ void Robot::react(int step,int collision) {
 	float leftDG=0;
 	float rightLG=0;
 	float rightDG=0;
-
-
 		
 	float on_contact_direction_LG=0;
 	float on_contact_direction_DG=0;
+
+	float normx = world->maxx;
+	float normy = world->maxy;
+	float norm = sqrt(normx*normx + normy*normy);
 
 	// loop through all food sources
 	for(int i=0;i<2;i++) {
@@ -738,14 +740,10 @@ void Robot::react(int step,int collision) {
 				if ((dl>1)&&(dr>1)&&(fabs(viewing_angle)<(EYES_VIEWING_ANGLE))) 
 				{
 					diffSound2=diffSound2+(dl-dr)/sqrt(sqrt(dl*dr));
+					sumSound2=sumSound2+FOOD_DIAMETER/5/sqrt(sqrt(dl*dr));
 					leftDG=leftDG+(dr)/sqrt(sqrt(dr*dr));
 					rightDG=rightDG+(dl)/sqrt(sqrt(dl*dl));
 
-				}
-				//if the sum of the half distance btw left and right ear <100
-				if (((dl+dr)/2)<100)
-				{
-					sumSound2+=1;	
 				}
 
 			}
@@ -754,13 +752,9 @@ void Robot::react(int step,int collision) {
 				if ((dl>1)&&(dr>1)&&(fabs(viewing_angle)<(EYES_VIEWING_ANGLE)))
 				{
 					diffSound1=diffSound1+(dl-dr)/sqrt(sqrt(dl*dr));
+					sumSound1=sumSound1+FOOD_DIAMETER/5/sqrt(sqrt(dl*dr));
 					leftLG=leftLG+(dr)/sqrt(sqrt(dr*dr));
 					rightLG=rightLG+(dl)/sqrt(sqrt(dl*dl));
-				}
-				if (((dl+dr)/2)<100) 
-				{
-					sumSound1+=1;
-
 				}
 				
 			}
@@ -769,10 +763,9 @@ void Robot::react(int step,int collision) {
 	
 	if (sumSound1<0) sumSound1=0;
 	if (sumSound2<0) sumSound2=0;
+
 	float placefield1=isPlacefield(0);
 	float placefield2=isPlacefield(1);
-	float x1=diffSound1;
-	float x2=diffSound2;
 	
 	if ((foodFl)||(foodFr))	{	
 		on_contact_direction_LG = 0.0;
@@ -789,9 +782,8 @@ void Robot::react(int step,int collision) {
 		}
 	}  
 	
-	float visual_landmark_DG=sqrt(x2*x2);
-	float visual_landmark_LG=sqrt(x1*x1);
-
+	float visual_landmark_LG=sumSound1;
+	float visual_landmark_DG=sumSound2;
 
 	// when the reward is visible
 	float visual_reward_LG = 0;
@@ -842,13 +834,15 @@ void Robot::react(int step,int collision) {
 	//the ditection triggers by the corelg and coredg
 	LGsw=limbic_system->getLGOutput();
 	DGsw=limbic_system->getDGOutput();
-	float explore=limbic_system->getExploreOutput();
-	if (LGsw < MOTOR_THRES) {
-		LGsw=0;
-	}
-	if (DGsw < MOTOR_THRES) {
-		DGsw=0;
-	}
+	float exploreLeft=limbic_system->getExploreLeft();
+	float exploreRight=limbic_system->getExploreRight();
+
+//	if (LGsw < MOTOR_THRES) {
+//		LGsw=0;
+//	}
+//	if (DGsw < MOTOR_THRES) {
+//		DGsw=0;
+//	}
 
 	LGdirection->doDirection(leftLG,rightLG,LGsw);
 	DGdirection->doDirection(leftDG,rightDG,DGsw);
@@ -880,9 +874,9 @@ void Robot::react(int step,int collision) {
 	float DGspeed = DGdirection->getSpeed();
 
 	// summation of the front collision
-	dStep=ROBOT_SPEED*(LGspeed+DGspeed+explore)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
+	dStep=ROBOT_SPEED*(LGspeed+DGspeed+exploreLeft+exploreRight)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
 
-	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput();
+	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput()+(exploreLeft-exploreRight)*20;
 
 	float randPhi=0;
 #ifdef RANDWALK

@@ -50,7 +50,7 @@
 /**
  * ROBOT_SPEED of the robot
  **/
-#define ROBOT_SPEED 0.75
+#define ROBOT_SPEED 3
 
 #define DAMPING 50
 
@@ -205,7 +205,7 @@
 
 #define MAXPLACEFIELD 2
 
-#define PLACEFIELD_DIAMETER 50
+#define PLACEFIELD_DIAMETER 75
 
 #define PLACE_X1 450
 #define PLACE_X2 450
@@ -228,7 +228,7 @@
 // delayed reward
 
 // delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 5 //100
+#define REWARD_DELAY 2 //100
 
 
 

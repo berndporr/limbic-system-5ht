@@ -30,6 +30,10 @@ public:
 		    float _visual_reward_DG
 		);
 	
+	enum ExploreStates {EXPLORE_STRAIGHT, EXPLORE_LEFT, EXPLORE_RIGHT, EXPLORE_STOP, EXPLORE_NUM_ITEMS};
+
+	ExploreStates exploreState = EXPLORE_STRAIGHT;
+
 	// output to the motor system
 	// codes approach behaviour towards the light green object
 	// 0 is no and 1 is max speed
@@ -38,7 +42,9 @@ public:
 	// codes approach behaviour towards the dark green object
 	float getDGOutput() {return CoreDGOut;};
 
-	float getExploreOutput() {return CoreExploreOut;};
+	float getExploreLeft() {return CoreExploreLeft;};
+
+	float getExploreRight() {return CoreExploreRight;};
 
 private:
 	// simulation step counter
@@ -67,7 +73,8 @@ private:
 	// motor activities
 	float CoreLGOut = 0;
 	float CoreDGOut = 0;
-	float CoreExploreOut = 0.5;
+	float CoreExploreLeft = 0;
+	float CoreExploreRight = 0;
 
 	// learning rate of the core
 	const float learning_rate_core = 0.05;
@@ -144,7 +151,7 @@ private:
 	float BLA_pflg = 0;
 	float BLA_pfdg = 0;
 
-	const float learning_rate_HCBLA = 0.1;
+	const float learning_rate_HCBLA = 0; //0.1;
 
 private:
 	// changes the weight w by the amount delta

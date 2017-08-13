@@ -86,13 +86,6 @@ void Limbic_system::doStep(float _reward,
 
 	//printf("%f\n",DRN);
 
-	// we have two core units
-	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG)/(1+DRN) + on_contact_direction_LG_filter->filter(on_contact_direction_LG);
-	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG)/(1+DRN) + on_contact_direction_DG_filter->filter(on_contact_direction_DG);
-	CoreExploreOut = 1 / (CoreLGOut+CoreDGOut+DRN+1);
-
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_baseline_activity/2;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
@@ -125,10 +118,62 @@ void Limbic_system::doStep(float _reward,
 	float HCplasticity = HC_DA - VTA_baseline_activity/2;
 	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
 	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
-	printf("%f\n",HCBLA_weight_pflg);
+
+	//printf("%f\n",HCBLA_weight_pflg);
 
 	BLA_pflg = placefieldLG * HCBLA_weight_pflg;
 	BLA_pfdg = placefieldDG * HCBLA_weight_pfdg;
+
+	DRN = 0;
+
+	// we have two core units
+	// if the LG is high then the rat approaches the LG marker
+	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG)/(1+DRN) + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+	// of the DG is high then the rat approaches the DG marker
+	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG)/(1+DRN) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+
+
+	if ((CoreLGOut < 0.1) && (CoreDGOut < 0.1)) {
+		//printf("expl! mPFC_LG = %f\n",visual_direction_LG);
+		switch (exploreState)
+		{
+		case EXPLORE_LEFT:
+			CoreExploreLeft = 0.1; // (float)random()/(float)RAND_MAX;
+			CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
+			if (((float)random()/((float)RAND_MAX))<0.05) {
+				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+			}
+			//printf("left\n");
+			break;
+		case EXPLORE_RIGHT:
+			CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
+			CoreExploreRight = 0.1; //(float)random()/(float)RAND_MAX;
+			if (((float)random()/((float)RAND_MAX))<0.05) {
+				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+			}
+			//printf("right\n");
+			break;
+		case EXPLORE_STOP:
+			CoreExploreLeft = 0;
+			CoreExploreRight = 0;
+			if (((float)random()/((float)RAND_MAX))<0.01) {
+				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+			}
+			break;
+		case EXPLORE_STRAIGHT:
+		default:
+			CoreExploreLeft = 0.1; // (float)random()/(float)RAND_MAX;
+			CoreExploreRight = 0.1; //(float)random()/(float)RAND_MAX;
+			if (((float)random()/((float)RAND_MAX))<0.05) {
+				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+			}
+			break;
+		}
+	} else {
+		CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
+		CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
+		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
+	}
 
 	logging();
 
