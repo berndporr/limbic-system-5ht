@@ -77,10 +77,12 @@ private:
 	float CoreExploreRight = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.05;
+	const float learning_rate_core = 0.5;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
+
+	int coreExploreCtr = 0;
 
 	////////////////////////////////////////////////////////////////
 	// l-shell
@@ -101,7 +103,7 @@ private:
 
 	////////////////////////////////////////////////////////////////
 	// VTA parameters
-	float VTA_baseline_activity = 0.2;
+	float VTA_baseline_activity = 0.10;
 
 	////////////////////////////////////////////////////////////////
 	// RMTg
@@ -151,7 +153,7 @@ private:
 	float BLA_pflg = 0;
 	float BLA_pfdg = 0;
 
-	const float learning_rate_HCBLA = 0; //0.1;
+	const float learning_rate_HCBLA = 0.2;
 
 private:
 	// changes the weight w by the amount delta

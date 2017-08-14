@@ -703,10 +703,6 @@ void Robot::react(int step,int collision) {
 	float on_contact_direction_LG=0;
 	float on_contact_direction_DG=0;
 
-	float normx = world->maxx;
-	float normy = world->maxy;
-	float norm = sqrt(normx*normx + normy*normy);
-
 	// loop through all food sources
 	for(int i=0;i<2;i++) {
 		if (world->getFoodValid(i)) {

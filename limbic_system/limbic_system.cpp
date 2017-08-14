@@ -82,7 +82,7 @@ void Limbic_system::doStep(float _reward,
 
 	BLA = BLA_pflg + BLA_pfdg;
 
-	DRN = BLA * 50;
+	DRN = BLA * 200;
 
 	//printf("%f\n",DRN);
 
@@ -119,22 +119,19 @@ void Limbic_system::doStep(float _reward,
 	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
 	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
 
-	//printf("%f\n",HCBLA_weight_pflg);
+	printf("w=%f,DRN=%f\n",HCBLA_weight_pflg,DRN);
 
 	BLA_pflg = placefieldLG * HCBLA_weight_pflg;
 	BLA_pfdg = placefieldDG * HCBLA_weight_pfdg;
 
-	DRN = 0;
-
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG)/(1+DRN) + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG) + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG)/(1+DRN) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
 
 	if ((CoreLGOut < 0.1) && (CoreDGOut < 0.1)) {
-		//printf("expl! mPFC_LG = %f\n",visual_direction_LG);
 		switch (exploreState)
 		{
 		case EXPLORE_LEFT:
@@ -174,6 +171,12 @@ void Limbic_system::doStep(float _reward,
 		CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
 		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
 	}
+
+	CoreLGOut = CoreLGOut / (1+DRN);
+	CoreDGOut = CoreDGOut / (1+DRN);
+	CoreExploreLeft = CoreExploreLeft / (1+DRN);
+	CoreExploreRight = CoreExploreRight / (1+DRN);
+
 
 	logging();
 

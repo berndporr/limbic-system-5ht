@@ -221,14 +221,15 @@
 ///////////////////////////////////////////////////////////////////////
 // Reversal learning
 
-#define THRES_FOOD_CONTACTS 5
+// defines how many successful contacts we need before reversal learning
+#define THRES_FOOD_CONTACTS 10
 
 
 ///////////////////////////////////////////////////////////////////////
 // delayed reward
 
 // delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 2 //100
+#define REWARD_DELAY 100
 
 
 
