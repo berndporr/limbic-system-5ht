@@ -45,12 +45,12 @@
 /**
  * Starting angle
  **/
-#define START_ANGLE 2.2
+#define START_ANGLE 2.5
 
 /**
  * ROBOT_SPEED of the robot
  **/
-#define ROBOT_SPEED 3
+#define ROBOT_SPEED 5
 
 #define DAMPING 50
 
@@ -229,7 +229,7 @@
 // delayed reward
 
 // delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 100
+#define REWARD_DELAY 200
 
 
 

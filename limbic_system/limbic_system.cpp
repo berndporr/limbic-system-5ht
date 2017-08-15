@@ -82,7 +82,7 @@ void Limbic_system::doStep(float _reward,
 
 	BLA = BLA_pflg + BLA_pfdg;
 
-	DRN = BLA * 200;
+	DRN = BLA * 50;
 
 	//printf("%f\n",DRN);
 
@@ -116,6 +116,7 @@ void Limbic_system::doStep(float _reward,
 
 	float HC_DA = VTA;
 	float HCplasticity = HC_DA - VTA_baseline_activity/2;
+	if (HCplasticity<0) HCplasticity = 0;
 	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
 	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
 
