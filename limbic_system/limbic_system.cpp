@@ -47,10 +47,12 @@ void Limbic_system::weightChange(float &w, float delta) {
 // - two place field signals (placefieldLG/DG) which go from 0 to 1 when in the place field
 // - two signals when the agent touches the landmark: on_contact_direction_LG/DG
 // - visual inputs when the agent sees a landmark which goes from 0 to 1 the closer the agent gets
+// - visual inputs when the agent sees the reward
 //
 // It needs to set the outputs:
 // - CoreLGOut and CoreDGOut which when set to non-zero generates a navigation behaviour towards
 //   the landmarks
+// - CoreExploreLeft and - CoreExploreRight to generate exploration behaviour
 void Limbic_system::doStep(float _reward,
 		float _placefieldLG,
 		float _placefieldDG,
@@ -78,50 +80,50 @@ void Limbic_system::doStep(float _reward,
 	// the activity in the LH is literally that of the reward
 	LH = reward;
 
+	// the VTA gets its activity from the LH and is ihibited by the RMTg
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
+	// this is the overall activity of the basolateral amygdala which consists
+	// of subdivisions which fire according to the two place fields
 	BLA = BLA_pflg + BLA_pfdg;
 
+	// the dorsal raphe activity is driven by the BLA in a positive way
 	DRN = BLA * 50;
 
 	//printf("%f\n",DRN);
 
-	core_DA = VTA;
-	core_plasticity = core_DA - VTA_baseline_activity/2;
-	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
-	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
-	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
-	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
-
+	////////////////////////////////////////////////////
+	// lateral shell activity
 	// the place field feeds into the Nacc shell for the time being.
 	lShell = placefieldLG * lShell_weight_pflg + placefieldDG * lShell_weight_pfdg;
 
-	// Let's do heterosynaptic plasticity
+	// Let's do heterosynaptic plasticity in the shell
 	shell_DA = VTA;
 	shell_plasticity = shell_DA - VTA_baseline_activity/2;
 	if (shell_plasticity < 0) shell_plasticity = 0;
-
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
 	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
 
-	// the shell inhibits the
+	// the shell inhibits the dlVP
 	dlVP = 1/(1+lShell * shunting_inhibition_factor);
 
-	// another inhibition
+	// another inhibition: the dlVP inhibits the EP
 	EP = 1/(1+dlVP * shunting_inhibition_factor);
 
+	// the EP excites the LHb
 	LHb = EP;
 
+	// and the LHb excites the RMTg
 	RMTg = LHb;
 
+	////////////////////////////////////////////////////////////////////////////
+	// Hippocampus
 	float HC_DA = VTA;
 	float HCplasticity = HC_DA - VTA_baseline_activity/2;
 	if (HCplasticity<0) HCplasticity = 0;
 	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
 	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
-
-	printf("w=%f,DRN=%f\n",HCBLA_weight_pflg,DRN);
-
+	// the hippocampus learns these two place fields according to the VTA activity
 	BLA_pflg = placefieldLG * HCBLA_weight_pflg;
 	BLA_pfdg = placefieldDG * HCBLA_weight_pfdg;
 
@@ -132,6 +134,16 @@ void Limbic_system::doStep(float _reward,
 	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
 
+	/////////////////////////////////////////
+	// core computations
+	core_DA = VTA;
+	core_plasticity = core_DA - VTA_baseline_activity/2;
+	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
+	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
+	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
+	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
+
+	// we implement exploration if the core gets no input
 	if ((CoreLGOut < 0.1) && (CoreDGOut < 0.1)) {
 		switch (exploreState)
 		{
@@ -173,11 +185,12 @@ void Limbic_system::doStep(float _reward,
 		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
 	}
 
+	// this is actually presynaptic GLU release which is inhibited but the result
+	// is a inhibition of the core units
 	CoreLGOut = CoreLGOut / (1+DRN);
 	CoreDGOut = CoreDGOut / (1+DRN);
 	CoreExploreLeft = CoreExploreLeft / (1+DRN);
 	CoreExploreRight = CoreExploreRight / (1+DRN);
-
 
 	logging();
 
