@@ -30,7 +30,7 @@ Limbic_system::~Limbic_system()
 }
 
 
-// changes a synaptic weight by the amount "delta"
+// changes a synaptic weight "w" by the amount "delta"
 // and makes sure it never goes below 0 and above 1
 void Limbic_system::weightChange(float &w, float delta) {
 	w += delta;
@@ -120,6 +120,7 @@ void Limbic_system::doStep(float _reward,
 	// Hippocampus
 	float HC_DA = VTA;
 	float HCplasticity = HC_DA - VTA_baseline_activity/2;
+	// no reversal so far
 	if (HCplasticity<0) HCplasticity = 0;
 	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
 	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
@@ -202,30 +203,34 @@ void Limbic_system::doStep(float _reward,
 
 
 void Limbic_system::logging() {
-	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
-			step, //0
-			reward, //1
-			placefieldLG, //2
-			placefieldDG, //3
-			on_contact_direction_LG, //4
-			on_contact_direction_DG, //5
-			visual_direction_LG, //6
-			visual_direction_DG, //7
-			core_weight_lg2lg, //8
-			core_weight_lg2dg, //9
-			core_weight_dg2lg, //10
-			core_weight_dg2dg, //11
-			CoreLGOut, //12
-			CoreDGOut, //13
-			VTA,//14
-			core_plasticity,//15
-			shell_plasticity,//16
-			lShell_weight_pflg,//17
-			lShell_weight_pfdg,//18
-			dlVP,//19
-			EP,//20
-			LHb,//21
-			RMTg//22
-	);
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+		step, //0
+		reward, //1
+		placefieldLG, //2
+		placefieldDG, //3
+		on_contact_direction_LG, //4
+		on_contact_direction_DG, //5
+		visual_direction_LG, //6
+		visual_direction_DG, //7
+		core_weight_lg2lg, //8
+		core_weight_lg2dg, //9
+		core_weight_dg2lg, //10
+		core_weight_dg2dg, //11
+		CoreLGOut, //12
+		CoreDGOut, //13
+		VTA,//14
+		core_plasticity,//15
+		shell_plasticity,//16
+		lShell_weight_pflg,//17
+		lShell_weight_pfdg,//18
+		dlVP,//19
+		EP,//20
+		LHb,//21
+		RMTg,//22
+		HCBLA_weight_pflg,//23
+		HCBLA_weight_pfdg,//24
+		BLA_pflg,//25
+		BLA_pflg//26
+		);
 }
 

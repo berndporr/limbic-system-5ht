@@ -4,6 +4,13 @@
 
 This is a simple simulator for reward based learning in animals.
 
+## Limbic system model
+Ignore anything which is in this directoy and just check out the
+
+subdirectory limbic_system 
+
+which contains the actual connections between the nuclei.
+
 ## Stimuli
 
  * Visual landmark (dark green and bright green objects)
