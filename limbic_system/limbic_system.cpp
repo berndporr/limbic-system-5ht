@@ -83,12 +83,15 @@ void Limbic_system::doStep(float _reward,
 	// the VTA gets its activity from the LH and is ihibited by the RMTg
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
 
-	// this is the overall activity of the basolateral amygdala which consists
-	// of subdivisions which fire according to the two place fields
-	BLA = BLA_pflg + BLA_pfdg;
+	////////////////////////////////////////////////////////////////////
+	// OFC
+	float OFC = pfLg2OFC * placefieldLG + pfDg2OFC * placefieldDG;
+	// weight change
+	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
+	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
 
 	// the dorsal raphe activity is driven by the BLA in a positive way
-	DRN = BLA * 50;
+	DRN = LH + OFC;
 
 	//printf("%f\n",DRN);
 
@@ -116,27 +119,15 @@ void Limbic_system::doStep(float _reward,
 	// and the LHb excites the RMTg
 	RMTg = LHb;
 
-	////////////////////////////////////////////////////////////////////////////
-	// Hippocampus
-	float HC_DA = VTA;
-	float HCplasticity = HC_DA - VTA_baseline_activity/2;
-	// no reversal so far
-	if (HCplasticity<0) HCplasticity = 0;
-	weightChange(HCBLA_weight_pflg, learning_rate_HCBLA * HCplasticity * placefieldLG);
-	weightChange(HCBLA_weight_pfdg, learning_rate_HCBLA * HCplasticity * placefieldDG);
-	// the hippocampus learns these two place fields according to the VTA activity
-	BLA_pflg = placefieldLG * HCBLA_weight_pflg;
-	BLA_pfdg = placefieldDG * HCBLA_weight_pfdg;
-
+	////////////////////////////////////////////////////////////////////////////////////
+	// core
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
 	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG) + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
 	// of the DG is high then the rat approaches the DG marker
 	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
 
-
-	/////////////////////////////////////////
-	// core computations
+	// plasticity
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_baseline_activity/2;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
@@ -203,7 +194,7 @@ void Limbic_system::doStep(float _reward,
 
 
 void Limbic_system::logging() {
-	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
 		step, //0
 		reward, //1
 		placefieldLG, //2
@@ -227,10 +218,8 @@ void Limbic_system::logging() {
 		EP,//20
 		LHb,//21
 		RMTg,//22
-		HCBLA_weight_pflg,//23
-		HCBLA_weight_pfdg,//24
-		BLA_pflg,//25
-		BLA_pflg//26
+		pfLg2OFC,//23
+		pfDg2OFC //24
 		);
 }
 

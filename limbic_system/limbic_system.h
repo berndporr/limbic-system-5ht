@@ -137,23 +137,20 @@ private:
 	// Lateral habenula
 	float LHb = 0;
 
-	////////////////////////////////////////////////////////////////
-	// BLA
-	float BLA = 0;
-
 	///////////////////////////////////////////////////////////////
 	// DRN
 	float DRN = 0;
 
-	/////////////////////////////////////////////////////////////
-	// HC / AMY network
-	float HCBLA_weight_pflg = 0;
-	float HCBLA_weight_pfdg = 0;
+	///////////////////////////////////////////////////////////////
+	// OFC
+	float OFC = 0;
 
-	float BLA_pflg = 0;
-	float BLA_pfdg = 0;
+	// learning rate for the OFC, just now from HC to OFC
+	const float learning_rate_OFC = 0.1;
 
-	const float learning_rate_HCBLA = 0.2;
+	// weights from the hippocampus place fields to the OFC
+	float pfLg2OFC = 0;
+	float pfDg2OFC = 0;
 
 private:
 	// changes the weight w by the amount delta
