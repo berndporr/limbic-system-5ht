@@ -85,6 +85,11 @@ void Limbic_system::doStep(float _reward,
 
 	////////////////////////////////////////////////////////////////////
 	// OFC
+	// lace field -> Orbitofrontal Cortex weight.
+	// The OFC remembers the reward value of a place.
+	// So the higher the weight the higher the OFC activity
+	// when the animal is inside that place field where there has been
+	// reward experienced in the past.
 	float OFC = pfLg2OFC * placefieldLG + pfDg2OFC * placefieldDG;
 	// weight change
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
@@ -102,6 +107,8 @@ void Limbic_system::doStep(float _reward,
 
 	// Let's do heterosynaptic plasticity in the shell
 	shell_DA = VTA;
+	// shell plasticity can experience a "dip" where then the weights
+	// decrease. That's when it's below its baseline.
 	shell_plasticity = shell_DA - VTA_baseline_activity/2;
 	if (shell_plasticity < 0) shell_plasticity = 0;
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
