@@ -44,10 +44,10 @@ void Limbic_system::weightChange(float &w, float delta) {
 //
 // It gets as inputs:
 // - the reward
-// - two place field signals (placefieldLG/DG) which go from 0 to 1 when in the place field
-// - two signals when the agent touches the landmark: on_contact_direction_LG/DG
-// - visual inputs when the agent sees a landmark which goes from 0 to 1 the closer the agent gets
-// - visual inputs when the agent sees the reward
+// - two place field signals (placefield*) which go from 0 to 1 when in the place field (where the reward shows up)
+// - two signals when the agent touches the landmark: (on_contact_direction_*)
+// - visual inputs when the agent sees a landmark which goes from 0 to 1 the closer the agent gets (_visual_direction_*)
+// - visual inputs when the agent sees the reward (_visual_reward_*)
 //
 // It needs to set the outputs:
 // - CoreLGOut and CoreDGOut which when set to non-zero generates a navigation behaviour towards
