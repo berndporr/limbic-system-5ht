@@ -137,6 +137,8 @@ void Limbic_system::doStep(float _reward,
 	// plasticity
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_baseline_activity/2;
+	// D2 defect
+	// if (core_plasticity<0) core_plasticity = 0;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
 	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
 	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
