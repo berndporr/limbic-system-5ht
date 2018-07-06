@@ -74,8 +74,14 @@ void Limbic_system::doStep(float _reward,
 	visual_reward_DG = _visual_reward_DG;
 	//fprintf(stderr,"%f,%f\n",_visual_reward_LG,_visual_reward_DG);
 
-	mPFC_LG = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
-	mPFC_DG = visual_direction_LG_mPFC_filter->filter(visual_direction_DG);
+	visual_direction_LG_trace = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
+	visual_direction_DG_trace = visual_direction_DG_mPFC_filter->filter(visual_direction_DG);
+
+	mPFC_receptor_5HT1 = DRN;
+	mPFC_receptor_5HT2 = DRN;
+
+	mPFC_LG = (mPFC_LG + mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
+	mPFC_DG = (mPFC_DG + mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 
 	// the activity in the LH is literally that of the reward
 	LH = reward;
@@ -185,13 +191,6 @@ void Limbic_system::doStep(float _reward,
 		CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
 		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
 	}
-
-	// this is actually presynaptic GLU release which is inhibited but the result
-	// is a inhibition of the core units
-	CoreLGOut = CoreLGOut / (1+DRN);
-	CoreDGOut = CoreDGOut / (1+DRN);
-	CoreExploreLeft = CoreExploreLeft / (1+DRN);
-	CoreExploreRight = CoreExploreRight / (1+DRN);
 
 	logging();
 

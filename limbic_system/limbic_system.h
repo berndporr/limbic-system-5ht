@@ -111,13 +111,19 @@ private:
 
 	///////////////////////////////////////////////////////////////
 	// mPFC
-	float mPFC_LG = 0;
-	float mPFC_DG = 0;
-
 	SecondOrderLowpassFilter* visual_direction_LG_mPFC_filter;
 	SecondOrderLowpassFilter* visual_direction_DG_mPFC_filter;
 
-	/////////////////////////////////////////////////////////////////
+	float visual_direction_LG_trace = 0;
+	float visual_direction_DG_trace = 0;
+	
+	float mPFC_LG = 0;
+	float mPFC_DG = 0;
+	
+	float mPFC_receptor_5HT1 = 0;
+	float mPFC_receptor_5HT2 = 0;
+
+        /////////////////////////////////////////////////////////////////
 	// VTA
 	float VTA = 0;
 
