@@ -80,8 +80,16 @@ void Limbic_system::doStep(float _reward,
 	mPFC_receptor_5HT1 = DRN;
 	mPFC_receptor_5HT2 = DRN;
 
-	mPFC_LG = (mPFC_LG + mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
-	mPFC_DG = (mPFC_DG + mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
+	mPFC_LG = visual_direction_LG_trace +
+		visual_reward_LG + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+
+	//fprintf(stderr,"%f\n",mPFC_LG);
+
+	mPFC_DG = visual_direction_DG_trace +
+		visual_reward_DG + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+
+	//mPFC_LG = (mPFC_LG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
+	//mPFC_DG = (mPFC_DG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 
 	// the activity in the LH is literally that of the reward
 	LH = reward;
@@ -101,7 +109,7 @@ void Limbic_system::doStep(float _reward,
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
 
-	// the dorsal raphe activity is driven by the BLA in a positive way
+	// the dorsal raphe activity is driven by the OFC in a positive way
 	DRN = LH + OFC;
 
 	//printf("%f\n",DRN);
@@ -136,19 +144,17 @@ void Limbic_system::doStep(float _reward,
 	// core
 	// we have two core units
 	// if the LG is high then the rat approaches the LG marker
-	CoreLGOut= (mPFC_LG * core_weight_lg2lg + mPFC_DG * core_weight_dg2lg + visual_reward_LG) + 0.1 * on_contact_direction_LG_filter->filter(on_contact_direction_LG);
+	CoreLGOut= (mPFC_LG * core_weight_lg2lg + visual_reward_LG);
 	// of the DG is high then the rat approaches the DG marker
-	CoreDGOut= (mPFC_LG * core_weight_lg2dg + mPFC_DG * core_weight_dg2dg + visual_reward_DG) + 0.1 * on_contact_direction_DG_filter->filter(on_contact_direction_DG);
+	CoreDGOut= (mPFC_DG * core_weight_dg2dg + visual_reward_DG);
 
 	// plasticity
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_baseline_activity/2;
 	// D2 defect
 	// if (core_plasticity<0) core_plasticity = 0;
-	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * visual_direction_LG * CoreLGOut);
-	weightChange(core_weight_lg2dg, learning_rate_core * core_plasticity * visual_direction_LG * CoreDGOut);
-	weightChange(core_weight_dg2lg, learning_rate_core * core_plasticity * visual_direction_DG * CoreLGOut);
-	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * visual_direction_DG * CoreDGOut);
+	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * mPFC_LG);
+	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * mPFC_DG);
 
 	// we implement exploration if the core gets no input
 	if ((CoreLGOut < 0.1) && (CoreDGOut < 0.1)) {
@@ -202,7 +208,7 @@ void Limbic_system::doStep(float _reward,
 
 
 void Limbic_system::logging() {
-	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
 		step, //0
 		reward, //1
 		placefieldLG, //2
@@ -212,8 +218,8 @@ void Limbic_system::logging() {
 		visual_direction_LG, //6
 		visual_direction_DG, //7
 		core_weight_lg2lg, //8
-		core_weight_lg2dg, //9
-		core_weight_dg2lg, //10
+		mPFC_LG, //9
+		mPFC_DG, //10
 		core_weight_dg2dg, //11
 		CoreLGOut, //12
 		CoreDGOut, //13
@@ -227,7 +233,9 @@ void Limbic_system::logging() {
 		LHb,//21
 		RMTg,//22
 		pfLg2OFC,//23
-		pfDg2OFC //24
+		pfDg2OFC, //24
+		DRN /25
 		);
+	fflush(flog);
 }
 

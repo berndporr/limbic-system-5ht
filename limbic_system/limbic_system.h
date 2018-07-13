@@ -61,14 +61,8 @@ private:
 	// green one
 	float core_weight_lg2lg = 0;
 
-	// I see the light green object but I approach the dark green one!
-	float core_weight_lg2dg = 0;
-
 	// I see the dark green object and I approach the dark green one
 	float core_weight_dg2dg = 0;
-
-	// I see the dark green object and I approach the light green one
-	float core_weight_dg2lg = 0;
 
 	// motor activities
 	float CoreLGOut = 0;
@@ -77,7 +71,7 @@ private:
 	float CoreExploreRight = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.75;
+	const float learning_rate_core = 0.05;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
