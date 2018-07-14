@@ -81,10 +81,26 @@ void Limbic_system::doStep(float _reward,
 	mPFC_receptor_5HT2 = DRN;
 
 	mPFC_LG = visual_direction_LG_trace + visual_reward_LG * 0.1;
+	if (mPFCspontLG>0) {
+		mPFCspontLG--;
+		mPFC_LG += 0.1;
+	} else {
+		if (random() < (RAND_MAX/1000)) {
+			mPFCspontLG = 100;
+		}
+	}
 
 	//fprintf(stderr,"%f\n",mPFC_LG);
 
 	mPFC_DG = visual_direction_DG_trace + visual_reward_DG * 0.1;
+	if (mPFCspontDG>0) {
+		mPFCspontDG--;
+		mPFC_DG += 0.1;
+	} else {
+		if (random() < (RAND_MAX/1000)) {
+			mPFCspontDG = 100;
+		}
+	}
 
 	//mPFC_LG = (mPFC_LG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 	//mPFC_DG = (mPFC_DG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
@@ -155,7 +171,7 @@ void Limbic_system::doStep(float _reward,
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * mPFC_DG);
 
 	// we implement exploration if the core gets no input
-	if ((CoreLGOut < 0.05) && (CoreDGOut < 0.05)) {
+	if ((CoreLGOut < 0.01) && (CoreDGOut < 0.01)) {
 		switch (exploreState)
 		{
 		case EXPLORE_LEFT:

@@ -117,6 +117,10 @@ private:
 	float mPFC_receptor_5HT1 = 0;
 	float mPFC_receptor_5HT2 = 0;
 
+	// counters which are triggered at random moment and generate a bias then
+	int mPFCspontLG = 0;
+	int mPFCspontDG = 0;
+
         /////////////////////////////////////////////////////////////////
 	// VTA
 	float VTA = 0;
