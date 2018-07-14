@@ -102,12 +102,6 @@ void Limbic_system::doStep(float _reward,
 		}
 	}
 
-	if ((mPFC_DG < 0.1) && (mPFC_LG < 0.1)) {
-		mPFC_Explore = 1;
-	} else {
-		mPFC_Explore = 0;
-	}
-
 	// this is also generated in the mPFC and then fed down to the NAcc core with the command
 	// to explore
 	switch (exploreState) {
@@ -256,7 +250,7 @@ void Limbic_system::logging() {
 		pfLg2OFC,//23
 		pfDg2OFC, //24
 		DRN, //25
-		mPFC_Explore /26
+		0.0F /26
 		);
 	fflush(flog);
 }

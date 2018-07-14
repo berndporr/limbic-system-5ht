@@ -113,7 +113,6 @@ private:
 	
 	float mPFC_LG = 0;
 	float mPFC_DG = 0;
-	float mPFC_Explore = 0;
 	
 	float mPFC_receptor_5HT1 = 0;
 	float mPFC_receptor_5HT2 = 0;
