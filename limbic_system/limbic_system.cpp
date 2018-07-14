@@ -79,7 +79,7 @@ void Limbic_system::doStep(float _reward,
 
 	double mPFC_LG_spont_act = 0;
 	double mPFC_DG_spont_act = 0;
-	double mPFC_spont_act_value = 0.1;
+	double mPFC_spont_act_value = 0.2;
 
 	if (mPFCspontLG>0) {
 		mPFCspontLG--;
