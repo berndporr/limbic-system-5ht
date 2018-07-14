@@ -102,6 +102,48 @@ void Limbic_system::doStep(float _reward,
 		}
 	}
 
+	if ((mPFC_DG < 0.1) && (mPFC_LG < 0.1)) {
+		mPFC_Explore = 1;
+	} else {
+		mPFC_Explore = 0;
+	}
+
+	// this is also generated in the mPFC and then fed down to the NAcc core with the command
+	// to explore
+	switch (exploreState) {
+	case EXPLORE_LEFT:
+		CoreExploreLeft = 0.1;
+		CoreExploreRight = 0;
+		if (((float)random()/((float)RAND_MAX))<0.05) {
+			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+		}
+		//printf("left\n");
+		break;
+	case EXPLORE_RIGHT:
+		CoreExploreLeft = 0;
+		CoreExploreRight = 0.1;
+		if (((float)random()/((float)RAND_MAX))<0.05) {
+			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+		}
+		//printf("right\n");
+		break;
+	case EXPLORE_STOP:
+		CoreExploreLeft = 0;
+		CoreExploreRight = 0;
+		if (((float)random()/((float)RAND_MAX))<0.01) {
+			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+		}
+		break;
+	case EXPLORE_STRAIGHT:
+	default:
+		CoreExploreLeft = 0.1;
+		CoreExploreRight = 0.1;
+		if (((float)random()/((float)RAND_MAX))<0.05) {
+			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
+		}
+		break;
+	}
+
 	//mPFC_LG = (mPFC_LG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 	//mPFC_DG = (mPFC_DG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 
@@ -170,43 +212,8 @@ void Limbic_system::doStep(float _reward,
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * mPFC_LG);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * mPFC_DG);
 
-	// we implement exploration if the core gets no input
-	if ((CoreLGOut < 0.01) && (CoreDGOut < 0.01)) {
-		switch (exploreState)
-		{
-		case EXPLORE_LEFT:
-			CoreExploreLeft = 0.1; // (float)random()/(float)RAND_MAX;
-			CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
-			if (((float)random()/((float)RAND_MAX))<0.05) {
-				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
-			}
-			//printf("left\n");
-			break;
-		case EXPLORE_RIGHT:
-			CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
-			CoreExploreRight = 0.1; //(float)random()/(float)RAND_MAX;
-			if (((float)random()/((float)RAND_MAX))<0.05) {
-				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
-			}
-			//printf("right\n");
-			break;
-		case EXPLORE_STOP:
-			CoreExploreLeft = 0;
-			CoreExploreRight = 0;
-			if (((float)random()/((float)RAND_MAX))<0.01) {
-				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
-			}
-			break;
-		case EXPLORE_STRAIGHT:
-		default:
-			CoreExploreLeft = 0.1; // (float)random()/(float)RAND_MAX;
-			CoreExploreRight = 0.1; //(float)random()/(float)RAND_MAX;
-			if (((float)random()/((float)RAND_MAX))<0.05) {
-				exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
-			}
-			break;
-		}
-	} else {
+	// we assume that the Core performs lateral inhibtion to shut down exploration
+	if ((CoreLGOut > 0.05)&&(CoreDGOut > 0.05)) {
 		CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
 		CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
 		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
@@ -222,7 +229,7 @@ void Limbic_system::doStep(float _reward,
 
 
 void Limbic_system::logging() {
-	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
 		step, //0
 		reward, //1
 		placefieldLG, //2
@@ -248,7 +255,8 @@ void Limbic_system::logging() {
 		RMTg,//22
 		pfLg2OFC,//23
 		pfDg2OFC, //24
-		DRN /25
+		DRN, //25
+		mPFC_Explore /26
 		);
 	fflush(flog);
 }
