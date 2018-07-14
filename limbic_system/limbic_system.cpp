@@ -77,28 +77,27 @@ void Limbic_system::doStep(float _reward,
 	visual_direction_LG_trace = visual_direction_LG_mPFC_filter->filter(visual_direction_LG);
 	visual_direction_DG_trace = visual_direction_DG_mPFC_filter->filter(visual_direction_DG);
 
-	mPFC_receptor_5HT1 = DRN;
-	mPFC_receptor_5HT2 = DRN;
+	double mPFC_LG_spont_act = 0;
+	double mPFC_DG_spont_act = 0;
+	double mPFC_spont_act_value = 0.1;
 
-	mPFC_LG = visual_direction_LG_trace + visual_reward_LG * 0.1;
 	if (mPFCspontLG>0) {
 		mPFCspontLG--;
-		mPFC_LG += 0.1;
+		mPFC_LG_spont_act = mPFC_spont_act_value;
 	} else {
+		mPFC_LG_spont_act = 0;
 		if (random() < (RAND_MAX/1000)) {
-			mPFCspontLG = 100;
+			mPFCspontLG = 500;
 		}
 	}
 
-	//fprintf(stderr,"%f\n",mPFC_LG);
-
-	mPFC_DG = visual_direction_DG_trace + visual_reward_DG * 0.1;
 	if (mPFCspontDG>0) {
 		mPFCspontDG--;
-		mPFC_DG += 0.1;
+		mPFC_DG_spont_act = mPFC_spont_act_value;
 	} else {
+		mPFC_DG_spont_act = 0;
 		if (random() < (RAND_MAX/1000)) {
-			mPFCspontDG = 100;
+			mPFCspontDG = 500;
 		}
 	}
 
@@ -137,6 +136,12 @@ void Limbic_system::doStep(float _reward,
 		}
 		break;
 	}
+
+	mPFC_LG = visual_direction_LG_trace + visual_reward_LG * 0.1 + mPFC_LG_spont_act;
+	mPFC_DG = visual_direction_DG_trace + visual_reward_DG * 0.1 + mPFC_DG_spont_act;
+
+	mPFC_receptor_5HT1 = DRN;
+	mPFC_receptor_5HT2 = DRN;
 
 	//mPFC_LG = (mPFC_LG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
 	//mPFC_DG = (mPFC_DG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
