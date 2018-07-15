@@ -137,14 +137,13 @@ void Limbic_system::doStep(float _reward,
 		break;
 	}
 
-	mPFC_LG = visual_direction_LG_trace + visual_reward_LG * 0.1 + mPFC_LG_spont_act;
-	mPFC_DG = visual_direction_DG_trace + visual_reward_DG * 0.1 + mPFC_DG_spont_act;
+	mPFC_receptor_5HT1 = 1 + DRN;
+	mPFC_receptor_5HT2 = 1 + DRN;
 
-	mPFC_receptor_5HT1 = DRN;
-	mPFC_receptor_5HT2 = DRN;
-
-	//mPFC_LG = (mPFC_LG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
-	//mPFC_DG = (mPFC_DG * mPFC_receptor_5HT2) / ( 1 + mPFC_receptor_5HT1);
+	mPFC_LG = weibull((visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act)/mPFC_receptor_5HT1,mPFC_receptor_5HT1) *
+		mPFC_receptor_5HT2;
+	mPFC_DG = weibull((visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act)/mPFC_receptor_5HT1,mPFC_receptor_5HT1) *
+		mPFC_receptor_5HT2;
 
 	// the activity in the LH is literally that of the reward
 	LH = reward;
@@ -228,7 +227,7 @@ void Limbic_system::doStep(float _reward,
 
 
 void Limbic_system::logging() {
-	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
+	fprintf(flog,"%ld %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
 		step, //0
 		reward, //1
 		placefieldLG, //2
@@ -255,7 +254,8 @@ void Limbic_system::logging() {
 		pfLg2OFC,//23
 		pfDg2OFC, //24
 		DRN, //25
-		0.0F /26
+		visual_reward_LG, // 26
+		visual_reward_DG //27
 		);
 	fflush(flog);
 }

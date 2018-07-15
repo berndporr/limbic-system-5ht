@@ -25,15 +25,18 @@ pl.plot(data[:,0],data[:,11]);
 pl.ylabel('core w dg2dg');
 #
 pl.subplot(715);
-pl.plot(data[:,0],data[:,26]);
-pl.ylabel('mPFC_explore');
-#
-pl.subplot(716);
 pl.plot(data[:,0],data[:,14]);
 pl.ylabel('VTA');
 #
-pl.subplot(717);
+pl.subplot(716);
 pl.plot(data[:,0],data[:,25]);
 pl.ylabel('DRN');
+#
+pl.subplot(717);
+pl.plot(data[:,0],data[:,26]);
+pl.plot(data[:,0],data[:,27]);
+pl.plot(data[:,0],data[:,2]*2);
+pl.plot(data[:,0],data[:,3]*2);
+pl.ylabel('visR*2/PF');
 #
 pl.show();

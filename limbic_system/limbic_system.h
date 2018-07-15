@@ -6,6 +6,7 @@
 #include <filter.h>
 
 
+
 class Limbic_system {
 public:
 	// constructor
@@ -180,6 +181,10 @@ private:
 	FILE* flog = NULL;
 	void logging();
 
+	float weibull(float x, float slope) {
+		return 1-exp(-pow(x,slope));
+	}
+	
 };
 
 #endif

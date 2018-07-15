@@ -16,8 +16,8 @@
 
 /***********************************************
  * GNU GENERAL PUBLIC LICENSE
- * Version 3, 29 June 2007-2017
- * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
+ * Version 3
+ * (C) 2017-2018, Bernd Porr, bernd.porr@glasgow.ac.uk
  ***********************************************/
 
 
