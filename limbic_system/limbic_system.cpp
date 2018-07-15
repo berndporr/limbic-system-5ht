@@ -137,19 +137,27 @@ void Limbic_system::doStep(float _reward,
 		break;
 	}
 
-	mPFC_receptor_5HT1 = 1 + DRN;
-	mPFC_receptor_5HT2 = 1 + DRN;
+//#define HT5DEBUG
+#ifdef HT5DEBUG
+	mPFC_LG = visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act;
+	mPFC_DG = visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act;
+#else
 
-	mPFC_LG = weibull((visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act)/mPFC_receptor_5HT1,mPFC_receptor_5HT1) *
-		mPFC_receptor_5HT2;
-	mPFC_DG = weibull((visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act)/mPFC_receptor_5HT1,mPFC_receptor_5HT1) *
-		mPFC_receptor_5HT2;
+	mPFC_LG = weibull(visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act,1+DRN);
+	mPFC_DG = weibull(visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act,1+DRN);
+#endif
 
 	// the activity in the LH is literally that of the reward
 	LH = reward;
 
 	// the VTA gets its activity from the LH and is ihibited by the RMTg
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
+
+	// find the VTA baseline
+	if (VTA_zero_ctr > 0) {
+		VTA_zero_ctr--;
+		VTA_zero_val = VTA;
+	}
 
 	////////////////////////////////////////////////////////////////////
 	// OFC
@@ -204,7 +212,7 @@ void Limbic_system::doStep(float _reward,
 
 	// plasticity
 	core_DA = VTA;
-	core_plasticity = core_DA - VTA_baseline_activity/2;
+	core_plasticity = core_DA - VTA_zero_val;
 	// D2 defect
 	// if (core_plasticity<0) core_plasticity = 0;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * mPFC_LG);

@@ -72,7 +72,7 @@ private:
 	float CoreExploreRight = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.05;
+	const float learning_rate_core = 0.1;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
@@ -99,6 +99,9 @@ private:
 	////////////////////////////////////////////////////////////////
 	// VTA parameters
 	float VTA_baseline_activity = 0.10;
+
+	float VTA_zero_val = 0.10;
+	int VTA_zero_ctr = 100;
 
 	////////////////////////////////////////////////////////////////
 	// RMTg
@@ -181,8 +184,10 @@ private:
 	FILE* flog = NULL;
 	void logging();
 
-	float weibull(float x, float slope) {
-		return 1-exp(-pow(x,slope));
+	float weibull(float x, float a) {
+		float r = (1-exp(-pow(x/a,a)))*a;
+		if (r < 0.00001) return 0;
+		return r;
 	}
 	
 };
