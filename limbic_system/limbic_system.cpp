@@ -165,10 +165,23 @@ void Limbic_system::doStep(float _reward,
 	// So the higher the weight the higher the OFC activity
 	// when the animal is inside that place field where there has been
 	// reward experienced in the past.
-	float OFC = pfLg2OFC * placefieldLG + pfDg2OFC * placefieldDG;
+	OFC = pfLg2OFC * placefieldLG + pfDg2OFC * placefieldDG;
+	if (((placefieldLG-OFCprev) > 0.01)&&(OFCpersist==0)) OFCpersist = 2000;
+	OFCprev = placefieldLG;
+	if (LH > 0.5) {
+		OFCpersist = 0;
+	}
+	if (OFCpersist>0) OFCpersist--;
+	fprintf(stderr,"%d\n",OFCpersist);
 	// weight change
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
+
+	// massive weight decay if there is no reward after a long period!
+	if ((OFCpersist>0)&&(OFCpersist<100)) {
+		fprintf(stderr,"--");
+		pfLg2OFC = pfLg2OFC * 0.9;
+	}
 
 	// the dorsal raphe activity is driven by the OFC in a positive way
 	DRN = 0.1 * LH + OFC;
@@ -184,7 +197,7 @@ void Limbic_system::doStep(float _reward,
 	shell_DA = VTA;
 	// shell plasticity can experience a "dip" where then the weights
 	// decrease. That's when it's below its baseline.
-	shell_plasticity = shell_DA - VTA_baseline_activity/2;
+	shell_plasticity = shell_DA - VTA_zero_val;
 	if (shell_plasticity < 0) shell_plasticity = 0;
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
 	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
