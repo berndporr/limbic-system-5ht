@@ -72,7 +72,7 @@ private:
 	float CoreExploreRight = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.1;
+	const float learning_rate_core = 0.25;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
