@@ -142,8 +142,8 @@ void Limbic_system::doStep(float _reward,
 	mPFC_LG = visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act;
 	mPFC_DG = visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act;
 #else
-	mPFC_LG = weibull(visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act,1+DRN*2)*1.5;
-	mPFC_DG = weibull(visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act,1+DRN*2)*1.5;
+	mPFC_LG = weibull(visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act,1+DRN*3)*2;
+	mPFC_DG = weibull(visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act,1+DRN*3)*2;
 #endif
 
 	// the activity in the LH is literally that of the reward
@@ -171,7 +171,7 @@ void Limbic_system::doStep(float _reward,
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
 
 	// the dorsal raphe activity is driven by the OFC in a positive way
-	DRN = LH + OFC;
+	DRN = 0.1 * LH + OFC;
 
 	//printf("%f\n",DRN);
 
@@ -213,7 +213,7 @@ void Limbic_system::doStep(float _reward,
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_zero_val;
 	// D2 defect
-	if (core_plasticity<0) core_plasticity /= 4;
+	//if (core_plasticity<0) core_plasticity /= 3;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * mPFC_LG);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * mPFC_DG);
 

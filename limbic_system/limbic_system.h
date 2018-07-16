@@ -72,7 +72,7 @@ private:
 	float CoreExploreRight = 0;
 
 	// learning rate of the core
-	const float learning_rate_core = 0.25;
+	const float learning_rate_core = 0.05;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
@@ -154,7 +154,7 @@ private:
 	float OFC = 0;
 
 	// learning rate for the OFC, just now from HC to OFC
-	const float learning_rate_OFC = 0.1;
+	const float learning_rate_OFC = 0.01;
 
 	// weights from the hippocampus place fields to the OFC
 	float pfLg2OFC = 0;
