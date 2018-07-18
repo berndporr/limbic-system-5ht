@@ -52,7 +52,8 @@ void Limbic_system::weightChange(float &w, float delta) {
 // It needs to set the outputs:
 // - CoreLGOut and CoreDGOut which when set to non-zero generates a navigation behaviour towards
 //   the landmarks
-// - CoreExploreLeft and - CoreExploreRight to generate exploration behaviour
+// - mPFC2CoreExploreLeft and - mPFC2CoreExploreRight to generate exploration behaviour
+//   that is inhibited with other activities.
 void Limbic_system::doStep(float _reward,
 		float _placefieldLG,
 		float _placefieldDG,
@@ -105,32 +106,32 @@ void Limbic_system::doStep(float _reward,
 	// to explore
 	switch (exploreState) {
 	case EXPLORE_LEFT:
-		CoreExploreLeft = 0.1;
-		CoreExploreRight = 0;
+		mPFC2CoreExploreLeft = 0.1;
+		mPFC2CoreExploreRight = 0;
 		if (((float)random()/((float)RAND_MAX))<0.05) {
 			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
 		}
 		//printf("left\n");
 		break;
 	case EXPLORE_RIGHT:
-		CoreExploreLeft = 0;
-		CoreExploreRight = 0.1;
+		mPFC2CoreExploreLeft = 0;
+		mPFC2CoreExploreRight = 0.1;
 		if (((float)random()/((float)RAND_MAX))<0.05) {
 			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
 		}
 		//printf("right\n");
 		break;
 	case EXPLORE_STOP:
-		CoreExploreLeft = 0;
-		CoreExploreRight = 0;
+		mPFC2CoreExploreLeft = 0;
+		mPFC2CoreExploreRight = 0;
 		if (((float)random()/((float)RAND_MAX))<0.01) {
 			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
 		}
 		break;
 	case EXPLORE_STRAIGHT:
 	default:
-		CoreExploreLeft = 0.1;
-		CoreExploreRight = 0.1;
+		mPFC2CoreExploreLeft = 0.1;
+		mPFC2CoreExploreRight = 0.1;
 		if (((float)random()/((float)RAND_MAX))<0.05) {
 			exploreState = (ExploreStates)floor((float)random()/(float)RAND_MAX*EXPLORE_NUM_ITEMS);
 		}
@@ -139,11 +140,11 @@ void Limbic_system::doStep(float _reward,
 
 //#define HT5DEBUG
 #ifdef HT5DEBUG
-	mPFC_LG = visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act;
-	mPFC_DG = visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act;
+	mPFC_LG = visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act;
+	mPFC_DG = visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act;
 #else
-	mPFC_LG = weibull(visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act,1+DRN*3)*2;
-	mPFC_DG = weibull(visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act,1+DRN*3)*2;
+	mPFC_LG = ofc5HTreceptors(visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act,1+DRN*3,2+DRN*6);
+	mPFC_DG = ofc5HTreceptors(visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act,1+DRN*3,2+DRN*6);
 #endif
 
 	// the activity in the LH is literally that of the reward
@@ -172,7 +173,7 @@ void Limbic_system::doStep(float _reward,
 		OFCpersist = 0;
 	}
 	if (OFCpersist>0) OFCpersist--;
-	fprintf(stderr,"%d\n",OFCpersist);
+	//fprintf(stderr,"%d\n",OFCpersist);
 	// weight change
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
@@ -232,8 +233,8 @@ void Limbic_system::doStep(float _reward,
 
 	// we assume that the Core performs lateral inhibtion to shut down exploration
 	if ((CoreLGOut > 0.05)&&(CoreDGOut > 0.05)) {
-		CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
-		CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
+		mPFC2CoreExploreLeft = 0; // (float)random()/(float)RAND_MAX;
+		mPFC2CoreExploreRight = 0; //(float)random()/(float)RAND_MAX;
 		//printf("dir! mPFC_LG = %f\n",visual_direction_LG);
 	}
 

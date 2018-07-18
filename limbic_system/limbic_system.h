@@ -43,9 +43,9 @@ public:
 	// codes approach behaviour towards the dark green object
 	float getDGOutput() {return CoreDGOut;};
 
-	float getExploreLeft() {return CoreExploreLeft;};
+	float getExploreLeft() {return mPFC2CoreExploreLeft;};
 
-	float getExploreRight() {return CoreExploreRight;};
+	float getExploreRight() {return mPFC2CoreExploreRight;};
 
 private:
 	// simulation step counter
@@ -68,8 +68,8 @@ private:
 	// motor activities
 	float CoreLGOut = 0;
 	float CoreDGOut = 0;
-	float CoreExploreLeft = 0;
-	float CoreExploreRight = 0;
+	float mPFC2CoreExploreLeft = 0;
+	float mPFC2CoreExploreRight = 0;
 
 	// learning rate of the core
 	const float learning_rate_core = 0.075;
@@ -186,8 +186,8 @@ private:
 	FILE* flog = NULL;
 	void logging();
 
-	float weibull(float x, float a) {
-		float r = (1-exp(-pow(x/a,a)))*a;
+	float ofc5HTreceptors(float x, float htR1, float htR2) {
+		float r = (1-exp(-pow(x/htR1,htR1)))*htR2;
 		if (r < 0.00001) return 0;
 		return r;
 	}

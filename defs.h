@@ -214,7 +214,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 // Statistics
-#define MAXSTEP 500000
+#define MAXSTEP 20000
 #define N_BELOW 3
 #define THRESHOLD_X0 0.2
 
