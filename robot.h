@@ -388,6 +388,13 @@ class Robot {
 	int rewardDelayLG = REWARD_DELAY;
 	int rewardDelayDG = REWARD_DELAY;
 
+public:
+	int eatenFlag = 0;
+	int rewardFlag = 0;
+
+	int nReward = 0;
+	int nEaten = 0;
+
 };
 
 

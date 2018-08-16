@@ -167,7 +167,7 @@ void Limbic_system::doStep(float _reward,
 	// when the animal is inside that place field where there has been
 	// reward experienced in the past.
 	OFC = pfLg2OFC * placefieldLG + pfDg2OFC * placefieldDG;
-	if (((placefieldLG-OFCprev) > 0.01)&&(OFCpersist==0)) OFCpersist = 2000;
+	if (((placefieldLG-OFCprev) > 0.01)&&(OFCpersist==0)) OFCpersist = 200;
 	OFCprev = placefieldLG;
 	if (LH > 0.5) {
 		OFCpersist = 0;
@@ -178,11 +178,12 @@ void Limbic_system::doStep(float _reward,
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldLG);
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldDG);
 
+
 	// massive weight decay if there is no reward after a long period!
-	if ((OFCpersist>0)&&(OFCpersist<100)) {
-		fprintf(stderr,"--");
-		pfLg2OFC = pfLg2OFC * 0.9;
-	}
+//	if ((OFCpersist>0)&&(OFCpersist<100)) {
+//		fprintf(stderr,"--");
+//		pfLg2OFC = pfLg2OFC * 0.999;
+//	}
 
 	// the dorsal raphe activity is driven by the OFC in a positive way
 	DRN = (LH + OFC * 4) / (1+RMTg * shunting_inhibition_factor);

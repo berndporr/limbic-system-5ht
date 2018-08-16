@@ -214,7 +214,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 // Statistics
-#define MAXSTEP 20000
+#define MAXSTEP 50000
 #define N_BELOW 3
 #define THRESHOLD_X0 0.2
 
@@ -224,6 +224,8 @@
 // defines how many successful contacts we need before reversal learning
 #define THRES_FOOD_CONTACTS 10
 
+// no reversal learning but just terminating
+#define NOREVERSE
 
 ///////////////////////////////////////////////////////////////////////
 // delayed reward

@@ -621,8 +621,10 @@ void Robot::react(int step,int collision) {
 
 			reward=1;
 			sensorOut = 1;
-		
 
+			if (!eatenFlag)
+				nEaten++;
+			if (reward>0) eatenFlag = 1;
 		}
 	}
 	for(float l=length/2-1;l<=length/2;l=l+0.5) {
@@ -636,7 +638,9 @@ void Robot::react(int step,int collision) {
 			reward=1;
 			sensorOut = 1;
 			
-
+			if (!eatenFlag)
+				nEaten++;
+			if (reward>0) eatenFlag = 1;
 		}
 	}
     
@@ -651,8 +655,10 @@ void Robot::react(int step,int collision) {
 
 			reward=1;
 			sensorOut = 1;
-			
-			
+
+			if (!eatenFlag)
+				nEaten++;
+			if (reward>0) eatenFlag = 1;
 		}
 	}
 	for(float l=length/2-1;l<=length/2;l=l+0.5) {
@@ -665,7 +671,10 @@ void Robot::react(int step,int collision) {
 
 			reward=1;
 			sensorOut = 1;
-			
+
+			if (!eatenFlag)
+				nEaten++;
+			if (reward>0) eatenFlag = 1;
 		}
 	}
 
@@ -813,6 +822,11 @@ void Robot::react(int step,int collision) {
 	if (rewardDelayDG==0) {
 			world->setRewardVisible(2);
 			visual_reward_DG = 1;
+	}
+
+	if ((reward>0)&&(!rewardFlag)) {
+		rewardFlag = 1;
+		nReward++;
 	}
 
 	limbic_system->doStep(reward,

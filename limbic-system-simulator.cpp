@@ -164,6 +164,9 @@ void LimbicMainWindow::doSimStep() {
 		if (foodDelay>0) {
 			foodDelay--;
 		} else {
+		        robot[0]->rewardFlag = 0;
+		        robot[0]->eatenFlag = 0;
+			
 			// fprintf(stderr,"step #%d: drawing new food\n",actualStep);
 			int newIndex = world->getFreeFoodIndex();
 
@@ -198,6 +201,9 @@ void LimbicMainWindow::doSimStep() {
 					numOfFoodContactsFromReversal=
 						world->getNumberOfFoodContacts();
 					fprintf(stderr,"########### REVERSAL STARTED ###########\n");
+#ifdef NOREVERSE
+					close();
+#endif
 				}
 				numOfFoodContactsDuringReversal=
 					world->getNumberOfFoodContacts()-
@@ -282,7 +288,9 @@ void LimbicMainWindow::closeEvent(QCloseEvent *) {
 
 
 
-void single_food_run(int argc, char **argv,int quicktime) {
+
+
+void single_food_run(int argc, char **argv,int quicktime = 0) {
 	QApplication a( argc, argv );
 	LimbicMainWindow* limbicbots=new LimbicMainWindow();	// create widget
 	if (quicktime) limbicbots->writeQuicktime();
@@ -291,6 +299,7 @@ void single_food_run(int argc, char **argv,int quicktime) {
 	limbicbots->show();				// show widget
 #endif
 	a.exec();				// run event loop
+	printf("nRewards = %d, nEaten = %d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
 }
 
 
@@ -304,8 +313,8 @@ void statistics_food_run(int argc, char **argv) {
 	LimbicMainWindow* limbicbots=NULL;
 	a=new QApplication( argc, argv ); // create application object
 
-	// loop through different learning rates. This hasn't been tested.
-       	for(float phi=0.0001;phi<2*M_PI;phi=phi+M_PI/50) {
+	// loop through different learning rates.
+       	for(float phi=0.0001;phi<2*M_PI;phi=phi+0.1) {
 		fprintf(stderr,"phi=%e\n",phi);
 		limbicbots=new LimbicMainWindow();	// create widget
 		if (!limbicbots) {
@@ -313,15 +322,13 @@ void statistics_food_run(int argc, char **argv) {
 			exit(1);
 		}
 		limbicbots->robot[0]->setPhi(phi);
-		char tmp[128];
-		limbicbots->resize( MAXX, MAXY );	// start up with size 400x250
-		sprintf(tmp,"reversal learning benchmark: phi=%e",phi);
-		// limbicbots->setCaption(tmp);
+		limbicbots->resize( MAXX, MAXY );
 #ifdef SHOW_SIM
-		limbicbots->show();				// show widget
+		limbicbots->show();
 #endif
-		a->exec();				// run event loop
-		fprintf(f,"%e %d\n",phi,limbicbots->numOfFoodContactsFromReversal);
+		a->exec();
+		printf("nRewards = %d, nEaten = %d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
+		printf("%d,%d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
 		fflush(f);
 		srandom((unsigned int)(limbicbots->actualStep%65536));
 		delete limbicbots;

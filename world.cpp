@@ -141,7 +141,7 @@ int World::isFood(int step,float x,float y) {
 	} else {
 		foodEaten[index]--;
 		if (foodEaten[index]<0) {
-			//fprintf(stderr,"Food eaten\n");
+			fprintf(stderr,"Food landmark encountered\n");
 			if (isReward(step,x,y)) {
 				nConsequFoodContacts++;
 			} else {
