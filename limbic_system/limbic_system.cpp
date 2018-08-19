@@ -140,11 +140,11 @@ void Limbic_system::doStep(float _reward,
 
 //#define HT5DEBUG
 #ifdef HT5DEBUG
-	mPFC_LG = visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act;
-	mPFC_DG = visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act;
+	mPFC_LG = visual_direction_LG_trace + visual_reward_LG + mPFC_LG_spont_act;
+	mPFC_DG = visual_direction_DG_trace + visual_reward_DG + mPFC_DG_spont_act;
 #else
-	mPFC_LG = ofc5HTreceptors(visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act,1+DRN*3,2+DRN*6);
-	mPFC_DG = ofc5HTreceptors(visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act,1+DRN*3,2+DRN*6);
+	mPFC_LG = ofc5HTreceptors(visual_direction_LG_trace + visual_reward_LG*2 + mPFC_LG_spont_act,1+DRN,2+DRN);
+	mPFC_DG = ofc5HTreceptors(visual_direction_DG_trace + visual_reward_DG*2 + mPFC_DG_spont_act,1+DRN,2+DRN);
 #endif
 
 	// the activity in the LH is literally that of the reward
@@ -152,12 +152,6 @@ void Limbic_system::doStep(float _reward,
 
 	// the VTA gets its activity from the LH and is ihibited by the RMTg
 	VTA = (LH + VTA_baseline_activity) / (1+RMTg * shunting_inhibition_factor);
-
-	// find the VTA baseline
-	if (VTA_zero_ctr > 0) {
-		VTA_zero_ctr--;
-		VTA_zero_val = VTA;
-	}
 
 	////////////////////////////////////////////////////////////////////
 	// OFC
@@ -200,7 +194,6 @@ void Limbic_system::doStep(float _reward,
 	// shell plasticity can experience a "dip" where then the weights
 	// decrease. That's when it's below its baseline.
 	shell_plasticity = shell_DA - VTA_zero_val;
-	if (shell_plasticity < 0) shell_plasticity = 0;
 	weightChange(lShell_weight_pflg, learning_rate_lshell * shell_plasticity * placefieldLG);
 	weightChange(lShell_weight_pfdg, learning_rate_lshell * shell_plasticity * placefieldDG);
 
@@ -224,11 +217,13 @@ void Limbic_system::doStep(float _reward,
 	// of the DG is high then the rat approaches the DG marker
 	CoreDGOut= (mPFC_DG * core_weight_dg2dg);
 
+	float core_threshold = 0.25;
+	if (CoreLGOut < core_threshold) CoreLGOut = 0;
+	if (CoreDGOut < core_threshold) CoreDGOut = 0;
+
 	// plasticity
 	core_DA = VTA;
 	core_plasticity = core_DA - VTA_zero_val;
-	// D2 defect
-	//if (core_plasticity<0) core_plasticity /= 3;
 	weightChange(core_weight_lg2lg, learning_rate_core * core_plasticity * mPFC_LG);
 	weightChange(core_weight_dg2dg, learning_rate_core * core_plasticity * mPFC_DG);
 

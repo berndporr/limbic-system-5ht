@@ -6,7 +6,6 @@
 #include <filter.h>
 
 
-
 class Limbic_system {
 public:
 	// constructor
@@ -38,10 +37,15 @@ public:
 	// output to the motor system
 	// codes approach behaviour towards the light green object
 	// 0 is no and 1 is max speed
-	float getLGOutput() {return CoreLGOut;};
+	float getLGOutput() {
+		return CoreLGOut;
+	};
 	
 	// codes approach behaviour towards the dark green object
-	float getDGOutput() {return CoreDGOut;};
+	float getDGOutput() {
+		return CoreDGOut;
+	};
+	
 
 	float getExploreLeft() {return mPFC2CoreExploreLeft;};
 
@@ -65,12 +69,14 @@ private:
 	// I see the dark green object and I approach the dark green one
 	float core_weight_dg2dg = 0;
 
+private:
 	// motor activities
 	float CoreLGOut = 0;
 	float CoreDGOut = 0;
 	float mPFC2CoreExploreLeft = 0;
 	float mPFC2CoreExploreRight = 0;
 
+public:
 	// learning rate of the core
 	const float learning_rate_core = 0.075;
 
@@ -99,9 +105,8 @@ private:
 	////////////////////////////////////////////////////////////////
 	// VTA parameters
 	float VTA_baseline_activity = 0.10;
-
-	float VTA_zero_val = 0.10;
-	int VTA_zero_ctr = 100;
+	// actual baseline for LTD/LTP
+	float VTA_zero_val = VTA_baseline_activity/2;
 
 	////////////////////////////////////////////////////////////////
 	// RMTg
