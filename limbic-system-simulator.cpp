@@ -200,10 +200,10 @@ void LimbicMainWindow::doSimStep() {
 					isReversal=1;
 					numOfFoodContactsFromReversal=
 						world->getNumberOfFoodContacts();
-					fprintf(stderr,"########### REVERSAL STARTED ###########\n");
 #ifdef NOREVERSE
 					close();
 #endif
+					fprintf(stderr,"########### REVERSAL STARTED ###########\n");
 				}
 				numOfFoodContactsDuringReversal=
 					world->getNumberOfFoodContacts()-
@@ -328,7 +328,10 @@ void statistics_food_run(int argc, char **argv) {
 #endif
 		a->exec();
 		printf("nRewards = %d, nEaten = %d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
-		printf("%d,%d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
+		fprintf(f,"%ld\t%d\t%d\n",
+			limbicbots->actualStep,
+			limbicbots->robot[0]->nReward,
+			limbicbots->robot[0]->nEaten);
 		fflush(f);
 		srandom((unsigned int)(limbicbots->actualStep%65536));
 		delete limbicbots;
