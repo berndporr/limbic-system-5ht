@@ -5,6 +5,10 @@
 
 #include <filter.h>
 
+#define LHB_BIAS 0 //0.001
+#define DRN_SUPPRESSION 0 //3
+#define OFC_5HTR1_OFFSET 0
+#define OFC_5HTR2_OFFSET 0
 
 class Limbic_system {
 public:
@@ -57,7 +61,7 @@ private:
 
 	// shunting inhibition is implemented as:
 	// neuronal_activity / ( 1 + inhibition * shunting_inhibition_factor )
-	float shunting_inhibition_factor = 100;
+	float shunting_inhibition_factor = 200;
 
 	//////////////////////////////////////////////////////////////
 	// Nacc core
@@ -106,7 +110,7 @@ public:
 	// VTA parameters
 	float VTA_baseline_activity = 0.10;
 	// actual baseline for LTD/LTP
-	float VTA_zero_val = VTA_baseline_activity/2;
+	float VTA_zero_val = VTA_baseline_activity/1.99;
 
 	////////////////////////////////////////////////////////////////
 	// RMTg
@@ -192,6 +196,8 @@ private:
 	void logging();
 
 	float ofc5HTreceptors(float x, float htR1, float htR2) {
+		htR1 = htR1 + OFC_5HTR1_OFFSET;
+		htR2 = htR2 + OFC_5HTR2_OFFSET;
 		float r = (1-exp(-pow(x/htR1,htR1)))*htR2;
 		if (r < 0.00001) return 0;
 		return r;
