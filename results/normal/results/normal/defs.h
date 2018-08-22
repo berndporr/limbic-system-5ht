@@ -76,7 +76,7 @@
 /**
  * shows the sim in a window
  **/
-#define SHOW_SIM 1
+// #define SHOW_SIM 1
 
 
 /**
@@ -214,18 +214,16 @@
 
 ///////////////////////////////////////////////////////////////////////
 // Statistics
-#define MAXSTEP 100000
+#define MAXSTEP 300000
 #define N_BELOW 3
 #define THRESHOLD_X0 0.2
+#define MAXFOODCONTACTS 20
 
 ///////////////////////////////////////////////////////////////////////
 // Reversal learning
 
 // defines how many successful contacts we need before reversal learning
-#define THRES_FOOD_CONTACTS 20
-
-// no reversal learning but just terminating
-#define NOREVERSE
+#define THRES_FOOD_CONTACTS 100
 
 ///////////////////////////////////////////////////////////////////////
 // delayed reward
