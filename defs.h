@@ -76,7 +76,7 @@
 /**
  * shows the sim in a window
  **/
-// #define SHOW_SIM 1
+#define SHOW_SIM 1
 
 
 /**
