@@ -180,7 +180,7 @@ void Limbic_system::doStep(float _reward,
 //	}
 
 	// the dorsal raphe activity is driven by the OFC in a positive way
-	DRN = (LH + OFC * 4) / (1+RMTg * shunting_inhibition_factor + DRN_SUPPRESSION);
+	DRN = (LH + OFC * 4) / (1+RMTg * shunting_inhibition_factor + DRN_SUPPRESSION) * (DRN_BOOST + 1);
 
 	//printf("%f\n",DRN);
 

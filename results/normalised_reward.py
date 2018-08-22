@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as signal
 import math as math
 
-exp = ['normal','drn_suppress','lhb_bias']
+exp = ['normal','drn_suppress','lhb_bias','drn_suppress_5ht2up','lhb_bias_5ht2up']
 
 average = []
 stddev = []
