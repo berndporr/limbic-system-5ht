@@ -191,7 +191,6 @@ void LimbicMainWindow::doSimStep() {
 				if (isReversal) {
 					fprintf(stderr,"Final reversal contacts: %d\n",
 						numOfFoodContactsDuringReversal);
-					close();
 				}
 			} else {
 				// real food is on the right (reversal)
@@ -200,9 +199,6 @@ void LimbicMainWindow::doSimStep() {
 					isReversal=1;
 					numOfFoodContactsFromReversal=
 						world->getNumberOfFoodContacts();
-#ifdef NOREVERSE
-					close();
-#endif
 					fprintf(stderr,"########### REVERSAL STARTED ###########\n");
 				}
 				numOfFoodContactsDuringReversal=
@@ -274,6 +270,9 @@ void LimbicMainWindow::doSimStep() {
 	
         actualStep++;
 	if (actualStep==MAXSTEP) {
+		close();
+	}
+	if (robot[0]->nEaten >= MAXFOODCONTACTS) {
 		close();
 	}
 }

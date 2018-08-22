@@ -847,12 +847,12 @@ void Robot::react(int step,int collision) {
 	float exploreLeft=limbic_system->getExploreLeft();
 	float exploreRight=limbic_system->getExploreRight();
 
-//	if (LGsw < MOTOR_THRES) {
-//		LGsw=0;
-//	}
-//	if (DGsw < MOTOR_THRES) {
-//		DGsw=0;
-//	}
+	if (LGsw > 1) {
+		LGsw=1;
+	}
+	if (DGsw > 1) {
+		DGsw=0;
+	}
 
 	LGdirection->doDirection(leftLG,rightLG,LGsw);
 	DGdirection->doDirection(leftDG,rightDG,DGsw);
