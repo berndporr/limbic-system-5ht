@@ -10,7 +10,7 @@
 #define OFC_5HTR1_OFFSET 0
 #define OFC_5HTR2_OFFSET 0
 
-#define OFC_5HTR2_GAIN 2
+#define OFC_5HTR2_GAIN 3
 
 class Limbic_system {
 public:
