@@ -36,3 +36,10 @@ ui_*.h
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# Limbic system
+*temp/*.dat
+contacts.dat
+direction.dat
+Direction.dat
+front_impulse.dat
+log.dat
