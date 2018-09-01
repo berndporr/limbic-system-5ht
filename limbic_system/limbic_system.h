@@ -6,7 +6,7 @@
 #include <filter.h>
 
 #define LHB_BIAS 0
-#define DRN_SUPPRESSION 0
+#define DRN_SUPPRESSION 0 //4
 #define OFC_5HTR1_OFFSET 0
 #define OFC_5HTR2_OFFSET 0
 #define OFC_5HTR2_GAIN 1
