@@ -76,7 +76,7 @@
 /**
  * shows the sim in a window
  **/
-// #define SHOW_SIM 1
+#define SHOW_SIM 1
 
 
 /**
@@ -229,7 +229,7 @@
 // delayed reward
 
 // delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 100 // 150
+#define REWARD_DELAY 100
 
 
 
