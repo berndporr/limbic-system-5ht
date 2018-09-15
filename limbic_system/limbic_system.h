@@ -5,11 +5,12 @@
 
 #include <filter.h>
 
-#define LHB_BIAS 0 //0.001
-#define DRN_SUPPRESSION 0 //4
+#define LHB_BIAS 0 // 0.001
+#define DRN_SUPPRESSION 4
 #define OFC_5HTR1_OFFSET 0
 #define OFC_5HTR2_OFFSET 0
-#define DRN_OFFSET 0 //0.15
+
+#define OFC_5HTR2_GAIN 3
 
 class Limbic_system {
 public:
@@ -199,7 +200,7 @@ private:
 	float ofc5HTreceptors(float x, float htR1, float htR2) {
 		htR1 = htR1 + OFC_5HTR1_OFFSET;
 		htR2 = htR2 + OFC_5HTR2_OFFSET;
-		float r = (1-exp(-pow(x/htR1,htR1)))*htR2;
+		float r = (1-exp(-pow(x/htR1,htR1)))*htR2*OFC_5HTR2_GAIN;
 		if (r < 0.00001) return 0;
 		return r;
 	}
