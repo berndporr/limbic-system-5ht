@@ -6,9 +6,10 @@
 #include <filter.h>
 
 #define LHB_BIAS 0 //0.001
-#define DRN_SUPPRESSION 0 //3
+#define DRN_SUPPRESSION 0 //4
 #define OFC_5HTR1_OFFSET 0
-#define OFC_5HTR2_OFFSET 0
+#define OFC_5HTR2_OFFSET 0 //1
+#define DRN_OFFSET 0 //0.15
 
 class Limbic_system {
 public:
