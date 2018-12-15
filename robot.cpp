@@ -2,6 +2,9 @@
 #include "robot.h"
 #include "world.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 // delay in timesteps (150 is a good starting point for a short delay)
 int REWARD_DELAY = 150;
 
@@ -112,6 +115,7 @@ Robot::Robot(World* ww,
 	 * docu
 	 **/
 	char tmp[128];
+	mkdir("temp",0700);
 	sprintf(tmp,"temp/coordinates%02d.dat",roboIndex);
 	fCoord=fopen(tmp,"wt");
 	if (!fCoord) {

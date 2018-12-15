@@ -6,6 +6,8 @@
 #include <QLayout> 
 #include <QPixmap>
 
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "world.h"
 #include "robot.h"
