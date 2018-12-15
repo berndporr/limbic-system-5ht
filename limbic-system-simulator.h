@@ -6,12 +6,20 @@
 #include "world.h"
 #include "robot.h"
 #include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
 
 /***********************************************
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
  * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
  ***********************************************/
+
+/**
+ * shows the sim in a window
+ **/
+extern int SHOW_SIM;
 
 class LimbicMainWindow : public QMainWindow
 {

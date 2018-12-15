@@ -4,6 +4,12 @@
 
 #include <filter.h>
 
+float LHB_BIAS = 0;
+float DRN_SUPPRESSION = 0;
+float OFC_5HTR1_OFFSET = 0;
+float OFC_5HTR2_OFFSET = 0;
+float DRN_OFFSET = 0;
+
 // constructor
 Limbic_system::Limbic_system()
 {

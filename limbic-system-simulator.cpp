@@ -20,6 +20,11 @@
  * (C) 2017-2018, Bernd Porr, bernd.porr@glasgow.ac.uk
  ***********************************************/
 
+/**
+ * shows the sim in a window
+ **/
+int SHOW_SIM = 1;
+
 
 #define BORDERS 1
 
@@ -294,9 +299,8 @@ void single_food_run(int argc, char **argv,int quicktime = 0) {
 	LimbicMainWindow* limbicbots=new LimbicMainWindow();	// create widget
 	if (quicktime) limbicbots->writeQuicktime();
 	limbicbots->resize( MAXX, MAXY );	// start up with size 400x250
-#ifdef SHOW_SIM
-	limbicbots->show();				// show widget
-#endif
+	if (SHOW_SIM)
+		limbicbots->show();		// show widget
 	a.exec();				// run event loop
 	printf("nRewards = %d, nEaten = %d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
 }
@@ -322,9 +326,8 @@ void statistics_food_run(int argc, char **argv) {
 		}
 		limbicbots->robot[0]->setPhi(phi);
 		limbicbots->resize( MAXX, MAXY );
-#ifdef SHOW_SIM
-		limbicbots->show();
-#endif
+		if(SHOW_SIM)
+			limbicbots->show();
 		a->exec();
 		printf("nRewards = %d, nEaten = %d\n",limbicbots->robot[0]->nReward,limbicbots->robot[0]->nEaten);
 		fprintf(f,"%ld\t%d\t%d\n",
@@ -340,6 +343,76 @@ void statistics_food_run(int argc, char **argv) {
 }
 
 
+void setParameters(int i) {
+	// default values
+	LHB_BIAS = 0;
+	DRN_SUPPRESSION = 0;
+	OFC_5HTR1_OFFSET = 0;
+	OFC_5HTR2_OFFSET = 0;
+	DRN_OFFSET = 0;
+	REWARD_DELAY = 150;
+
+	// subdirectory where the resuls are stored
+	char selectedPath[256];
+	selectedPath[0] = 0;
+
+	switch (i) {
+	case 0:
+		fprintf(stderr,"Normal condition\n");
+		strcpy(selectedPath,"normal");
+		break;
+	case 1:
+		fprintf(stderr,"Reward shows up earlier\n");
+		strcpy(selectedPath,"normal_less_wait");
+		REWARD_DELAY = 100;
+		break;
+	case 2:
+		fprintf(stderr,"DRN is suppressed\n");
+		strcpy(selectedPath,"drn_suppress");
+		DRN_SUPPRESSION = 4;
+		break;
+	case 3:
+		fprintf(stderr,"DRN is suppressed and less wait\n");
+		strcpy(selectedPath,"drn_suppress_less_wait");
+		DRN_SUPPRESSION = 4;
+		REWARD_DELAY = 100;
+		break;
+	case 4:
+		fprintf(stderr,"DRN is suppressed and SSRI\n");
+		strcpy(selectedPath,"drn_suppress_ssri");
+		DRN_SUPPRESSION = 4;
+		DRN_OFFSET = 0.15;
+		break;
+	case 5:
+		fprintf(stderr,"DRN is suppressed, SSRI and less wait\n");
+		strcpy(selectedPath,"drn_suppress_ssri_less_wait");
+		DRN_SUPPRESSION = 4;
+		DRN_OFFSET = 0.15;
+		REWARD_DELAY = 100;
+		break;
+	case 6:
+		fprintf(stderr,"DRN is suppressed and 5HTR2 up\n");
+		strcpy(selectedPath,"drn_suppress_5ht2up");
+		DRN_SUPPRESSION = 4;
+		OFC_5HTR2_OFFSET = 1;
+		break;
+	case 7:
+		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait\n");
+		strcpy(selectedPath,"drn_suppress_5ht2up_less_wait");
+		DRN_SUPPRESSION = 4;
+		OFC_5HTR2_OFFSET = 1;
+		REWARD_DELAY = 100;
+		break;		
+	}
+
+	const char prefix[]="patience_for_reward";
+	fprintf(stderr,"path=%s\n",selectedPath);
+	mkdir(prefix,0700);
+	chdir(prefix);
+	mkdir(selectedPath,0700);
+	chdir(selectedPath);
+}
+
 
 
 
@@ -349,7 +422,7 @@ int main( int argc, char **argv ) {
 	int qt = 0;
 	int stats = 0;
 	
-	while (-1 != (c = getopt(argc, argv, "abqh"))) {
+	while (-1 != (c = getopt(argc, argv, "p:abqh"))) {
 		switch (c) {
 		case 'a':
 			stats = 0;
@@ -359,6 +432,9 @@ int main( int argc, char **argv ) {
 			break;
                 case 'q':
 			qt = 1;
+			break;
+		case 'p':
+			setParameters(atoi(optarg));
 			break;
 		case 'h':
 			fprintf(stderr,"%s: command line options\n",argv[0]);

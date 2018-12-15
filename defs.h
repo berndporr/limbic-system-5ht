@@ -1,6 +1,9 @@
-#ifndef _sozio_defs_h
-#define _sozio_defs_h
-#include <quicktime.h>
+#ifndef _defs_h
+#define _defs_h
+
+
+
+// constant parameters
 
 /**
  * Experiment
@@ -72,12 +75,6 @@
 
 #define DOC_EVERY_N_FRAMES  1000000000
 #define DOC_FOR_N_FRAMES    1000000000
-
-/**
- * shows the sim in a window
- **/
-#define SHOW_SIM 1
-
 
 /**
  * stops if an x0 file is there
@@ -227,11 +224,6 @@
 
 ///////////////////////////////////////////////////////////////////////
 // delayed reward
-
-// delay in timesteps (200 is a good starting point for a short delay)
-#define REWARD_DELAY 150
-
-
 
 #endif
 

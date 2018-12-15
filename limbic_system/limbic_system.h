@@ -5,11 +5,12 @@
 
 #include <filter.h>
 
-#define LHB_BIAS 0 //0.001
-#define DRN_SUPPRESSION 0 //4
-#define OFC_5HTR1_OFFSET 0
-#define OFC_5HTR2_OFFSET 0 //1
-#define DRN_OFFSET 0 //0.15
+extern float LHB_BIAS;
+extern float DRN_SUPPRESSION;
+extern float OFC_5HTR1_OFFSET;
+extern float OFC_5HTR2_OFFSET;
+extern float DRN_OFFSET;
+
 
 class Limbic_system {
 public:

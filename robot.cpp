@@ -2,6 +2,9 @@
 #include "robot.h"
 #include "world.h"
 
+// delay in timesteps (150 is a good starting point for a short delay)
+int REWARD_DELAY = 150;
+
 Robot::Robot(World* ww,
 	     int index,
 	     float angle,
