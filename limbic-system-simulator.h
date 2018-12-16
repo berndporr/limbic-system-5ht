@@ -9,17 +9,25 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+/**
+ * Limbic system simulator
+ **/
 
-/***********************************************
+/**
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
- * (C) 2017, Bernd Porr, bernd.porr@glasgow.ac.uk
- ***********************************************/
+ * (C) 2017-2018, Bernd Porr, bernd.porr@glasgow.ac.uk
+ **/
 
 /**
  * shows the sim in a window
  **/
 extern int SHOW_SIM;
+
+/**
+ * Number of max landmark contacts containing the food
+ **/
+extern int MAXFOODCONTACTS;
 
 class LimbicMainWindow : public QMainWindow
 {

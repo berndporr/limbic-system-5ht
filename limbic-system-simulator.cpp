@@ -28,6 +28,11 @@
 int SHOW_SIM = 1;
 
 /**
+ * Number of max landmark contacts containing the food
+ **/
+int MAXFOODCONTACTS = 50;
+
+/**
  * Path to the results
  **/
 const char prefix[]="results_patience_for_reward";
@@ -383,7 +388,7 @@ void single_food_run(int argc, char **argv,int quicktime = 0) {
 
 
 void statistics_food_run(int argc, char **argv) {
-	fprintf(stderr,"----------STATS------------!\n");
+	fprintf(stderr,"----------STATS------------\n");
 	FILE* f=fopen("perf.dat","wt");
 	QApplication* a=NULL;
 	LimbicMainWindow* limbicbots=NULL;
@@ -392,7 +397,7 @@ void statistics_food_run(int argc, char **argv) {
 	// loop through different learning rates.
        	for(float phi=0.0001;phi<2*M_PI;phi=phi+0.1) {
 		fprintf(stderr,"phi=%e\n",phi);
-		limbicbots=new LimbicMainWindow();	// create widget
+		limbicbots=new LimbicMainWindow();
 		if (!limbicbots) {
 			fprintf(stderr,"Cound not create limbicbots class\n");
 			exit(1);
