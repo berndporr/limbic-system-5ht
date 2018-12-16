@@ -27,8 +27,78 @@
  **/
 int SHOW_SIM = 1;
 
+/**
+ * Path to the results
+ **/
+const char prefix[]="results_patience_for_reward";
 
 #define BORDERS 1
+
+
+
+/** Sets the parameters of the simulation
+ * These are all globally defiend in the
+ * respecitve c++ codes and then made external
+ * so that they can be set here from the main
+ * program.
+ **/
+const char* setParameters(int scenario) {
+	
+	// default parameters
+	LHB_BIAS = 0;
+	DRN_SUPPRESSION = 0;
+	OFC_5HTR1_OFFSET = 0;
+	OFC_5HTR2_OFFSET = 0;
+	DRN_OFFSET = 0;
+	REWARD_DELAY = 150;
+
+	switch (scenario) {
+	case 0:
+		fprintf(stderr,"Normal condition");
+		return "normal";
+	case 1:
+		fprintf(stderr,"Reward shows up earlier");
+		REWARD_DELAY = 100;
+		return "normal_less_wait";
+	case 2:
+		fprintf(stderr,"DRN is suppressed");
+		DRN_SUPPRESSION = 4;
+		return "drn_suppress";
+	case 3:
+		fprintf(stderr,"DRN is suppressed and less wait");
+		DRN_SUPPRESSION = 4;
+		REWARD_DELAY = 100;
+		return "drn_suppress_less_wait";
+	case 4:
+		fprintf(stderr,"DRN is suppressed and SSRI");
+		DRN_SUPPRESSION = 4;
+		DRN_OFFSET = 0.15;
+		return "drn_suppress_ssri";
+	case 5:
+		fprintf(stderr,"DRN is suppressed, SSRI and less wait");
+		DRN_SUPPRESSION = 4;
+		DRN_OFFSET = 0.15;
+		REWARD_DELAY = 100;
+		return "drn_suppress_ssri_less_wait";
+	case 6:
+		fprintf(stderr,"DRN is suppressed and 5HTR2 up");
+		DRN_SUPPRESSION = 4;
+		OFC_5HTR2_OFFSET = 1;
+		return "drn_suppress_5ht2up";
+	case 7:
+		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait");
+		DRN_SUPPRESSION = 4;
+		OFC_5HTR2_OFFSET = 1;
+		REWARD_DELAY = 100;
+		return "drn_suppress_5ht2up_less_wait";
+	}
+	return "";
+}
+
+
+
+
+
 
 
 
@@ -346,64 +416,10 @@ void statistics_food_run(int argc, char **argv) {
 }
 
 
-const char* setParameters(int i) {
-	// default values
-	LHB_BIAS = 0;
-	DRN_SUPPRESSION = 0;
-	OFC_5HTR1_OFFSET = 0;
-	OFC_5HTR2_OFFSET = 0;
-	DRN_OFFSET = 0;
-	REWARD_DELAY = 150;
-
-	switch (i) {
-	case 0:
-		fprintf(stderr,"Normal condition");
-		return "normal";
-	case 1:
-		fprintf(stderr,"Reward shows up earlier");
-		REWARD_DELAY = 100;
-		return "normal_less_wait";
-	case 2:
-		fprintf(stderr,"DRN is suppressed");
-		DRN_SUPPRESSION = 4;
-		return "drn_suppress";
-	case 3:
-		fprintf(stderr,"DRN is suppressed and less wait");
-		DRN_SUPPRESSION = 4;
-		REWARD_DELAY = 100;
-		return "drn_suppress_less_wait";
-	case 4:
-		fprintf(stderr,"DRN is suppressed and SSRI");
-		DRN_SUPPRESSION = 4;
-		DRN_OFFSET = 0.15;
-		return "drn_suppress_ssri";
-	case 5:
-		fprintf(stderr,"DRN is suppressed, SSRI and less wait");
-		DRN_SUPPRESSION = 4;
-		DRN_OFFSET = 0.15;
-		REWARD_DELAY = 100;
-		return "drn_suppress_ssri_less_wait";
-	case 6:
-		fprintf(stderr,"DRN is suppressed and 5HTR2 up");
-		DRN_SUPPRESSION = 4;
-		OFC_5HTR2_OFFSET = 1;
-		return "drn_suppress_5ht2up";
-	case 7:
-		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait");
-		DRN_SUPPRESSION = 4;
-		OFC_5HTR2_OFFSET = 1;
-		REWARD_DELAY = 100;
-		return "drn_suppress_5ht2up_less_wait";
-	}
-	return "";
-}
-
-
 void createSubdirs(const char* selectedPath) {
-	const char prefix[]="patience_for_reward";
-	mkdir(prefix,0700);
+	mkdir(prefix,0770);
 	chdir(prefix);
-	mkdir(selectedPath,0700);
+	mkdir(selectedPath,0770);
 	chdir(selectedPath);
 }
 
