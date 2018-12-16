@@ -319,8 +319,8 @@ int World::drawFood(int step,int x, int y, int r, int index,int reward) {
 	foodY[index]=y;
 	foodEaten[index]=MAX_FOOD_LIFE;
 	// success
-	delete xBuff;
-	delete yBuff;
+	delete[] xBuff;
+	delete[] yBuff;
 	foodCounter++;
 	fprintf(stderr,"step#%d, Food drawn, # of food bits: %d\n",step,foodCounter);
 	// This is our reward
@@ -389,8 +389,8 @@ int World::drawPlacefield(int,int x, int y, int r, int index) {
 	placefieldX[index]=x;
 	placefieldY[index]=y;
 	// success
-	delete xBuff;
-	delete yBuff;
+	delete[] xBuff;
+	delete[] yBuff;
 	fprintf(stderr,"place field drawn\n");
 	return 1;
 }

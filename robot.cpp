@@ -244,14 +244,14 @@ Robot::~Robot() {
 	fclose(fIO);
 	fclose(fdir);
 	// tidy up
-	delete left2dStep;
-	delete right2dStep;
-	delete left2dPhi;
-	delete right2dPhi;
-	delete dStep2dPhi;
-	delete dPhi2dStep;
-	delete xBuffer;
-	delete yBuffer;
+	delete[] left2dStep;
+	delete[] right2dStep;
+	delete[] left2dPhi;
+	delete[] right2dPhi;
+	delete[] dStep2dPhi;
+	delete[] dPhi2dStep;
+	delete[] xBuffer;
+	delete[] yBuffer;
 	delete bandpFront;
 	delete bandpRear;
 	delete bandpLeft;
