@@ -313,6 +313,7 @@ void single_food_run(int argc, char **argv,int quicktime = 0) {
 
 
 void statistics_food_run(int argc, char **argv) {
+	fprintf(stderr,"----------STATS------------!\n");
 	FILE* f=fopen("perf.dat","wt");
 	QApplication* a=NULL;
 	LimbicMainWindow* limbicbots=NULL;
@@ -345,7 +346,7 @@ void statistics_food_run(int argc, char **argv) {
 }
 
 
-void setParameters(int i) {
+const char* setParameters(int i) {
 	// default values
 	LHB_BIAS = 0;
 	DRN_SUPPRESSION = 0;
@@ -354,61 +355,52 @@ void setParameters(int i) {
 	DRN_OFFSET = 0;
 	REWARD_DELAY = 150;
 
-	// subdirectory where the resuls are stored
-	char selectedPath[256];
-	selectedPath[0] = 0;
-
 	switch (i) {
 	case 0:
-		fprintf(stderr,"Normal condition\n");
-		strcpy(selectedPath,"normal");
-		break;
+		fprintf(stderr,"Normal condition");
+		return "normal";
 	case 1:
-		fprintf(stderr,"Reward shows up earlier\n");
-		strcpy(selectedPath,"normal_less_wait");
+		fprintf(stderr,"Reward shows up earlier");
 		REWARD_DELAY = 100;
-		break;
+		return "normal_less_wait";
 	case 2:
-		fprintf(stderr,"DRN is suppressed\n");
-		strcpy(selectedPath,"drn_suppress");
+		fprintf(stderr,"DRN is suppressed");
 		DRN_SUPPRESSION = 4;
-		break;
+		return "drn_suppress";
 	case 3:
-		fprintf(stderr,"DRN is suppressed and less wait\n");
-		strcpy(selectedPath,"drn_suppress_less_wait");
+		fprintf(stderr,"DRN is suppressed and less wait");
 		DRN_SUPPRESSION = 4;
 		REWARD_DELAY = 100;
-		break;
+		return "drn_suppress_less_wait";
 	case 4:
-		fprintf(stderr,"DRN is suppressed and SSRI\n");
-		strcpy(selectedPath,"drn_suppress_ssri");
+		fprintf(stderr,"DRN is suppressed and SSRI");
 		DRN_SUPPRESSION = 4;
 		DRN_OFFSET = 0.15;
-		break;
+		return "drn_suppress_ssri";
 	case 5:
-		fprintf(stderr,"DRN is suppressed, SSRI and less wait\n");
-		strcpy(selectedPath,"drn_suppress_ssri_less_wait");
+		fprintf(stderr,"DRN is suppressed, SSRI and less wait");
 		DRN_SUPPRESSION = 4;
 		DRN_OFFSET = 0.15;
 		REWARD_DELAY = 100;
-		break;
+		return "drn_suppress_ssri_less_wait";
 	case 6:
-		fprintf(stderr,"DRN is suppressed and 5HTR2 up\n");
-		strcpy(selectedPath,"drn_suppress_5ht2up");
+		fprintf(stderr,"DRN is suppressed and 5HTR2 up");
 		DRN_SUPPRESSION = 4;
 		OFC_5HTR2_OFFSET = 1;
-		break;
+		return "drn_suppress_5ht2up";
 	case 7:
-		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait\n");
-		strcpy(selectedPath,"drn_suppress_5ht2up_less_wait");
+		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait");
 		DRN_SUPPRESSION = 4;
 		OFC_5HTR2_OFFSET = 1;
 		REWARD_DELAY = 100;
-		break;		
+		return "drn_suppress_5ht2up_less_wait";
 	}
+	return "";
+}
 
+
+void createSubdirs(const char* selectedPath) {
 	const char prefix[]="patience_for_reward";
-	fprintf(stderr,"path=%s\n",selectedPath);
 	mkdir(prefix,0700);
 	chdir(prefix);
 	mkdir(selectedPath,0700);
@@ -417,14 +409,12 @@ void setParameters(int i) {
 
 
 
-
-
 int main( int argc, char **argv ) {
         int c;
 	int qt = 0;
 	int stats = 0;
 	
-	while (-1 != (c = getopt(argc, argv, "p:abqh"))) {
+	while (-1 != (c = getopt(argc, argv, "p:abqhn"))) {
 		switch (c) {
 		case 'a':
 			stats = 0;
@@ -435,14 +425,25 @@ int main( int argc, char **argv ) {
                 case 'q':
 			qt = 1;
 			break;
+		case 'n':
+			SHOW_SIM = 0;
+			break;
 		case 'p':
-			setParameters(atoi(optarg));
+			createSubdirs(setParameters(atoi(optarg)));
 			break;
 		case 'h':
 			fprintf(stderr,"%s: command line options\n",argv[0]);
-			fprintf(stderr," -a: single food run\n");
-			fprintf(stderr," -b: statistics\n");
-			fprintf(stderr," -q: quicktime export\n");
+			fprintf(stderr," -a:            single food run\n");
+			fprintf(stderr," -b:            statistics\n");
+			fprintf(stderr," -q:            quicktime export\n");
+			fprintf(stderr," -n:            no graphical output\n");
+			fprintf(stderr," -p scenario #: experimental scenario\n");
+			fprintf(stderr,"Possible scenarios:\n");
+			for(int i=0;i<8;i++) {
+				fprintf(stderr,"%d : ",i);
+				const char* s = setParameters(i);
+				fprintf(stderr," (/%s/)\n",s);
+			}
 			exit(0);
                 }
         }
