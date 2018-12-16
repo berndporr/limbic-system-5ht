@@ -19,16 +19,6 @@
  * (C) 2017-2018, Bernd Porr, bernd.porr@glasgow.ac.uk
  **/
 
-/**
- * shows the sim in a window
- **/
-extern int SHOW_SIM;
-
-/**
- * Number of max landmark contacts containing the food
- **/
-extern int MAXFOODCONTACTS;
-
 class LimbicMainWindow : public QMainWindow
 {
 	Q_OBJECT

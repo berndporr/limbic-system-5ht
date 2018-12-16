@@ -435,7 +435,7 @@ int main( int argc, char **argv ) {
 	int qt = 0;
 	int stats = 0;
 	
-	while (-1 != (c = getopt(argc, argv, "p:abqhn"))) {
+	while (-1 != (c = getopt(argc, argv, "p:f:abqhn"))) {
 		switch (c) {
 		case 'a':
 			stats = 0;
@@ -449,6 +449,9 @@ int main( int argc, char **argv ) {
 		case 'n':
 			SHOW_SIM = 0;
 			break;
+		case 'f':
+			MAXFOODCONTACTS = atoi(optarg);
+			break;
 		case 'p':
 			createSubdirs(setParameters(atoi(optarg)));
 			break;
@@ -456,6 +459,7 @@ int main( int argc, char **argv ) {
 			fprintf(stderr,"%s: command line options\n",argv[0]);
 			fprintf(stderr," -a:            single food run\n");
 			fprintf(stderr," -b:            statistics\n");
+			fprintf(stderr," -f max:        max contacts to the landmark with food for stats\n");
 			fprintf(stderr," -q:            quicktime export\n");
 			fprintf(stderr," -n:            no graphical output\n");
 			fprintf(stderr," -p scenario #: experimental scenario\n");
