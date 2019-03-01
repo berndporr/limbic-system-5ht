@@ -1,0 +1,28 @@
+Starting experiment 1:
+PRISM
+=====
+
+Version: 4.4
+Date: Fri Mar 01 09:57:37 GMT 2019
+Hostname: eeapp
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=2,speed_uncertainty=0'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=15,reward_unseen_speed=2,speed_uncertainty=0
+
+Building model...
+Model constants: delay=15,reward_unseen_speed=2,speed_uncertainty=0

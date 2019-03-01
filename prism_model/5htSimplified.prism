@@ -1,0 +1,89 @@
+dtmc
+
+const int wait_at_reward_location; //int defining boundary of area "next to" reward location, where the reward will appear.
+const int l; //size of the scale representing the entire explorable area (add 10 as a safety buffer) reward is at position l-10
+const int delay; //number of steps to wait to spawn reward once agent waits at reward_location
+const int reward_lifetime; //number of steps to wait before reward despawns after its instantiation
+const int MAX = 200;
+
+
+//global reward_present : bool init false; 
+global in_front_of_reward_location : bool init false; //agent is slowing in front of the reward location 
+
+ 
+module limbic_system
+
+
+
+vis1 : [0..1] init 0;//visual input to speed gained when agent can see reward_location
+vis2: [0..1];//  visual input to speed gained when agent can see reward
+_5ht : [0..3] init 0;// serotonin/5HTR1/5HTR2 value
+pos : [0..MAX] init 0;//position of agent
+s : [0..10] init 1;  //state counter to help ordering of events 
+
+//s=1 -> exploration
+//s=2 -> has seen visual landmark, approaches
+//s=3 -> at placefield, increased HT
+//s=4 -> slowed down
+//s=5 -> moving towards location of reward
+//s=6 -> at end
+
+
+
+//approach_angle_correct : bool init false;
+at_reward : bool init false;
+collected_reward : bool init false;
+missed_reward : bool init false;
+
+
+[] s=1 -> 0.2 : (vis1'=1) & (s'=2) + 0.8 : (vis1'=0) & (s'=1); // see area containing reward and end exploration
+[] s=2 -> 0.9 : (_5ht'=1) & (s'=3) + 0.1 : (missed_reward'=true) & (s'=6);
+[] s=3 -> 1 : (_5ht'=3) & (s'=4) & (in_front_of_reward_location'=true) & (pos' = wait_at_reward_location); //slow down if front of reward_location, expected to contain reward// "timed" syncronises agent movement with the counters controlling the spawning and despawning of the reward
+
+// "timed" syncronises agent movement with the counters controlling the spawning and despawning of the reward
+[timed] s=4 & reward_present=false & pos< l-10 -> 1:(pos' = pos+speed);
+[timed] s=4 & reward_present=true & pos<l-10  -> 1 : (vis2'=1) & (pos' = pos + speed); //agent sees reward and moves forward
+[timed] s=4 & pos>=(l-10) -> 1: (s'=5); //agent reaches reward location; update state counter
+
+
+[timed] s=5 & reward_present=true -> (collected_reward' = true) & (s'=6); //agent collects reward
+[timed] s=5  & reward_present=false -> (missed_reward'=true) & (s'=6); //agent misses reward
+
+[] s=6 -> 1: (s'=6);  // end state has been reached
+
+
+
+
+endmodule 
+
+
+
+module reward_spawner
+
+
+c1 : [0..delay] init 0; //reward spawn delay counter
+c2 : [0..reward_lifetime] init 0; //reward lifetime counter
+
+spwnd : bool init false;
+despwnd : bool init false;
+reward_present : bool init false;
+
+[timed] in_front_of_reward_location=false -> 1: (c1'=0);
+[timed] in_front_of_reward_location=true & spwnd=false & c1=delay -> 0.8 : (spwnd'=true) & (c1'=0) & (reward_present'=true) + 0.2 : (c1'=0); //spawn reward after "delay" steps
+[timed] in_front_of_reward_location=true & spwnd=false & c1<delay-> 1: (c1'=c1+1);  //increment reward spawn counter
+
+[timed] in_front_of_reward_location=true & spwnd=true & despwnd=false & c2=reward_lifetime -> 1 : (despwnd'=true) & (reward_present'=false); //despawn reward after "reward_lifetime" steps
+[timed] in_front_of_reward_location=true & spwnd=true & despwnd=false & c2<reward_lifetime -> 1 : (c2'=c2+1); //increment reward despawn counter
+
+[timed] despwnd = true -> 1 : (despwnd' = true);
+endmodule
+
+
+
+
+
+formula x = vis1 + vis2; //speed based on visual inputs
+
+formula speed = ((_5ht=0 & x=1)?5:(_5ht=1 & x=1)?6:(_5ht=1 & x=2)?8:(_5ht=3 & x=1)?1:(_5ht=3 & x=2)?10:0);//speed lookup based on Figure 3 in Bernd paper (values used here are roughly 10 times the value in the graph)
+//these speeds can easily be modified to reflect those of the nutt model
+

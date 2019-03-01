@@ -1,5 +1,6 @@
 dtmc
-
+//new version - specifically have a module to synchronise
+//no timing until agent is in the place-field
 const int enter_pf; //int defining the boundary of the pf associated with reward
 const int wait_at_reward_location; //int defining boundary of area "next to" reward location, where the reward will appear.
 const int l; //size of the scale representing the entire explorable area (add 10 as a safety buffer) reward is at position l-10
@@ -28,8 +29,8 @@ pos : [0..200] init 0;//position of agent
 angle_id : [0..6] init 0; //angle identifier: used to specify what agent's angle of approach to the placefield will be.
 
 s : [0..10] init 0;  //state counter to help ordering of events ->
-//s=0 -> set angle
-//s=1 -> exploration
+//s=0 -> initial state
+//s=1 -> angle set, exploration
 //s=2 -> has seen visual landmark, approaches
 //s=3 -> at placefield, increased HT
 //s=4 -> slowed down
@@ -45,20 +46,20 @@ missed_reward : bool init false;
 
 [] s=0 -> 0.2 : (angle_id'=1) & (s'=1) + 0.2 : (angle_id'=2) & (s'=1) + 0.2 : (angle_id'=3) & (s'=1) + 0.2 : (angle_id'=4) & (s'=1) + 0.2 : (angle_id'= 5) & (s'=1);
 
-[] s=1 -> 0.2 : (vis1'=1) & (s'=2) + 0.8 : (vis1'=0) & (s'=1); // see area containing reward and end exploration
+[] s=1 -> 0.2 : (vis1'=1) & (s'=2) + 0.8 : (vis1'=0) & (s'=1); // keep exploring until see the placefield, head to placefield
 
-[timed] pos<(l-10) & s>=1 & s<5 -> 1: (pos'=pos+speed); //update position by speed each step
+[] s=2 & angle_id=1 -> see_reward_approach_perpendicular : (_5ht'=1) & (s'=3) + (1-see_reward_approach_perpendicular) : (missed_reward'=true) & (s'=6); //enter the placefield and increase 5ht (increase to 3!!!)
+[] s=2 & angle_id=2->  see_reward_approach_pi_over_8 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_pi_over_8) : (missed_reward'=true) & (s'=6);
+[] s=2 & angle_id=3 -> see_reward_approach_mt_pi_over_4 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_mt_pi_over_4) : (missed_reward'=true) & (s'=6);
+[] s=2 & angle_id=4 -> see_reward_approach_neg_pi_over_8 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_neg_pi_over_8) : (missed_reward'=true) & (s'=6);
+[] s=2 & angle_id=5 -> see_reward_approach_neg_lt_pi_over_4 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_neg_lt_pi_over_4) : (missed_reward'=true) & (s'=6); 
 
 // "timed" syncronises agent movement with the counters controlling the spawning and despawning of the reward
 
 
 // choose an angle of approach using the angle counter and use the corresponding probablilty of seeing the reward for the approach.
 
-[] s=2 & pos>=enter_pf & angle_id=1 -> see_reward_approach_perpendicular : (_5ht'=1) & (s'=3) + (1-see_reward_approach_perpendicular) : (missed_reward'=true) & (s'=6); //enter the placefield and increase 5ht (increase to 3!!!)
-[] s=2 & pos>=enter_pf & angle_id=2  -> see_reward_approach_pi_over_8 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_pi_over_8) : (missed_reward'=true) & (s'=6);
-[] s=2 & pos>=enter_pf & angle_id=3 -> see_reward_approach_mt_pi_over_4 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_mt_pi_over_4) : (missed_reward'=true) & (s'=6);
-[] s=2 & pos>=enter_pf & angle_id=4 -> see_reward_approach_neg_pi_over_8 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_neg_pi_over_8) : (missed_reward'=true) & (s'=6);
-[] s=2 & pos>=enter_pf & angle_id=5 -> see_reward_approach_neg_lt_pi_over_4 : (_5ht'=1) & (s'=3) + (1-see_reward_approach_neg_lt_pi_over_4) : (missed_reward'=true) & (s'=6);
+
 
 [] s=3 & pos>=wait_at_reward_location -> 1 : (_5ht'=3) & (s'=4) & (in_front_of_reward_location'=true); //slow down if front of reward_location, expected to contain reward
 
@@ -87,15 +88,13 @@ c2 : [0..reward_lifetime] init 0; //reward lifetime counter
 spwnd : bool init false;
 despwnd : bool init false;
 
-[timed] in_front_of_reward_location=false -> 1: (c1'=0);
-[timed] in_front_of_reward_location=true & spwnd=false & c1=delay -> 1 : (spwnd'=true) & (c1'=0); //spawn reward after "delay" steps
+
+[timed] in_front_of_reward_location=true & spwnd=false & c1=delay -> 0.8 : (spwnd'=true) & (c1'=0) + 0.2 : (spwnd'=false) & (c1'=delay); //spawn reward after "delay" steps
 [timed] in_front_of_reward_location=true & spwnd=false & c1<delay-> 1: (c1'=c1+1);  //increment reward spawn counter
 
 [timed] in_front_of_reward_location=true & spwnd=true & c2=reward_lifetime -> 1 : (despwnd'=true); //despawn reward after "reward_lifetime" steps
 [timed] in_front_of_reward_location=true & spwnd=true & c2<reward_lifetime -> 1 : (c2'=c2+1); //increment reward despawn counter
 
-[] spwnd=true & despwnd=false -> 1: (reward_present'=true); //spawn reward
-[] despwnd=true -> 1: (reward_present'=false); //despawn reward
 
 endmodule
 

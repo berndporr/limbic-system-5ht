@@ -44,8 +44,6 @@ The option -p selects the different scenarios (see below) which cause a lack of
 5HT and different options to fix it. With the -p option subdirectories are
 created according to the scenario.
 
-Do run stats of all scenarios type: `run_all_stats.sh`.
-
 ```
 ./limbic-system-simulator: command line options
  -a:            single food run
@@ -65,7 +63,23 @@ Possible scenarios:
 7 : DRN is suppressed, 5HTR2 up and less wait (/drn_suppress_5ht2up_less_wait/)
 ```
 
+Do run stats of all scenarios type:
+```run_all_stats.sh``` and then plot the results with
+```normalised_reward.py```.
+
 ## Model checking
 
-An abstract version in form of a prism model checker
-is in the subdirectory `prism_model`.
+### Installation
+
+Install PRISM: http://www.prismmodelchecker.org/manual/InstallingPRISM/Instructions
+
+Either install the binaries or compile from source by following the instructions above.
+When compiling from source you can add to the Makefile: `OPTIMISE = -O3 -march=native`.
+When compiling from source the prism startup scripts might not be copied to `/usr/local/bin` automatically. If
+that's the case just type: `/usr/local/src/prism-4.4/prism/bin# cp * /usr/local/bin`.
+
+### Running all simulations
+
+Change to `prism_model` and run the script `run_models.sh`. This will then run all
+eight scenarios as described above.
+
