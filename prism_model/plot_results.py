@@ -17,10 +17,11 @@ results = f.read().splitlines()
 for r in results:
     if 'Result:' in r:
         rr = re.findall("[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", r)
-        rr = rr[0]
+        rr = float(rr[0])
         print(rr)
         average.append(rr)
 
+print(average)
 index = np.arange(len(average))
 height = 0.35
 fig, ax = plt.subplots()
