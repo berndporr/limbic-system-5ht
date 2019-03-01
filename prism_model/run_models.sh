@@ -1,3 +1,4 @@
+#! /bin/sh
 echo "Starting experiment 1:" | tee results.txt
 prism final_5ht.prism prop2_new.pctl -const delay=15,reward_unseen_speed=2,speed_uncertainty=0 | tee -a results.txt
 echo "Starting experiment 2:" | tee -a results.txt
