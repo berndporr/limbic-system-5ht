@@ -26,12 +26,11 @@ def doExperiment(delay,reward_unseen_speed,speed_uncertainty,reportfile):
     for line in result_in_lines:
         if 'Result:' in line:
             rr = re.findall("[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", line)
-        rr = rr[0]
-        print(rr)
-        return rr
-
+            rr = float(rr[0])
+            return rr
 
 reportfile = open(logfilename, 'wt')
-doExperiment(15,2,0,reportfile)
+p = doExperiment(15,2,0,reportfile)
+print("p = {}\n".format(p))
 reportfile.flush()
 reportfile.close()
