@@ -51,9 +51,36 @@ def doExperiment(delay,reward_unseen_speed,speed_uncertainty,reportfile,resultsf
 reportfile = open(logfilename, 'wt')
 resultsfile = open(pval_filename, 'wt')
 
-print("Normal:")
-speed = 100 * ofc5HTreceptors(3, 1.0, 1)
-doExperiment(15,speed,0,reportfile,resultsfile)
+print("1 - Normal")
+reward_unseen_speed = 100 * ofc5HTreceptors(3, 1.0, 1)
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("2 - Less delay")
+doExperiment(10,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("3 - DRN is suppressed")
+reward_unseen_speed = 100 * ofc5HTreceptors(0.3, 1.0, 1)
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("4 - DRN is suppressed, less delay")
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("5 - DRN is suppressed and SSRI")
+reward_unseen_speed = 100 * ofc5HTreceptors(0.3, 1.0, 3)
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("6 - DRN is suppressed and SSRI, less delay")
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("7 - DRN is suppressed and 5HTR2 up")
+reward_unseen_speed = 100 * ofc5HTreceptors(0.3, 1.0, 2)
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
+
+print("8 - DRN is suppressed and 5HTR2 up, less delay")
+doExperiment(15,reward_unseen_speed,0,reportfile,resultsfile)
 
 reportfile.flush()
 reportfile.close()
+
+resultsfile.flush()
+resultsfile.close()
