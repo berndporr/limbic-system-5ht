@@ -2,9 +2,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.signal as signal
-import math as math
-import re
 
 exp = ['normal','normal_less_wait','drn_suppress','drn_suppress_less_wait','drn_suppress_ssri','drn_suppress_ssri_less_wait','drn_suppress_5ht2up','drn_suppress_5ht2up_less_wait']
 

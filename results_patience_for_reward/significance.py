@@ -30,5 +30,5 @@ def doTest(test_for):
 print("Significantly different:")
 doTest(True)
 
-print("No significance:")
+print("\n\nNo significance:")
 doTest(False)
