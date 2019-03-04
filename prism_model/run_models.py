@@ -25,15 +25,16 @@ uncertainty = 10
 vis1 = 1
 
 # visual input if reward shows up
-vis2 = 2
+vis2 = 1
 
 def ofc5HTreceptors(_5ht,x,t):
-    if t == 1:
-        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2)
+    serot = _5ht
     if t == 2:
-        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2+_5HTR2_OFFSET)
+        serot = _5ht + DRN_OFFSET
+    SEROT_R2_OFFSET = 0
     if t == 3:
-        return (1-math.exp(-pow(x/(_5ht+2+DRN_OFFSET),(_5ht+1+DRN_OFFSET))))*(_5ht+2+DRN_OFFSET)
+        SEROT_R2_OFFSET = _5HTR2_OFFSET
+    return (1-math.exp(-pow(x/(serot+1),(serot+1))))*(serot+2+SEROT_R2_OFFSET)
 
 
 def doExperiment(delay,reward_unseen_speed,reward_seen_speed,speed_uncertainty,reportfile,resultsfile):
@@ -108,8 +109,8 @@ doExperiment(shorter_food_delay,
              reportfile,resultsfile)
 
 print("5 - DRN is suppressed and SSRI")
-reward_unseen_speed = 100 * ofc5HTreceptors(0.3, vis1, 3)
-reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 3)
+reward_unseen_speed = 100 * ofc5HTreceptors(0.3, vis1, 2)
+reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 2)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
@@ -124,8 +125,8 @@ doExperiment(shorter_food_delay,
              reportfile,resultsfile)
 
 print("7 - DRN is suppressed and 5HTR2 up")
-reward_unseen_speed = 100 * ofc5HTreceptors(0.3, vis1, 2)
-reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 2)
+reward_unseen_speed = 100 * ofc5HTreceptors(0.3, vis1, 3)
+reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 3)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
