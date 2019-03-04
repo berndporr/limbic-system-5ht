@@ -20,11 +20,11 @@ shorter_food_delay = 10
 uncertainty = 10
 
 def ofc5HTreceptors(_5ht,x,t):
-    if t == 0:
-        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2)
     if t == 1:
-        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2+_5HTR2_OFFSET)
+        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2)
     if t == 2:
+        return (1-math.exp(-pow(x/(_5ht+1),(_5ht+1))))*(_5ht+2+_5HTR2_OFFSET)
+    if t == 3:
         return (1-math.exp(-pow(x/(_5ht+2+DRN_OFFSET),(_5ht+1+DRN_OFFSET))))*(_5ht+2+DRN_OFFSET)
 
 
