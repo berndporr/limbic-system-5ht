@@ -13,7 +13,7 @@ height = 0.35
 fig, ax = plt.subplots()
 rects = ax.barh(index+height*1.1,pvals,height,align='edge')
 ax.set_xlabel('r')
-ax.set_title('Relative reward')
+ax.set_title('Reward probability')
 ax.set_yticks(index + height)
 ax.set_yticklabels(exp)
 plt.show()

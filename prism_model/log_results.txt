@@ -1,0 +1,538 @@
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 00:57:11 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=1,speed_uncertainty=0'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=15,reward_unseen_speed=1,speed_uncertainty=0
+
+Building model...
+Model constants: delay=15,reward_unseen_speed=1,speed_uncertainty=0
+
+Computing reachable states...
+
+Reachability (BFS): 33 iterations in 0.60 seconds (average 0.018242, setup 0.00)
+
+Time for model construction: 194.27 seconds.
+
+Type:        DTMC
+States:      584 (1 initial)
+Transitions: 633
+
+Transition matrix: 3733 nodes (5 terminal), 633 minterms, vars: 45r/45c
+
+Prob0: 32 iterations in 0.02 seconds (average 0.000562, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 584, no = 0, maybe = 0
+
+Value in the initial state: 1.0
+
+Time for model checking: 0.022 seconds.
+
+Result: 1.0 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:00:27 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=1,speed_uncertainty=0'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=10,reward_unseen_speed=1,speed_uncertainty=0
+
+Building model...
+Model constants: delay=10,reward_unseen_speed=1,speed_uncertainty=0
+
+Computing reachable states...
+
+Reachability (BFS): 28 iterations in 0.52 seconds (average 0.018536, setup 0.00)
+
+Time for model construction: 260.081 seconds.
+
+Type:        DTMC
+States:      479 (1 initial)
+Transitions: 528
+
+Transition matrix: 3144 nodes (5 terminal), 528 minterms, vars: 45r/45c
+
+Prob0: 27 iterations in 0.01 seconds (average 0.000519, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 479, no = 0, maybe = 0
+
+Value in the initial state: 1.0
+
+Time for model checking: 0.017 seconds.
+
+Result: 1.0 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:04:48 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=117,speed_uncertainty=11'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=15,reward_unseen_speed=117,speed_uncertainty=11
+
+Building model...
+Model constants: delay=15,reward_unseen_speed=117,speed_uncertainty=11
+
+Computing reachable states...
+
+Reachability (BFS): 25 iterations in 0.73 seconds (average 0.029240, setup 0.00)
+
+Time for model construction: 258.788 seconds.
+
+Type:        DTMC
+States:      414 (1 initial)
+Transitions: 463
+
+Transition matrix: 4968 nodes (5 terminal), 463 minterms, vars: 45r/45c
+
+Prob0: 23 iterations in 0.01 seconds (average 0.000522, setup 0.00)
+
+Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
+
+yes = 64, no = 347, maybe = 3
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=45, nodes=230] [10.8 KB]
+Adding explicit sparse matrices... [levels=45, num=1, compact] [0.5 KB]
+Creating vector for diagonals... [dist=2, compact] [0.8 KB]
+Creating vector for RHS... [dist=2, compact] [0.8 KB]
+Allocating iteration vectors... [2 x 3.2 KB]
+TOTAL: [19.4 KB]
+
+Starting iterations...
+
+Jacobi: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.14285714285714285
+
+Time for model checking: 0.024 seconds.
+
+Result: 0.14285714285714285 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:09:08 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=117,speed_uncertainty=11'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=10,reward_unseen_speed=117,speed_uncertainty=11
+
+Building model...
+Model constants: delay=10,reward_unseen_speed=117,speed_uncertainty=11
+
+Computing reachable states...
+
+Reachability (BFS): 23 iterations in 0.67 seconds (average 0.029043, setup 0.00)
+
+Time for model construction: 292.655 seconds.
+
+Type:        DTMC
+States:      342 (1 initial)
+Transitions: 391
+
+Transition matrix: 4314 nodes (5 terminal), 391 minterms, vars: 45r/45c
+
+Prob0: 21 iterations in 0.01 seconds (average 0.000714, setup 0.00)
+
+Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
+
+yes = 183, no = 157, maybe = 2
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=45, nodes=215] [10.1 KB]
+Adding explicit sparse matrices... [levels=45, num=1, compact] [0.4 KB]
+Creating vector for diagonals... [dist=2, compact] [0.7 KB]
+Creating vector for RHS... [dist=2, compact] [0.7 KB]
+Allocating iteration vectors... [2 x 2.7 KB]
+TOTAL: [17.2 KB]
+
+Starting iterations...
+
+Jacobi: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.47619047619047616
+
+Time for model checking: 0.025 seconds.
+
+Result: 0.47619047619047616 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:14:02 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=40,speed_uncertainty=4'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=15,reward_unseen_speed=40,speed_uncertainty=4
+
+Building model...
+Model constants: delay=15,reward_unseen_speed=40,speed_uncertainty=4
+
+Computing reachable states...
+
+Reachability (BFS): 31 iterations in 0.83 seconds (average 0.026806, setup 0.00)
+
+Time for model construction: 212.368 seconds.
+
+Type:        DTMC
+States:      507 (1 initial)
+Transitions: 556
+
+Transition matrix: 5123 nodes (5 terminal), 556 minterms, vars: 45r/45c
+
+Prob0: 29 iterations in 0.02 seconds (average 0.000828, setup 0.00)
+
+Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
+
+yes = 390, no = 116, maybe = 1
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=45, nodes=156] [7.3 KB]
+Adding explicit sparse matrices... [levels=45, num=1, compact] [0.5 KB]
+Creating vector for diagonals... [dist=2, compact] [1.0 KB]
+Creating vector for RHS... [dist=2, compact] [1.0 KB]
+Allocating iteration vectors... [2 x 4.0 KB]
+TOTAL: [17.8 KB]
+
+Starting iterations...
+
+Jacobi: 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.7142857142857142
+
+Time for model checking: 0.036 seconds.
+
+Result: 0.7142857142857142 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:17:35 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=40,speed_uncertainty=4'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=10,reward_unseen_speed=40,speed_uncertainty=4
+
+Building model...
+Model constants: delay=10,reward_unseen_speed=40,speed_uncertainty=4
+
+Computing reachable states...
+
+Reachability (BFS): 26 iterations in 0.73 seconds (average 0.028231, setup 0.00)
+
+Time for model construction: 245.793 seconds.
+
+Type:        DTMC
+States:      426 (1 initial)
+Transitions: 475
+
+Transition matrix: 4314 nodes (5 terminal), 475 minterms, vars: 45r/45c
+
+Prob0: 25 iterations in 0.02 seconds (average 0.000840, setup 0.00)
+
+Prob1: 2 iterations in 0.00 seconds (average 0.000500, setup 0.00)
+
+yes = 382, no = 43, maybe = 1
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=45, nodes=156] [7.3 KB]
+Adding explicit sparse matrices... [levels=45, num=1, compact] [0.5 KB]
+Creating vector for diagonals... [dist=2, compact] [0.8 KB]
+Creating vector for RHS... [dist=2, compact] [0.8 KB]
+Allocating iteration vectors... [2 x 3.3 KB]
+TOTAL: [16.1 KB]
+
+Starting iterations...
+
+Jacobi: 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.857142857142857
+
+Time for model checking: 0.03 seconds.
+
+Result: 0.857142857142857 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:21:42 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=167,speed_uncertainty=16'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=15,reward_unseen_speed=167,speed_uncertainty=16
+
+Building model...
+Model constants: delay=15,reward_unseen_speed=167,speed_uncertainty=16
+
+Computing reachable states...
+
+Reachability (BFS): 21 iterations in 0.63 seconds (average 0.029952, setup 0.00)
+
+Time for model construction: 243.244 seconds.
+
+Type:        DTMC
+States:      407 (1 initial)
+Transitions: 456
+
+Transition matrix: 4159 nodes (5 terminal), 456 minterms, vars: 45r/45c
+
+yes = 0, no = 407, maybe = 0
+
+Value in the initial state: 0.0
+
+Time for model checking: 0.003 seconds.
+
+Result: 0.0 (value in the initial state)
+
+
+
+
+
+
+SCRIPT RUN:
+SUCCESS:
+PRISM
+=====
+
+Version: 4.4
+Date: Mon Mar 04 01:25:46 GMT 2019
+Hostname: bp1-Precision-WorkStation-T5400
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=167,speed_uncertainty=16'
+
+Parsing model file "final_5ht.prism"...
+
+Parsing properties file "prop2_new.pctl"...
+
+1 property:
+(1) P=? [ F (collected_reward=true) ]
+
+Type:        DTMC
+Modules:     limbic_system reward_spawner 
+Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_reward missed_reward c t spwnd despwnd reward_present 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F (collected_reward=true) ]
+Model constants: delay=10,reward_unseen_speed=167,speed_uncertainty=16
+
+Building model...
+Model constants: delay=10,reward_unseen_speed=167,speed_uncertainty=16
+
+Computing reachable states...
+
+Reachability (BFS): 20 iterations in 0.61 seconds (average 0.030350, setup 0.00)
+
+Time for model construction: 295.317 seconds.
+
+Type:        DTMC
+States:      312 (1 initial)
+Transitions: 361
+
+Transition matrix: 4024 nodes (5 terminal), 361 minterms, vars: 45r/45c
+
+Prob0: 18 iterations in 0.01 seconds (average 0.000500, setup 0.00)
+
+Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
+
+yes = 81, no = 229, maybe = 2
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=45, nodes=215] [10.1 KB]
+Adding explicit sparse matrices... [levels=45, num=1, compact] [0.4 KB]
+Creating vector for diagonals... [dist=2, compact] [0.6 KB]
+Creating vector for RHS... [dist=2, compact] [0.6 KB]
+Allocating iteration vectors... [2 x 2.4 KB]
+TOTAL: [16.6 KB]
+
+Starting iterations...
+
+Jacobi: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.23809523809523808
+
+Time for model checking: 0.019 seconds.
+
+Result: 0.23809523809523808 (value in the initial state)
+
+
+
+
+
+
