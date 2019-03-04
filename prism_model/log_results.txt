@@ -4,10 +4,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 00:57:11 GMT 2019
+Date: Mon Mar 04 12:00:20 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=1,speed_uncertainty=0'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0'
 
 Parsing model file "final_5ht.prism"...
 
@@ -23,32 +23,32 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=15,reward_unseen_speed=1,speed_uncertainty=0
+Model constants: delay=15,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0
 
 Building model...
-Model constants: delay=15,reward_unseen_speed=1,speed_uncertainty=0
+Model constants: delay=15,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0
 
 Computing reachable states...
 
-Reachability (BFS): 33 iterations in 0.60 seconds (average 0.018242, setup 0.00)
+Reachability (BFS): 38 iterations in 0.66 seconds (average 0.017368, setup 0.00)
 
-Time for model construction: 194.27 seconds.
+Time for model construction: 184.913 seconds.
 
 Type:        DTMC
-States:      584 (1 initial)
-Transitions: 633
+States:      638 (1 initial)
+Transitions: 687
 
-Transition matrix: 3733 nodes (5 terminal), 633 minterms, vars: 45r/45c
+Transition matrix: 3816 nodes (5 terminal), 687 minterms, vars: 45r/45c
 
-Prob0: 32 iterations in 0.02 seconds (average 0.000562, setup 0.00)
+Prob0: 37 iterations in 0.02 seconds (average 0.000568, setup 0.00)
 
 Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-yes = 584, no = 0, maybe = 0
+yes = 638, no = 0, maybe = 0
 
 Value in the initial state: 1.0
 
-Time for model checking: 0.022 seconds.
+Time for model checking: 0.025 seconds.
 
 Result: 1.0 (value in the initial state)
 
@@ -63,10 +63,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:00:27 GMT 2019
+Date: Mon Mar 04 12:03:26 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=1,speed_uncertainty=0'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0'
 
 Parsing model file "final_5ht.prism"...
 
@@ -82,32 +82,32 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=10,reward_unseen_speed=1,speed_uncertainty=0
+Model constants: delay=10,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0
 
 Building model...
-Model constants: delay=10,reward_unseen_speed=1,speed_uncertainty=0
+Model constants: delay=10,reward_unseen_speed=1,reward_seen_speed=135,speed_uncertainty=0
 
 Computing reachable states...
 
-Reachability (BFS): 28 iterations in 0.52 seconds (average 0.018536, setup 0.00)
+Reachability (BFS): 33 iterations in 0.60 seconds (average 0.018212, setup 0.00)
 
-Time for model construction: 260.081 seconds.
+Time for model construction: 213.776 seconds.
 
 Type:        DTMC
-States:      479 (1 initial)
-Transitions: 528
+States:      533 (1 initial)
+Transitions: 582
 
-Transition matrix: 3144 nodes (5 terminal), 528 minterms, vars: 45r/45c
+Transition matrix: 3223 nodes (5 terminal), 582 minterms, vars: 45r/45c
 
-Prob0: 27 iterations in 0.01 seconds (average 0.000519, setup 0.00)
+Prob0: 32 iterations in 0.02 seconds (average 0.000531, setup 0.00)
 
 Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-yes = 479, no = 0, maybe = 0
+yes = 533, no = 0, maybe = 0
 
 Value in the initial state: 1.0
 
-Time for model checking: 0.017 seconds.
+Time for model checking: 0.02 seconds.
 
 Result: 1.0 (value in the initial state)
 
@@ -122,10 +122,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:04:48 GMT 2019
+Date: Mon Mar 04 12:07:00 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=117,speed_uncertainty=11'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11'
 
 Parsing model file "final_5ht.prism"...
 
@@ -141,16 +141,16 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=15,reward_unseen_speed=117,speed_uncertainty=11
+Model constants: delay=15,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11
 
 Building model...
-Model constants: delay=15,reward_unseen_speed=117,speed_uncertainty=11
+Model constants: delay=15,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11
 
 Computing reachable states...
 
-Reachability (BFS): 25 iterations in 0.73 seconds (average 0.029240, setup 0.00)
+Reachability (BFS): 25 iterations in 0.72 seconds (average 0.028640, setup 0.00)
 
-Time for model construction: 258.788 seconds.
+Time for model construction: 237.204 seconds.
 
 Type:        DTMC
 States:      414 (1 initial)
@@ -160,7 +160,7 @@ Transition matrix: 4968 nodes (5 terminal), 463 minterms, vars: 45r/45c
 
 Prob0: 23 iterations in 0.01 seconds (average 0.000522, setup 0.00)
 
-Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
+Prob1: 2 iterations in 0.00 seconds (average 0.002000, setup 0.00)
 
 yes = 64, no = 347, maybe = 3
 
@@ -195,10 +195,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:09:08 GMT 2019
+Date: Mon Mar 04 12:10:59 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=117,speed_uncertainty=11'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11'
 
 Parsing model file "final_5ht.prism"...
 
@@ -214,28 +214,28 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=10,reward_unseen_speed=117,speed_uncertainty=11
+Model constants: delay=10,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11
 
 Building model...
-Model constants: delay=10,reward_unseen_speed=117,speed_uncertainty=11
+Model constants: delay=10,reward_unseen_speed=117,reward_seen_speed=218,speed_uncertainty=11
 
 Computing reachable states...
 
-Reachability (BFS): 23 iterations in 0.67 seconds (average 0.029043, setup 0.00)
+Reachability (BFS): 22 iterations in 0.65 seconds (average 0.029545, setup 0.00)
 
-Time for model construction: 292.655 seconds.
+Time for model construction: 285.724 seconds.
 
 Type:        DTMC
-States:      342 (1 initial)
-Transitions: 391
+States:      341 (1 initial)
+Transitions: 390
 
-Transition matrix: 4314 nodes (5 terminal), 391 minterms, vars: 45r/45c
+Transition matrix: 4307 nodes (5 terminal), 390 minterms, vars: 45r/45c
 
-Prob0: 21 iterations in 0.01 seconds (average 0.000714, setup 0.00)
+Prob0: 20 iterations in 0.01 seconds (average 0.000700, setup 0.00)
 
 Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
 
-yes = 183, no = 157, maybe = 2
+yes = 182, no = 157, maybe = 2
 
 Computing remaining probabilities...
 Engine: Hybrid
@@ -253,7 +253,7 @@ Jacobi: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Value in the initial state: 0.47619047619047616
 
-Time for model checking: 0.025 seconds.
+Time for model checking: 0.024 seconds.
 
 Result: 0.47619047619047616 (value in the initial state)
 
@@ -268,10 +268,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:14:02 GMT 2019
+Date: Mon Mar 04 12:15:46 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=40,speed_uncertainty=4'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4'
 
 Parsing model file "final_5ht.prism"...
 
@@ -287,28 +287,28 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=15,reward_unseen_speed=40,speed_uncertainty=4
+Model constants: delay=15,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4
 
 Building model...
-Model constants: delay=15,reward_unseen_speed=40,speed_uncertainty=4
+Model constants: delay=15,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4
 
 Computing reachable states...
 
-Reachability (BFS): 31 iterations in 0.83 seconds (average 0.026806, setup 0.00)
+Reachability (BFS): 31 iterations in 0.83 seconds (average 0.026903, setup 0.00)
 
-Time for model construction: 212.368 seconds.
+Time for model construction: 221.506 seconds.
 
 Type:        DTMC
-States:      507 (1 initial)
-Transitions: 556
+States:      508 (1 initial)
+Transitions: 557
 
-Transition matrix: 5123 nodes (5 terminal), 556 minterms, vars: 45r/45c
+Transition matrix: 5152 nodes (5 terminal), 557 minterms, vars: 45r/45c
 
 Prob0: 29 iterations in 0.02 seconds (average 0.000828, setup 0.00)
 
 Prob1: 2 iterations in 0.00 seconds (average 0.001500, setup 0.00)
 
-yes = 390, no = 116, maybe = 1
+yes = 391, no = 116, maybe = 1
 
 Computing remaining probabilities...
 Engine: Hybrid
@@ -326,7 +326,7 @@ Jacobi: 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Value in the initial state: 0.7142857142857142
 
-Time for model checking: 0.036 seconds.
+Time for model checking: 0.035 seconds.
 
 Result: 0.7142857142857142 (value in the initial state)
 
@@ -341,10 +341,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:17:35 GMT 2019
+Date: Mon Mar 04 12:19:28 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=40,speed_uncertainty=4'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4'
 
 Parsing model file "final_5ht.prism"...
 
@@ -360,38 +360,38 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=10,reward_unseen_speed=40,speed_uncertainty=4
+Model constants: delay=10,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4
 
 Building model...
-Model constants: delay=10,reward_unseen_speed=40,speed_uncertainty=4
+Model constants: delay=10,reward_unseen_speed=40,reward_seen_speed=189,speed_uncertainty=4
 
 Computing reachable states...
 
-Reachability (BFS): 26 iterations in 0.73 seconds (average 0.028231, setup 0.00)
+Reachability (BFS): 27 iterations in 0.74 seconds (average 0.027593, setup 0.00)
 
-Time for model construction: 245.793 seconds.
+Time for model construction: 257.452 seconds.
 
 Type:        DTMC
-States:      426 (1 initial)
-Transitions: 475
+States:      429 (1 initial)
+Transitions: 478
 
-Transition matrix: 4314 nodes (5 terminal), 475 minterms, vars: 45r/45c
+Transition matrix: 4351 nodes (5 terminal), 478 minterms, vars: 45r/45c
 
-Prob0: 25 iterations in 0.02 seconds (average 0.000840, setup 0.00)
+Prob0: 25 iterations in 0.02 seconds (average 0.000960, setup 0.00)
 
 Prob1: 2 iterations in 0.00 seconds (average 0.000500, setup 0.00)
 
-yes = 382, no = 43, maybe = 1
+yes = 385, no = 43, maybe = 1
 
 Computing remaining probabilities...
 Engine: Hybrid
 
 Building hybrid MTBDD matrix... [levels=45, nodes=156] [7.3 KB]
 Adding explicit sparse matrices... [levels=45, num=1, compact] [0.5 KB]
-Creating vector for diagonals... [dist=2, compact] [0.8 KB]
-Creating vector for RHS... [dist=2, compact] [0.8 KB]
-Allocating iteration vectors... [2 x 3.3 KB]
-TOTAL: [16.1 KB]
+Creating vector for diagonals... [dist=2, compact] [0.9 KB]
+Creating vector for RHS... [dist=2, compact] [0.9 KB]
+Allocating iteration vectors... [2 x 3.4 KB]
+TOTAL: [16.2 KB]
 
 Starting iterations...
 
@@ -399,7 +399,7 @@ Jacobi: 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Value in the initial state: 0.857142857142857
 
-Time for model checking: 0.03 seconds.
+Time for model checking: 0.033 seconds.
 
 Result: 0.857142857142857 (value in the initial state)
 
@@ -414,10 +414,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:21:42 GMT 2019
+Date: Mon Mar 04 12:23:47 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=167,speed_uncertainty=16'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=15,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16'
 
 Parsing model file "final_5ht.prism"...
 
@@ -433,16 +433,16 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=15,reward_unseen_speed=167,speed_uncertainty=16
+Model constants: delay=15,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16
 
 Building model...
-Model constants: delay=15,reward_unseen_speed=167,speed_uncertainty=16
+Model constants: delay=15,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16
 
 Computing reachable states...
 
-Reachability (BFS): 21 iterations in 0.63 seconds (average 0.029952, setup 0.00)
+Reachability (BFS): 21 iterations in 0.63 seconds (average 0.030048, setup 0.00)
 
-Time for model construction: 243.244 seconds.
+Time for model construction: 253.841 seconds.
 
 Type:        DTMC
 States:      407 (1 initial)
@@ -469,10 +469,10 @@ PRISM
 =====
 
 Version: 4.4
-Date: Mon Mar 04 01:25:46 GMT 2019
+Date: Mon Mar 04 12:28:02 GMT 2019
 Hostname: bp1-Precision-WorkStation-T5400
 Memory limits: cudd=1g, java(heap)=1g
-Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=167,speed_uncertainty=16'
+Command line: prism final_5ht.prism prop2_new.pctl -const 'delay=10,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16'
 
 Parsing model file "final_5ht.prism"...
 
@@ -488,16 +488,16 @@ Variables:   waiting vis1 vis2 pos s speedtype reward_pos at_reward collected_re
 ---------------------------------------------------------------------
 
 Model checking: P=? [ F (collected_reward=true) ]
-Model constants: delay=10,reward_unseen_speed=167,speed_uncertainty=16
+Model constants: delay=10,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16
 
 Building model...
-Model constants: delay=10,reward_unseen_speed=167,speed_uncertainty=16
+Model constants: delay=10,reward_unseen_speed=167,reward_seen_speed=312,speed_uncertainty=16
 
 Computing reachable states...
 
-Reachability (BFS): 20 iterations in 0.61 seconds (average 0.030350, setup 0.00)
+Reachability (BFS): 20 iterations in 0.60 seconds (average 0.029850, setup 0.00)
 
-Time for model construction: 295.317 seconds.
+Time for model construction: 314.412 seconds.
 
 Type:        DTMC
 States:      312 (1 initial)
