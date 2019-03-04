@@ -9,23 +9,12 @@ import re
 exp = ['normal','normal_less_wait','drn_suppress','drn_suppress_less_wait','drn_suppress_ssri','drn_suppress_ssri_less_wait','drn_suppress_5ht2up','drn_suppress_5ht2up_less_wait']
 
 
-average = []
+pvals = np.loadtxt('pval_results.txt')
 
-f = open('results.txt','r')
-results = f.read().splitlines()
-
-for r in results:
-    if 'Result:' in r:
-        rr = re.findall("[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", r)
-        rr = float(rr[0])
-        print(rr)
-        average.append(rr)
-
-print(average)
-index = np.arange(len(average))
+index = np.arange(len(pvals))
 height = 0.35
 fig, ax = plt.subplots()
-rects = ax.barh(index+height*1.1,average,height,align='edge')
+rects = ax.barh(index+height*1.1,pvals,height,align='edge')
 ax.set_xlabel('r')
 ax.set_title('Relative reward')
 ax.set_yticks(index + height)
