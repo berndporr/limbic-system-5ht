@@ -7,7 +7,7 @@ const int MAX = 2000; // upper bound on agent position
 const int reward_unseen_speed; //speed of agent when vis2 = 0 
 const int reward_seen_speed; //speed of agent when vis2 = 1
 const int speed_uncertainty; 
-const int reward_spread = 260; //half of the max distance between spawned reward and central reward location
+const int reward_spread = 330; //half of the max distance between spawned reward and central reward location
  
 
 
