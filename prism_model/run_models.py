@@ -12,14 +12,12 @@ logfilename = "log_results.txt"
 pval_filename = "pval_results.txt"
 
 DRN_OFFSET = 0.5
-_5HTR2_OFFSET = 1
+_5HTR2_OFFSET = 0.5
 
 standard_food_delay = 15
 shorter_food_delay = 10
 
-uncertainty = 10
-
-# activtiy if active
+uncertainty = 0.1
 
 # visual input if landmark can be seen
 vis1 = 1
@@ -82,14 +80,14 @@ reward_seen_speed = 100 * ofc5HTreceptors(3, vis1+vis2, 1)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("2 - Less delay")
 doExperiment(shorter_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("3 - DRN is suppressed")
@@ -98,14 +96,14 @@ reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 1)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("4 - DRN is suppressed, less delay")
 doExperiment(shorter_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("5 - DRN is suppressed and SSRI")
@@ -114,14 +112,14 @@ reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 2)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("6 - DRN is suppressed and SSRI, less delay")
 doExperiment(shorter_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("7 - DRN is suppressed and 5HTR2 up")
@@ -130,14 +128,14 @@ reward_seen_speed = 100 * ofc5HTreceptors(0.3, vis1+vis2, 3)
 doExperiment(standard_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 print("8 - DRN is suppressed and 5HTR2 up, less delay")
 doExperiment(shorter_food_delay,
              reward_unseen_speed,
              reward_seen_speed,
-             reward_unseen_speed/uncertainty,
+             reward_unseen_speed * uncertainty,
              reportfile,resultsfile)
 
 reportfile.close()

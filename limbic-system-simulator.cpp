@@ -88,12 +88,12 @@ const char* setParameters(int scenario) {
 	case 6:
 		fprintf(stderr,"DRN is suppressed and 5HTR2 up");
 		DRN_SUPPRESSION = 4;
-		OFC_5HTR2_OFFSET = 1;
+		OFC_5HTR2_OFFSET = 0.5;
 		return "drn_suppress_5ht2up";
 	case 7:
 		fprintf(stderr,"DRN is suppressed, 5HTR2 up and less wait");
 		DRN_SUPPRESSION = 4;
-		OFC_5HTR2_OFFSET = 1;
+		OFC_5HTR2_OFFSET = 0.5;
 		REWARD_DELAY = 100;
 		return "drn_suppress_5ht2up_less_wait";
 	}
