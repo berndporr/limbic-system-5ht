@@ -75,8 +75,7 @@ Install PRISM: http://www.prismmodelchecker.org/manual/InstallingPRISM/Instructi
 
 Either install the binaries or compile from source by following the instructions above.
 When compiling from source you can add to the Makefile: `OPTIMISE = -O3 -march=native`.
-When compiling from source the prism startup scripts might not be copied to `/usr/local/bin` automatically. If
-that's the case just type: `/usr/local/src/prism-4.4/prism/bin# cp * /usr/local/bin`.
+Compile as instructed. Then type: `/usr/local/src/prism-4.4/prism/bin# cp * /usr/local/bin`.
 
 ### Running all simulations
 
