@@ -2,7 +2,9 @@
 
 ![alt tag](playground.png)
 
-A simulator for reward based learning.
+This simulator has been created to test the action of 5HT on delayed
+reward delivery, how disruption changes the obtained reward and
+how this possibly can be fixed with the help of SSRIs or psychedelics.
 
 ## Experiment
 
@@ -80,5 +82,5 @@ Compile as instructed. Then type: `/usr/local/src/prism-4.4/prism/bin# cp * /usr
 ### Running all simulations
 
 Change to `prism_model` and run the script `run_models.sh`. This will then run all
-eight scenarios as described above.
-
+eight scenarios as described above. To plot the reward probabilites type:
+`plot_results.py`.
