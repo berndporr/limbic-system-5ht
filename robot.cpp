@@ -79,8 +79,8 @@ Robot::Robot(World* ww,
 	seeRight=0;
 	
 	//left and right direction switches
-	LGsw=0;
-	DGsw=0;
+	Greensw=0;
+	Bluesw=0;
 
 	xCoord=xPos;
 	yCoord=yPos;
@@ -215,8 +215,8 @@ Robot::Robot(World* ww,
 
 	// this deals with all the learning
 	limbic_system=new Limbic_system();
-	LGdirection=new Direction();
-	DGdirection=new Direction();
+	Greendirection=new Direction();
+	Bluedirection=new Direction();
 
 	ioEventDuration=reactTimeBumpReflex;
 	if (reactTimeVision>ioEventDuration) {
@@ -277,8 +277,8 @@ Robot::~Robot() {
 	delete bandp_da_ds;
 	//
 	delete limbic_system;
-	delete LGdirection;
-	delete DGdirection;
+	delete Greendirection;
+	delete Bluedirection;
 }
 
 
@@ -711,13 +711,13 @@ void Robot::react(int step,int collision) {
 	/** These values are sent to direction.cpp to control the direction of the robot**/
 
 	// the left and right direction for the food the sound distance
-	float leftLG=0;
-	float leftDG=0;
-	float rightLG=0;
-	float rightDG=0;
+	float leftGreen=0;
+	float leftBlue=0;
+	float rightGreen=0;
+	float rightBlue=0;
 		
-	float on_contact_direction_LG=0;
-	float on_contact_direction_DG=0;
+	float on_contact_direction_Green=0;
+	float on_contact_direction_Blue=0;
 
 	// loop through all food sources
 	for(int i=0;i<2;i++) {
@@ -753,8 +753,8 @@ void Robot::react(int step,int collision) {
 				{
 					diffSound2=diffSound2+(dl-dr)/sqrt(sqrt(dl*dr));
 					sumSound2=sumSound2+FOOD_DIAMETER/5/sqrt(sqrt(dl*dr));
-					leftDG=leftDG+(dr)/sqrt(sqrt(dr*dr));
-					rightDG=rightDG+(dl)/sqrt(sqrt(dl*dl));
+					leftBlue=leftBlue+(dr)/sqrt(sqrt(dr*dr));
+					rightBlue=rightBlue+(dl)/sqrt(sqrt(dl*dl));
 
 				}
 
@@ -765,8 +765,8 @@ void Robot::react(int step,int collision) {
 				{
 					diffSound1=diffSound1+(dl-dr)/sqrt(sqrt(dl*dr));
 					sumSound1=sumSound1+FOOD_DIAMETER/5/sqrt(sqrt(dl*dr));
-					leftLG=leftLG+(dr)/sqrt(sqrt(dr*dr));
-					rightLG=rightLG+(dl)/sqrt(sqrt(dl*dl));
+					leftGreen=leftGreen+(dr)/sqrt(sqrt(dr*dr));
+					rightGreen=rightGreen+(dl)/sqrt(sqrt(dl*dl));
 				}
 				
 			}
@@ -780,55 +780,55 @@ void Robot::react(int step,int collision) {
 	float placefield2=isPlacefield(1);
 	
 	if ((foodFl)||(foodFr))	{	
-		on_contact_direction_LG = 0.0;
-		on_contact_direction_DG = 0.0;
+		on_contact_direction_Green = 0.0;
+		on_contact_direction_Blue = 0.0;
 		
 		if ((placefield2>placefield1)) {	
-			on_contact_direction_LG = 0.0;    		
-			on_contact_direction_DG = 1.0;
+			on_contact_direction_Green = 0.0;    		
+			on_contact_direction_Blue = 1.0;
 		}
 		
 		if ((placefield1>placefield2)) {
-			on_contact_direction_DG = 0.0;
-			on_contact_direction_LG = 1.0;		
+			on_contact_direction_Blue = 0.0;
+			on_contact_direction_Green = 1.0;		
 		}
 	}  
 	
-	float visual_landmark_LG=sumSound1;
-	float visual_landmark_DG=sumSound2;
+	float visual_landmark_Green=sumSound1;
+	float visual_landmark_Blue=sumSound2;
 
 	// when the reward is visible
-	float visual_reward_LG = 0;
-	float visual_reward_DG = 0;
+	float visual_reward_Green = 0;
+	float visual_reward_Blue = 0;
 
 	world->setRewardVisible(0);
 
 	if ((fabs(placefield1)>0)&&(!(world->getSwapFlag()))) {
-		if (rewardDelayLG>0) {
-			visual_reward_LG = 0;
-			rewardDelayLG--;
+		if (rewardDelayGreen>0) {
+			visual_reward_Green = 0;
+			rewardDelayGreen--;
 			reward = 0;
 		}
 	} else {
-		rewardDelayLG = REWARD_DELAY;
+		rewardDelayGreen = REWARD_DELAY;
 	}
-	if (rewardDelayLG==0) {
+	if (rewardDelayGreen==0) {
 			world->setRewardVisible(1);
-			visual_reward_LG = 1;
+			visual_reward_Green = 1;
 	}
 
 	if ((fabs(placefield2)>0)&&(world->getSwapFlag())) {
-		if (rewardDelayDG>0) {
-			visual_reward_DG = 0;
-			rewardDelayDG--;
+		if (rewardDelayBlue>0) {
+			visual_reward_Blue = 0;
+			rewardDelayBlue--;
 			reward = 0;
 		}
 	} else {
-		rewardDelayDG = REWARD_DELAY;
+		rewardDelayBlue = REWARD_DELAY;
 	}
-	if (rewardDelayDG==0) {
+	if (rewardDelayBlue==0) {
 			world->setRewardVisible(2);
-			visual_reward_DG = 1;
+			visual_reward_Blue = 1;
 	}
 
 	if ((reward>0)&&(!rewardFlag)) {
@@ -839,32 +839,32 @@ void Robot::react(int step,int collision) {
 	limbic_system->doStep(reward,
 			      placefield1,
 			      placefield2,
-			      on_contact_direction_LG,
-			      on_contact_direction_DG,
-			      visual_landmark_LG,
-			      visual_landmark_DG,
-			      visual_reward_LG,
-			      visual_reward_DG);
+			      on_contact_direction_Green,
+			      on_contact_direction_Blue,
+			      visual_landmark_Green,
+			      visual_landmark_Blue,
+			      visual_reward_Green,
+			      visual_reward_Blue);
 	int stp=0;	
 
 	// The switches for the direction controller to the dark or light green place fields.
 	//the ditection triggers by the corelg and coredg
-	LGsw=limbic_system->getLGOutput();
-	DGsw=limbic_system->getDGOutput();
+	Greensw=limbic_system->getGreenOutput();
+	Bluesw=limbic_system->getBlueOutput();
 	float exploreLeft=limbic_system->getExploreLeft();
 	float exploreRight=limbic_system->getExploreRight();
 
-	if (LGsw > 1) {
-		LGsw=1;
+	if (Greensw > 1) {
+		Greensw=1;
 	}
-	if (DGsw > 1) {
-		DGsw=0;
+	if (Bluesw > 1) {
+		Bluesw=0;
 	}
 
-	LGdirection->doDirection(leftLG,rightLG,LGsw);
-	DGdirection->doDirection(leftDG,rightDG,DGsw);
+	Greendirection->doDirection(leftGreen,rightGreen,Greensw);
+	Bluedirection->doDirection(leftBlue,rightBlue,Bluesw);
 
-//	fprintf(stderr,"%f %f\n",LGsw,DGsw);
+//	fprintf(stderr,"%f %f\n",Greensw,Bluesw);
 
 	/** document the direction**/
 	int writeDir=1;
@@ -872,14 +872,14 @@ void Robot::react(int step,int collision) {
 	{
 		fprintf(fdir,"%d %f %f %f %f %f %f %f %f\n",
 			stp,                           //01
-			LGdirection->getOutput(),      //02
-			leftLG,                        //03
-			rightLG,                       //04
-			DGdirection->getOutput(),      //05
-			leftDG,                        //06
-			rightDG,                       //07
-			LGsw,                          //08
-			DGsw                           //09
+			Greendirection->getOutput(),      //02
+			leftGreen,                        //03
+			rightGreen,                       //04
+			Bluedirection->getOutput(),      //05
+			leftBlue,                        //06
+			rightBlue,                       //07
+			Greensw,                          //08
+			Bluesw                           //09
 			);	
 		stp++;
 	}	    
@@ -887,13 +887,13 @@ void Robot::react(int step,int collision) {
    END FOOD
 	********************************************************/
 
-	float LGspeed = LGdirection->getSpeed();
-	float DGspeed = DGdirection->getSpeed();
+	float Greenspeed = Greendirection->getSpeed();
+	float Bluespeed = Bluedirection->getSpeed();
 
 	// summation of the front collision
-	dStep=ROBOT_SPEED*(LGspeed+DGspeed+exploreLeft+exploreRight)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
+	dStep=ROBOT_SPEED*(Greenspeed+Bluespeed+exploreLeft+exploreRight)-BUMP_REVERSE_GAIN*f+BUMP_REVERSE_GAIN*b+sumStep;
 
-	float foodPhi = LGdirection->getOutput()+DGdirection->getOutput()+(exploreLeft-exploreRight)*20;
+	float foodPhi = Greendirection->getOutput()+Bluedirection->getOutput()+(exploreLeft-exploreRight)*20;
 
 	float randPhi=0;
 #ifdef RANDWALK

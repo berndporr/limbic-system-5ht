@@ -21,19 +21,19 @@ public:
 	~Limbic_system();
 	
 	// this feeds into the limbic system:
-	// we have a place field around the light green (LG) and
-	// dark green (DG) objects. There is a reflex input on contact
+	// we have a place field around the Green and
+	// Blue objects. There is a reflex input on contact
 	// and a distance signal from the "eyes" of the agent seeing the
 	// light or dark green object.
 	void doStep(float _reward,
-		    float _placefield_LG,
-		    float _placefield_DG,
-		    float _on_contact_direction_LG,
-		    float _on_contact_direction_DG,
-		    float _visual_direction_LG,
-		    float _visual_direction_DG,
-		    float _visual_reward_LG,
-		    float _visual_reward_DG
+		    float _placefield_Green,
+		    float _placefield_Blue,
+		    float _on_contact_direction_Green,
+		    float _on_contact_direction_Blue,
+		    float _visual_direction_Green,
+		    float _visual_direction_Blue,
+		    float _visual_reward_Green,
+		    float _visual_reward_Blue
 		);
 	
 	enum ExploreStates {EXPLORE_STRAIGHT, EXPLORE_LEFT, EXPLORE_RIGHT, EXPLORE_STOP, EXPLORE_NUM_ITEMS};
@@ -43,13 +43,13 @@ public:
 	// output to the motor system
 	// codes approach behaviour towards the light green object
 	// 0 is no and 1 is max speed
-	float getLGOutput() {
-		return CoreLGOut;
+	float getGreenOutput() {
+		return CoreGreenOut;
 	};
 	
 	// codes approach behaviour towards the dark green object
-	float getDGOutput() {
-		return CoreDGOut;
+	float getBlueOutput() {
+		return CoreBlueOut;
 	};
 	
 
@@ -77,8 +77,8 @@ private:
 
 private:
 	// motor activities
-	float CoreLGOut = 0;
-	float CoreDGOut = 0;
+	float CoreGreenOut = 0;
+	float CoreBlueOut = 0;
 	float mPFC2CoreExploreLeft = 0;
 	float mPFC2CoreExploreRight = 0;
 
@@ -120,21 +120,21 @@ public:
 
 	///////////////////////////////////////////////////////////////
 	// mPFC
-	SecondOrderLowpassFilter* visual_direction_LG_mPFC_filter;
-	SecondOrderLowpassFilter* visual_direction_DG_mPFC_filter;
+	SecondOrderLowpassFilter* visual_direction_Green_mPFC_filter;
+	SecondOrderLowpassFilter* visual_direction_Blue_mPFC_filter;
 
-	float visual_direction_LG_trace = 0;
-	float visual_direction_DG_trace = 0;
+	float visual_direction_Green_trace = 0;
+	float visual_direction_Blue_trace = 0;
 	
-	float mPFC_LG = 0;
-	float mPFC_DG = 0;
+	float mPFC_Green = 0;
+	float mPFC_Blue = 0;
 	
 	float mPFC_receptor_5HT1 = 0;
 	float mPFC_receptor_5HT2 = 0;
 
 	// counters which are triggered at random moment and generate a bias then
-	int mPFCspontLG = 0;
-	int mPFCspontDG = 0;
+	int mPFCspontGreen = 0;
+	int mPFCspontBlue = 0;
 
         /////////////////////////////////////////////////////////////////
 	// VTA
@@ -180,19 +180,19 @@ private:
 
 	// smoothes the signal when touching the object and
 	// creates a curiosity reaction
-	SecondOrderLowpassFilter* on_contact_direction_LG_filter;
-	SecondOrderLowpassFilter* on_contact_direction_DG_filter;
+	SecondOrderLowpassFilter* on_contact_direction_Green_filter;
+	SecondOrderLowpassFilter* on_contact_direction_Blue_filter;
 
 	// copies of the input signals
 	float reward = 0;
-	float placefieldLG = 0;
-	float placefieldDG = 0;
-	float on_contact_direction_LG = 0;
-	float on_contact_direction_DG = 0;
-	float visual_direction_LG = 0;
-	float visual_direction_DG = 0;
-	float visual_reward_LG = 0;
-	float visual_reward_DG = 0;
+	float placefieldGreen = 0;
+	float placefieldBlue = 0;
+	float on_contact_direction_Green = 0;
+	float on_contact_direction_Blue = 0;
+	float visual_direction_Green = 0;
+	float visual_direction_Blue = 0;
+	float visual_reward_Green = 0;
+	float visual_reward_Blue = 0;
 
 	FILE* flog = NULL;
 	void logging();

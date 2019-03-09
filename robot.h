@@ -285,8 +285,8 @@ class Robot {
 	 *****************************************************************/
 
 	Limbic_system* limbic_system;
-       	Direction* LGdirection;
-       	Direction* DGdirection;
+       	Direction* Greendirection;
+       	Direction* Bluedirection;
 
 	/*****************************
 	 *****************************/
@@ -383,13 +383,13 @@ class Robot {
 	
  private:
 	//the left and right direction switches.
-	float LGsw;
-	float DGsw;
+	float Greensw;
+	float Bluesw;
 
 
  private:
-	int rewardDelayLG = REWARD_DELAY;
-	int rewardDelayDG = REWARD_DELAY;
+	int rewardDelayGreen = REWARD_DELAY;
+	int rewardDelayBlue = REWARD_DELAY;
 
 public:
 	int eatenFlag = 0;
