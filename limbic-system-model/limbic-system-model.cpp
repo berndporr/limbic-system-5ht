@@ -1,4 +1,4 @@
-#include"limbic_system.h"
+#include"limbic-system-model.h"
 
 #include <stdio.h>
 

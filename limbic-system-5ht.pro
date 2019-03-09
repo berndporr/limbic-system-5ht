@@ -3,14 +3,14 @@ CONFIG		+= qt warn_on debug
 HEADERS		= bandp.h merge2quicktime.h robot.h \
                   defs.h worldpoint.h world.h \
                   limbic-system-5ht.h direction.h \
-                  limbic_system\filter.h limbic_system\limbic_system.h
+                  limbic-system-model\filter.h limbic-system-model\limbic-system-model.h
 SOURCES		= bandp.cpp robot.cpp world.cpp merge2quicktime.cpp \
                   limbic-system-5ht.cpp worldpoint.cpp direction.cpp \
-                  limbic_system\filter.cpp limbic_system\limbic_system.cpp
+                  limbic-system-model\filter.cpp limbic-system-model\limbic-system-model.cpp
 TARGET		= limbic-system-5ht
 LIBS            += -lquicktime -L/usr/local/lib
-INCLUDEPATH     += limbic_system
+INCLUDEPATH     += limbic-system-model
 INCLUDEPATH     += /usr/include/lqt/
-SUBDIRS		= limbic_system
+SUBDIRS		= limbic-system-model
 QT              += widgets
 QMAKE_CXXFLAGS += -std=c++0x -march=native

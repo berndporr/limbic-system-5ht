@@ -45,7 +45,7 @@ The option -p selects the different scenarios (see below) which cause a lack of
 created according to the scenario.
 
 ```
-./limbic-system-simulator: command line options
+./limbic-system-5ht: command line options
  -a:            single food run
  -b:            statistics
  -f max:        max contacts to the landmark with food for stats

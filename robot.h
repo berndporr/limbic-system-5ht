@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "world.h"
 #include "bandp.h"
-#include "limbic_system.h"
+#include "limbic-system-model.h"
 #include "direction.h"
 
 class robot;
