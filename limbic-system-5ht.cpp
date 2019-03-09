@@ -13,13 +13,13 @@
 #include "robot.h"
 #include "worldpoint.h"
 #include "defs.h"
-#include "limbic-system-simulator.h"
+#include "limbic-system-5ht.h"
 
 
 /***********************************************
  * GNU GENERAL PUBLIC LICENSE
  * Version 3
- * (C) 2017-2018, Bernd Porr, bernd.porr@glasgow.ac.uk
+ * (C) 2017-2019, Bernd Porr, bernd.porr@glasgow.ac.uk
  ***********************************************/
 
 /**
