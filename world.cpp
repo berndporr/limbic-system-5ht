@@ -14,15 +14,24 @@ World::World(int x,int y) {
 	nConsequFoodContacts=0;
 	nContacts=0;
 	fContacts=NULL;
-	penPlacefield=new QPen*[MAXPLACEFIELD];
+    int g = 128;
+    int b = 0;
+    penPlacefield=new QPen*[MAXPLACEFIELD];
 	for(int index=0;index<MAXPLACEFIELD;index++) {
-		penPlacefield[index]=new QPen(QColor(0,255-index*128/MAXPLACEFIELD,0));
-	}
+        penPlacefield[index]=new QPen(QColor(0,g,b));
+        int t = b;
+        b = g;
+        g = t;
+    }
 	penFood=new QPen*[MAXFOOD+1];
+    g = 255;
+    b = 0;
 	for(int index=0;index<MAXFOOD;index++) {
-		penFood[index]=new QPen(QColor(255-index*128/(MAXFOOD+1),
-					       255-index*128/(MAXFOOD+1),0));
-	}
+        penFood[index]=new QPen(QColor(0,g,b));
+        int t = b;
+        b = g;
+        g = t;
+    }
 	penFood[MAXFOOD] = new QPen(QColor(255,0,0));
 	r_index=0;
 	maxx=x;
@@ -507,8 +516,8 @@ void World::fillPainter(QPainter &painter) {
 			WorldPoint* p=getPoint(x,y);
 			for(int index=0;index<MAXPLACEFIELD;index++) {
 				if ((p->isPlacefield(index))) {
-					painter.setPen(*penPlacefield[index]);
-					painter.drawPoint(x,y);
+                    painter.setPen(*penPlacefield[index]);
+                    painter.drawPoint(x,y);
 				}
 			}
 			if (p->isObstacle()) {
