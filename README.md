@@ -1,6 +1,8 @@
-# Limbic system simulator (5HT and DA system)
+# An investigation into serotonergic and environmental interventions against depression in a simulated delayed reward paradigm
 
-![alt tag](playground.png)
+Bernd Porr, Alex Trew, Alice Miller
+
+![alt tag](screenshot.png)
 
 This simulator has been created to test the action of 5HT on delayed
 reward delivery, how disruption changes the obtained reward and
