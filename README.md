@@ -84,3 +84,9 @@ Compile as instructed. Then type: `/usr/local/src/prism-4.4/prism/bin# cp * /usr
 Change to `prism_model` and run the script `run_models.sh`. This will then run all
 eight scenarios as described above. To plot the reward probabilites type:
 `plot_results.py`.
+
+
+
+
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2589095.svg)](https://doi.org/10.5281/zenodo.2589095)
