@@ -13,7 +13,7 @@
 #include "robot.h"
 #include "worldpoint.h"
 #include "defs.h"
-#include "limbic-system-5ht.h"
+#include "patience-5ht.h"
 
 
 /***********************************************
