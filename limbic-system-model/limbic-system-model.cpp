@@ -178,13 +178,6 @@ void Limbic_system::doStep(float _reward,
 	weightChange(pfLg2OFC, learning_rate_OFC * DRN * placefieldGreen);
 	weightChange(pfDg2OFC, learning_rate_OFC * DRN * placefieldBlue);
 
-
-	// massive weight decay if there is no reward after a long period!
-//	if ((OFCpersist>0)&&(OFCpersist<100)) {
-//		fprintf(stderr,"--");
-//		pfLg2OFC = pfLg2OFC * 0.999;
-//	}
-
 	// the dorsal raphe activity is driven by the OFC in a positive way
 	DRN = (LH + OFC * 4) / (1+RMTg * shunting_inhibition_factor + DRN_SUPPRESSION) + DRN_OFFSET;
 
