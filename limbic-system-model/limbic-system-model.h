@@ -84,7 +84,7 @@ private:
 
 public:
 	// learning rate of the core
-	const float learning_rate_core = 0.075;
+	const float learning_rate_core = 0.1;
 
 	float core_DA = 0;
 	float core_plasticity = 0;

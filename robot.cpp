@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 // delay in timesteps (150 is a good starting point for a short delay)
-int REWARD_DELAY = 150;
+int REWARD_DELAY = 10;
 
 Robot::Robot(World* ww,
 	     int index,
@@ -223,6 +223,10 @@ Robot::Robot(World* ww,
 		ioEventDuration=reactTimeVision;
 	}
 	setTime2settle(10);
+
+	rewardDelayGreen = REWARD_DELAY;
+	rewardDelayBlue = REWARD_DELAY;
+	
 	fprintf(stderr,"Learning starts after %d learning steps\n",time2settle);
 	fprintf(stderr,"finished init Robot\n");
 }
@@ -803,32 +807,40 @@ void Robot::react(int step,int collision) {
 
 	world->setRewardVisible(0);
 
-	if ((fabs(placefield1)>0)&&(!(world->getSwapFlag()))) {
-		if (rewardDelayGreen>0) {
-			visual_reward_Green = 0;
-			rewardDelayGreen--;
-			reward = 0;
+	if (!(world->getSwapFlag())) {
+		// top blob is rewarding
+		if (REWARD_DELAY > 0) {
+			if (fabs(placefield1)>0) {
+				if (rewardDelayGreen>0) {
+					visual_reward_Green = 0;
+					rewardDelayGreen--;
+					reward = 0;
+				}
+			} else {
+				rewardDelayGreen = REWARD_DELAY;
+			}
 		}
-	} else {
-		rewardDelayGreen = REWARD_DELAY;
-	}
-	if (rewardDelayGreen==0) {
+		if (rewardDelayGreen==0) {
 			world->setRewardVisible(1);
 			visual_reward_Green = 1;
-	}
-
-	if ((fabs(placefield2)>0)&&(world->getSwapFlag())) {
-		if (rewardDelayBlue>0) {
-			visual_reward_Blue = 0;
-			rewardDelayBlue--;
-			reward = 0;
 		}
 	} else {
-		rewardDelayBlue = REWARD_DELAY;
-	}
-	if (rewardDelayBlue==0) {
+		// bottom blob is rewarding
+		if (REWARD_DELAY > 0) {
+			if (fabs(placefield2)>0) {
+				if (rewardDelayBlue>0) {
+					visual_reward_Blue = 0;
+					rewardDelayBlue--;
+					reward = 0;
+				}
+			} else {
+				rewardDelayBlue = REWARD_DELAY;
+			}
+		}
+		if (rewardDelayBlue==0) {
 			world->setRewardVisible(2);
 			visual_reward_Blue = 1;
+		}
 	}
 
 	if ((reward>0)&&(!rewardFlag)) {

@@ -70,6 +70,7 @@ void Limbic_system::doStep(float _reward,
 		float _visual_reward_Green,
 		float _visual_reward_Blue ) {
 
+	
 	reward = _reward;
 	placefieldGreen = _placefieldGreen;
 	placefieldBlue = _placefieldBlue;
@@ -81,6 +82,11 @@ void Limbic_system::doStep(float _reward,
 	visual_reward_Blue = _visual_reward_Blue;
 	//fprintf(stderr,"%f,%f\n",_visual_reward_Green,_visual_reward_Blue);
 
+	if (reward>0) {
+		fprintf(stderr,"--------------------> %f\n",reward);
+		//sleep(1);
+	}
+		
 	visual_direction_Green_trace = visual_direction_Green_mPFC_filter->filter(visual_direction_Green);
 	visual_direction_Blue_trace = visual_direction_Blue_mPFC_filter->filter(visual_direction_Blue);
 
@@ -149,8 +155,8 @@ void Limbic_system::doStep(float _reward,
 	mPFC_Green = visual_direction_Green_trace + visual_reward_Green + mPFC_Green_spont_act;
 	mPFC_Blue = visual_direction_Blue_trace + visual_reward_Blue + mPFC_Blue_spont_act;
 #else
-	mPFC_Green = ofc5HTreceptors(visual_direction_Green_trace + visual_reward_Green*2 + mPFC_Green_spont_act,1+DRN,2+DRN);
-	mPFC_Blue = ofc5HTreceptors(visual_direction_Blue_trace + visual_reward_Blue*2 + mPFC_Blue_spont_act,1+DRN,2+DRN);
+	mPFC_Green = ofc5HTreceptors(visual_direction_Green_trace*2 + visual_reward_Green + mPFC_Green_spont_act,1+DRN,2+DRN);
+	mPFC_Blue = ofc5HTreceptors(visual_direction_Blue_trace*2 + visual_reward_Blue + mPFC_Blue_spont_act,1+DRN,2+DRN);
 #endif
 
 	// the activity in the LH is literally that of the reward

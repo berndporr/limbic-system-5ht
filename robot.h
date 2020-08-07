@@ -9,7 +9,7 @@
 class robot;
 typedef robot* Probot;
 
-// delay in timesteps (150 is a good starting point for a short delay)
+// delay in timesteps
 extern int REWARD_DELAY;
 
 enum {BIG_T_NOTHING,BIG_T_VISION,BIG_T_BUMP,BIG_T_AFTER_BUMP};

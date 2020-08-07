@@ -55,7 +55,7 @@ const char* setParameters(int scenario) {
 	OFC_5HTR1_OFFSET = 0;
 	OFC_5HTR2_OFFSET = 0;
 	DRN_OFFSET = 0;
-	REWARD_DELAY = 150;
+	REWARD_DELAY = 1;
 
 	switch (scenario) {
 	case 0:
