@@ -84,7 +84,7 @@ private:
 
 public:
 	// learning rate of the core
-	const float learning_rate_core = 0.1;
+	const float learning_rate_core = 0.01;
 
 	float core_DA = 0;
 	float core_plasticity = 0;
@@ -163,8 +163,6 @@ public:
 	///////////////////////////////////////////////////////////////
 	// OFC
 	float OFC = 0;
-	float OFCprev = 0;
-	int OFCpersist = 0;
 
 	// learning rate for the OFC, just now from HC to OFC
 	const float learning_rate_OFC = 0.01;
