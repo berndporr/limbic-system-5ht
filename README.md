@@ -2,6 +2,9 @@
 
 Bernd Porr, Alex Trew, Alice Miller
 
+[Preprint](https://www.biorxiv.org/content/10.1101/580456v1)
+[Published in Adaptive Behavior](dx.doi.org/10.1177/1059712319864278)
+
 ![alt tag](screenshot.png)
 
 This simulator has been created to test the action of 5HT on delayed
